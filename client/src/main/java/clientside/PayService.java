@@ -15,22 +15,24 @@ public class PayService {
 
     WebTarget baseUrl;
 
-    public PayService(BankService bank) {
+    public PayService() {
         Client client = ClientBuilder.newClient();
         baseUrl = client.target("http://localhost:8080/");
     }
 
-    public void register(UserInfo user) {
+    public void register(User user) {
         Gson gson = new Gson();
         JsonObject body = new JsonObject();
         body.addProperty("cprNumber",user.getCprNumber());
         body.addProperty("firstName",user.getFirstName());
         body.addProperty("lastName",user.getLastName());
+        body.addProperty("userId",user.getUserId());
+        body.addProperty("admin",user.isAdmin());
         Response response = baseUrl.path("users").request()
                 .post(Entity.entity(gson.toJson(body),MediaType.APPLICATION_JSON));
     }
 
-    public void deregister(UserInfo user) {
+    public void deregister(User user) {
         Gson gson = new Gson();
         JsonObject body = new JsonObject();
         body.addProperty("cprNumber",user.getCprNumber());
@@ -40,12 +42,13 @@ public class PayService {
                 .delete();
     }
 
-    public boolean pay(Payment payment) throws Exception {
+    public boolean pay(String merchantId, String customerId, String tokenId, int amount) throws Exception {
         Gson gson = new Gson();
         JsonObject body = new JsonObject();
-        body.addProperty("amount", payment.getAmount());
-        body.addProperty("customerCpr", payment.getCustomerCpr());
-        body.addProperty("merchantCpr", payment.getMerchantCpr());
+        body.addProperty("amount", amount);
+        body.addProperty("customerId", customerId);
+        body.addProperty("merchantId", merchantId);
+        body.addProperty("tokenId", tokenId);
         Response response = baseUrl.path("payments").request().
                 post(Entity.entity(gson.toJson(body), MediaType.APPLICATION_JSON));
         if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {

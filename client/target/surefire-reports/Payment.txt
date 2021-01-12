@@ -1,4 +1,7 @@
 -------------------------------------------------------------------------------
 Test set: Payment
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.789 s - in Payment
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 10.538 s <<< FAILURE! - in Payment
+Successful Payment  Time elapsed: 10.531 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+

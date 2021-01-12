@@ -1,47 +1,44 @@
 package paymentserver;
 
-import java.math.BigDecimal;
-
 public class Payment {
 
-    private BigDecimal amount;
-    private String customerCpr;
-    private String merchantCpr;
+    private int amount;
+    private String customerId;
+    private String merchantId;
+    private String tokenId;
 
     public Payment() {
-        this.amount = new BigDecimal(0);
-        this.customerCpr = "";
-        this.merchantCpr = "";
     }
 
-    public Payment(String customerCpr, String merchantCpr, BigDecimal amount) {
-        this.amount = amount;
-        this.customerCpr = customerCpr;
-        this.merchantCpr = merchantCpr;
-    }
-
-
-    public BigDecimal getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
-    public String getCustomerCpr() {
-        return customerCpr;
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomerCpr(String customerCpr) {
-        this.customerCpr = customerCpr;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
-    public String getMerchantCpr() {
-        return merchantCpr;
+    public String getMerchantId() {
+        return merchantId;
     }
 
-    public void setMerchantCpr(String merchantCpr) {
-        this.merchantCpr = merchantCpr;
+    public void setMerchantId(String merchantId) {
+        this.merchantId = merchantId;
+    }
+
+    public String getTokenId() {
+        return tokenId;
+    }
+
+    public void setTokenId(String tokenId) {
+        this.tokenId = tokenId;
     }
 }

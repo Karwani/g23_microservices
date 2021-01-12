@@ -16,28 +16,26 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PayServiceSteps {
 
 	BankService bank = new BankServiceService().getBankServicePort();
-	PayService dtuPay = new PayService(bank);
-	UserInfo customer;
-	UserInfo merchant;
-	AccountInfo account;
+	PayService dtuPay = new PayService();
+	User customer;
+	User merchant;
 	boolean successful;
 	List<String> accountIds = new ArrayList<>();
-	List<UserInfo> registeredUsers = new ArrayList<>();
+	List<User> registeredUsers = new ArrayList<>();
 	String error = "";
 
 
-	@Given("the customer {string} {string} with CPR {string} has a bank account")
-	public void theCustomerWithCPRHasABankAccount(String firstName, String lastName, String cpr) {
-		customer = new UserInfo(cpr,firstName,lastName);
-		account = new AccountInfo();
-		account.setUser(customer.asUser());
-	}
-
-	@Given("the balance of that account is {int}")
-	public void theBalanceOfThatAccountIs(int balance) throws Exception {
+	@Given("the customer {string} {string} with CPR {string} has a bank account with balance {int}")
+	public void theCustomerWithCPRHasABankAccountWithBalance(String firstName, String lastName, String cpr, int balance) throws Exception {
+		customer = new Customer(cpr,firstName,lastName,"1",false);
+		dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setCprNumber(cpr);
 		try {
-			String accountId = bank.createAccountWithBalance(account.getUser(),new BigDecimal(balance));
+			String accountId = bank.createAccountWithBalance( user ,new BigDecimal(balance));
 			accountIds.add(accountId);
+			System.out.println("created bank account for customer " + customer.getCprNumber());
 		} catch (BankServiceException_Exception e) {
 			retireAccounts();
 			e.printStackTrace();
@@ -51,11 +49,22 @@ public class PayServiceSteps {
 		registeredUsers.add(customer);
 	}
 
-	@Given("the merchant {string} {string} with CPR number {string} has a bank account")
-	public void theMerchantWithCPRNumberHasABankAccount(String firstName, String lastName, String cpr) {
-		merchant = new UserInfo(cpr,firstName,lastName);
-		account = new AccountInfo();
-		account.setUser(merchant.asUser());
+	@Given("the merchant {string} {string} with CPR number {string} has a bank account with balance {int}")
+	public void theMerchantWithCPRNumberHasABankAccountWithBalance(String firstName, String lastName, String cpr, int balance) throws Exception {
+		merchant = new Merchant(cpr,firstName,lastName,"2",false,"some-CVR");
+		dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setCprNumber(cpr);
+		try {
+			String accountId = bank.createAccountWithBalance( user ,new BigDecimal(balance));
+			System.out.println("account created in the bank "+ user.getCprNumber());
+			accountIds.add(accountId);
+		} catch (BankServiceException_Exception e) {
+			retireAccounts();
+			e.printStackTrace();
+			throw new Exception();
+		}
 	}
 
 	@Given("the merchant is registered with DTUPay")
@@ -72,8 +81,9 @@ public class PayServiceSteps {
 	@When("the merchant initiates a payment for {int} kr by the customer")
 	public void theMerchantInitiatesAPaymentForKrByTheCustomer(int amount) {
 		try {
-			Payment payment = new Payment(customer.getCprNumber(), merchant.getCprNumber(), new BigDecimal(amount));
-			successful = dtuPay.pay(payment);
+			successful = dtuPay.pay(merchant.getUserId(),customer.getUserId(),"",amount);
+			if (!successful)
+				System.out.println(error);
 		} catch (Exception e) {
 			successful = false;
 			error = e.getMessage();
@@ -125,9 +135,12 @@ public class PayServiceSteps {
 	public void retireAccounts() throws BankServiceException_Exception {
 		for (String id : accountIds){
 			bank.retireAccount(id);
+			System.out.println("retired account "+ id);
 		}
-		for (UserInfo user : registeredUsers) {
+		accountIds.clear();
+		for (User user : registeredUsers) {
 			dtuPay.deregister(user);
 		}
+		registeredUsers.clear();
 	}
 }
