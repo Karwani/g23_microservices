@@ -2,21 +2,36 @@ package com.gr_23;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.awt.*;
-import java.util.Map;
+import java.util.*;
 import java.util.List;
 
 @Path("/Token")
 public class TokenServer {
 
-    private Map<String, List<Token>> activeTokens;
+    private static Map<String, List<Token>> activeTokens = new HashMap<String, List<Token>>();
 
-    private Map<String, List<Token>> usedTokens;
+    private static Map<String, List<Token>> usedTokens = new HashMap<String, List<Token>>();
+
 
     @POST
     @Path("/{userId}")
-    public void generateToken(@PathParam("userId") String userId) {
-
+    public Response generateToken(@PathParam("userId") String userId) {
+        List<Token> tokens = new ArrayList<Token>();
+        if(isEligibleToGenerate(userId)) {
+            for (int i = 0; i < 5; i++) {
+                String uuid = UUID.randomUUID().toString();
+                tokens.add(new Token(uuid, false));
+            }
+            if (activeTokens.get(userId) == null) {
+                activeTokens.put(userId, tokens);
+            } else {
+                activeTokens.get(userId).addAll(tokens);
+            }
+            return Response.ok().build();
+        }
+        return Response.notModified().build();
     }
 
     @GET
@@ -32,7 +47,9 @@ public class TokenServer {
     @GET
     @Path("/Active/{userId}")
     public String requestActiveToken(@PathParam("userId") String userId) {
-        return null;
+        //To DO: check if userid is a customer of DTUpay?
+        generateToken(userId);
+        return activeTokens.get(userId).stream().findFirst().get().getTokenId();
     }
 
     @POST
@@ -41,6 +58,23 @@ public class TokenServer {
         return true;
     }
 
+    @GET
+    @Path("/isEligible/{userId}")
+    public boolean isEligibleToGenerate(@PathParam("userId") String userId) {
+        if(activeTokens.get(userId)!=null)
+            return activeTokens.get(userId).size()<=1;
+        return true;
+    }
 
+    @DELETE
+    @Path("/{userId}")
+    public boolean deleteTokens(@PathParam("userId") String userId) {
+        if(activeTokens.get(userId)!=null)
+        {
+         activeTokens.remove(userId);
+         return true;
+        }
+        return false;
+    }
 
 }
