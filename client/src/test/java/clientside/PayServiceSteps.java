@@ -27,7 +27,7 @@ public class PayServiceSteps {
 
 	@Given("the customer {string} {string} with CPR {string} has a bank account with balance {int}")
 	public void theCustomerWithCPRHasABankAccountWithBalance(String firstName, String lastName, String cpr, int balance) throws Exception {
-		customer = new Customer(cpr,firstName,lastName,"1",false);
+		customer = new Customer(firstName,lastName, cpr,"1",false);
 		dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
@@ -45,13 +45,13 @@ public class PayServiceSteps {
 
 	@Given("the customer is registered with DTUPay")
 	public void theCustomerIsRegisteredWithDTUPay() {
-		dtuPay.register(customer);
+		dtuPay.register(customer,"customer");
 		registeredUsers.add(customer);
 	}
 
 	@Given("the merchant {string} {string} with CPR number {string} has a bank account with balance {int}")
 	public void theMerchantWithCPRNumberHasABankAccountWithBalance(String firstName, String lastName, String cpr, int balance) throws Exception {
-		merchant = new Merchant(cpr,firstName,lastName,"2",false,"some-CVR");
+		merchant = new Merchant(firstName,lastName, cpr,"2",false,"some-CVR");
 		dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
@@ -69,7 +69,7 @@ public class PayServiceSteps {
 
 	@Given("the merchant is registered with DTUPay")
 	public void theMerchantIsRegisteredWithDTUPay() {
-		dtuPay.register(merchant);
+		dtuPay.register(merchant, "merchant");
 		registeredUsers.add(merchant);
 	}
 
@@ -138,6 +138,7 @@ public class PayServiceSteps {
 			System.out.println("retired account "+ id);
 		}
 		accountIds.clear();
+		System.out.println(registeredUsers.size());
 		for (User user : registeredUsers) {
 			dtuPay.deregister(user);
 		}

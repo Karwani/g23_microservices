@@ -20,25 +20,34 @@ public class PayService {
         baseUrl = client.target("http://localhost:8080/");
     }
 
-    public void register(User user) {
+    public void register(User user, String userType) {
+        String path = "";
+        if (userType.equals("customer")){
+            path = "customers";
+        }
+        if (userType.equals("merchant")){
+            path = "merchants";
+        }
         Gson gson = new Gson();
         JsonObject body = new JsonObject();
-        body.addProperty("cprNumber",user.getCprNumber());
         body.addProperty("firstName",user.getFirstName());
         body.addProperty("lastName",user.getLastName());
+        body.addProperty("cprNumber",user.getCprNumber());
         body.addProperty("userId",user.getUserId());
         body.addProperty("admin",user.isAdmin());
-        Response response = baseUrl.path("users").request()
+        Response response = baseUrl.path(path).request()
                 .post(Entity.entity(gson.toJson(body),MediaType.APPLICATION_JSON));
     }
 
     public void deregister(User user) {
         Gson gson = new Gson();
         JsonObject body = new JsonObject();
-        body.addProperty("cprNumber",user.getCprNumber());
         body.addProperty("firstName",user.getFirstName());
         body.addProperty("lastName",user.getLastName());
-        Response response = baseUrl.path("users/"+user.getCprNumber()).request()
+        body.addProperty("cprNumber",user.getCprNumber());
+        body.addProperty("userId",user.getUserId());
+        body.addProperty("admin",user.isAdmin());
+        Response response = baseUrl.path("users/"+user.getUserId()).request()
                 .delete();
     }
 
