@@ -3,8 +3,7 @@ package clientside;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.After;
-import org.junit.Assert;
+import io.cucumber.java.After;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
