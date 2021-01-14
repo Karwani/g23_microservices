@@ -3,6 +3,10 @@ package paymentserver;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceException_Exception;
 import dtu.ws.fastmoney.BankServiceService;
+import paymentserver.models.Customer;
+import paymentserver.models.Merchant;
+import paymentserver.models.Payment;
+import paymentserver.models.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;

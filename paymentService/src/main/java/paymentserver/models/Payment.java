@@ -1,4 +1,4 @@
-package paymentserver;
+package paymentserver.models;
 
 public class Payment {
 

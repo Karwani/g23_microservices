@@ -1,4 +1,4 @@
-package com.gr_23;
+package com.gr_23.models;
 
 public class Token {
     private String tokenId;
