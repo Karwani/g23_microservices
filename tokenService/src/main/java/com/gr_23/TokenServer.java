@@ -1,11 +1,9 @@
 package com.gr_23;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.awt.*;
 import java.util.*;
-import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/Token")
 public class TokenServer {
@@ -37,7 +35,19 @@ public class TokenServer {
     @GET
     @Path("/{tokenId}")
     public String validateToken(@PathParam("tokenId") String tokenId) {
-        return null;
+
+        return findUserByToken(tokenId);
+    }
+
+    private String findUserByToken(String tokenId) {
+        for( Map.Entry<String, List<Token>> pair : activeTokens.entrySet()) {
+            Boolean holder = pair.getValue().stream().map(token -> token.getTokenId()).filter(t -> t.equals(tokenId)).findFirst().isPresent();
+
+            if (holder) {
+                return pair.getKey();
+            }
+        }
+        return "";
     }
 
     private void storeToken(Token token, String userId) {
@@ -55,6 +65,26 @@ public class TokenServer {
     @POST
     @Path("ConsumedToken/{tokenId}")
     public boolean consumeToken(@PathParam("tokenId") String tokenId) {
+
+       String user = findUserByToken(tokenId);
+
+       System.out.println("Consumed user" + user);
+
+       List<Token> temp = activeTokens.get(user).stream().filter(token -> !token.getTokenId().equals(tokenId)).collect(Collectors.toList());
+
+       System.out.println("temporary deleted" + temp.toString());
+
+       activeTokens.remove(user);
+       activeTokens.put(user,temp);
+
+       if(usedTokens.containsKey(user)) {
+           usedTokens.get(user).add(new Token(tokenId, true));
+       }
+       else {
+            usedTokens.put(user,new ArrayList<Token>());
+            usedTokens.get(user).add(new Token(tokenId, true));
+       }
+
         return true;
     }
 
@@ -72,8 +102,15 @@ public class TokenServer {
         if(activeTokens.get(userId)!=null)
         {
          activeTokens.remove(userId);
+
+         if(usedTokens.get(userId) != null)
+         {
+             usedTokens.remove(userId);
+         }
          return true;
         }
+
+
         return false;
     }
 
