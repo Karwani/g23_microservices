@@ -1,5 +1,5 @@
 FROM adoptopenjdk:11-jre-hotspot
 WORKDIR /usr/src
 COPY target/lib /usr/src/lib
-COPY target/code-with-quarkus-1.0.0-SNAPSHOT-runner.jar /usr/src
-CMD java -Xmx64m \-jar code-with-quarkus-1.0.0-SNAPSHOT-runner.jar
+COPY target/paymentserver-1.0.0-SNAPSHOT-runner.jar /usr/src
+CMD java -Xmx64m \-jar paymentserver-1.0.0-SNAPSHOT-runner.jar
