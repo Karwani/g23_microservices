@@ -24,9 +24,11 @@ public class PayServiceSteps {
 	List<User> registeredUsers = new ArrayList<>();
 	String error = "";
 
-
 	@Given("the customer {string} {string} with CPR {string} has a bank account with balance {int}")
 	public void theCustomerWithCPRHasABankAccountWithBalance(String firstName, String lastName, String cpr, int balance) throws Exception {
+		// Change this at some later time :)
+		TokenInfo.userId = "1";
+
 		customer = new Customer(firstName,lastName, cpr,"1",false);
 		dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
 		user.setFirstName(firstName);
@@ -78,10 +80,11 @@ public class PayServiceSteps {
 		dtuPay.deregister(merchant);
 	}
 
-	@When("the merchant initiates a payment for {int} kr by the customer")
+	@When("the merchant initiates a payment for {int} kr using the customer token")
 	public void theMerchantInitiatesAPaymentForKrByTheCustomer(int amount) {
 		try {
-			successful = dtuPay.pay(merchant.getUserId(),customer.getUserId(),"",amount);
+			successful = dtuPay.pay(merchant.getUserId(),customer.getUserId(),TokenInfo.tokenId,amount);
+			System.out.println("SuccesFull in pay = " + successful);
 			if (!successful)
 				System.out.println(error);
 		} catch (Exception e) {
@@ -144,4 +147,7 @@ public class PayServiceSteps {
 		}
 		registeredUsers.clear();
 	}
+
+	//@When("the merchant initiates a payment for {int} kr using the customer token")
+	//public void theMerchantInitiatesAPaymentForKrUsingTheCustomerToken(int arg0) {}
 }

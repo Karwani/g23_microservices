@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/accountService/accountService.iml" filepath="$PROJECT_DIR$/accountService/accountService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/client/client.iml" filepath="$PROJECT_DIR$/client/client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/g23_microservices.iml" filepath="$PROJECT_DIR$/.idea/g23_microservices.iml" />
+      <module fileurl="file://$PROJECT_DIR$/paymentService/paymentserver.iml" filepath="$PROJECT_DIR$/paymentService/paymentserver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tokenService/tokenservice.iml" filepath="$PROJECT_DIR$/tokenService/tokenservice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/transactionService/transactionService.iml" filepath="$PROJECT_DIR$/transactionService/transactionService.iml" />
+    </modules>
+  </component>
+</project>

@@ -5,19 +5,22 @@ import dtu.ws.fastmoney.BankServiceException_Exception;
 import dtu.ws.fastmoney.BankServiceService;
 
 import javax.ws.rs.*;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Path("")
 public class PaymentServer {
-    static Map<String,User> users = new HashMap<>();
+    static Map<String, User> users = new HashMap<>();
     BankService bank = new BankServiceService().getBankServicePort();
+
+    Client client = ClientBuilder.newClient();
+    WebTarget baseUrl = client.target("http://localhost:8181/");
 
     @POST @Path("/payments")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -43,13 +46,13 @@ public class PaymentServer {
             String creditor = bank.getAccountByCprNumber(merchantCpr).getId();
             String debtor = bank.getAccountByCprNumber(customerCpr).getId();
             bank.transferMoneyFromTo(debtor,creditor,new BigDecimal(amount),"Testing is not very fun");
-            return Response.ok().build();
+            Response response = baseUrl.path("Token/ConsumedToken/"+tokenId).request().post(null);
+            return response;
         } catch (BankServiceException_Exception e) {
             e.printStackTrace();
             return Response.serverError().entity(e.getStackTrace()).build();
         }
     }
-
 
     @DELETE @Path("/users/{userId}")
     public Response deleteUser(@PathParam("userId") String userId) {
@@ -70,5 +73,6 @@ public class PaymentServer {
         users.put(user.getUserId(),user);
         return Response.ok().build();
     }
+
 
 }

@@ -1,7 +1,5 @@
 package paymentserver;
 
-import dtu.ws.fastmoney.User;
-
 public class UserInfo {
 
     private String cprNumber;

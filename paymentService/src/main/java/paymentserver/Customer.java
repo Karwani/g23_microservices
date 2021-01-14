@@ -1,6 +1,6 @@
 package paymentserver;
 
-public class Customer extends User{
+public class Customer extends User {
 
     public Customer() {}
 

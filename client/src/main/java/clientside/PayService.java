@@ -1,6 +1,5 @@
 package clientside;
 
-import dtu.ws.fastmoney.BankService;
 import io.cucumber.messages.internal.com.google.gson.Gson;
 import io.cucumber.messages.internal.com.google.gson.JsonObject;
 
@@ -60,9 +59,14 @@ public class PayService {
         body.addProperty("tokenId", tokenId);
         Response response = baseUrl.path("payments").request().
                 post(Entity.entity(gson.toJson(body), MediaType.APPLICATION_JSON));
+
+        System.out.println(response.readEntity(String.class));
+        System.out.println("PAY: response status:" + response.getStatus());
+
         if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
             throw new Exception(response.readEntity(String.class));
         }
+
         return response.getStatus() == Response.Status.OK.getStatusCode();
     }
 
