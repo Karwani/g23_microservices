@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.hamcrest.core.StringContains.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -53,9 +54,35 @@ public class AccountSteps {
         userInfo.setCprNumber(cpr);
     }
 
+    @Given("the customer has a bank account")
+    public void theCustomerHasABankAccount() throws Exception {
+        UUID uuid = UUID.randomUUID();
+        //String firstName = userInfo
+
+        customer = new Customer(userInfo.getFirstName(), userInfo.getLastName(), userInfo.getCprNumber(), uuid.toString(), false);
+        System.out.println(customer.getCprNumber());
+        dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
+        user.setFirstName(userInfo.getFirstName());
+        user.setLastName(userInfo.getLastName());
+        user.setCprNumber(userInfo.getCprNumber());
+        System.out.println(customer.getCprNumber());
+
+        try {
+            String accountId = bank.createAccountWithBalance(user ,new BigDecimal(1000));
+            accountIds.add(accountId);
+            System.out.println("created bank account for customer " + customer.getCprNumber());
+        } catch (BankServiceException_Exception e) {
+            retireAccounts();
+            e.printStackTrace();
+            throw new Exception();
+        }
+    }
+
     @And("is type {string} who wants to be registered in DTUPay")
     public void isType(String userType) {
 //        UserInfo.userType = userType;
+        dtuPay.register(customer,"customer");
+        registeredUsers.add(customer);
         System.out.println("Usertype must be" + userType);
         MatcherAssert.assertThat(userType, containsString("Customer"));
     }
@@ -71,9 +98,9 @@ public class AccountSteps {
 
     @Then("registration of customer is successful")
     public void registrationOfCustomerIsSuccessful() {
-        Response response = baseUrl.path("Account/User").request()
-                .put(Entity.entity(userInfo, MediaType.APPLICATION_JSON));
-        assertTrue(response.getStatus() == Response.Status.OK.getStatusCode());
+        Boolean response = baseUrl.path("Account/User").request()
+                .get(Boolean.TYPE);
+        assertTrue(response);
     }
 
     @After
@@ -89,4 +116,6 @@ public class AccountSteps {
         }
         registeredUsers.clear();
     }
+
+
 }

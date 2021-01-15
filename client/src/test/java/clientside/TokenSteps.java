@@ -57,13 +57,7 @@ public class TokenSteps {
         System.out.println(token);
         assertFalse(token.isEmpty());
     }
-    @After
-    public void cleanup()
-    {
-        Boolean response = baseUrl.path("Token/"+TokenInfo.userId).request()
-                .delete(Boolean.TYPE);
-        assertTrue(response);
-    }
+
 
     @And("the customer has an unused token")
     public void theCustomerHasAnUnusedToken() {
@@ -83,5 +77,13 @@ public class TokenSteps {
 
         System.out.println("No longer valied" + response);
         assertTrue(response.isEmpty());
+    }
+
+    @After
+    public void cleanup()
+    {
+        Boolean response = baseUrl.path("Token/"+TokenInfo.userId).request()
+                .delete(Boolean.TYPE);
+        assertTrue(response);
     }
 }
