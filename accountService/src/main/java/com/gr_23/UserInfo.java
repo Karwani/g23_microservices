@@ -1,9 +1,8 @@
-package clientside;
+package com.gr_23;
 
 import dtu.ws.fastmoney.User;
 
 public class UserInfo {
-
     private String cprNumber;
     private String firstName;
     private String lastName;
@@ -41,8 +40,8 @@ public class UserInfo {
         this.lastName = lastName;
     }
 
-    public User asUser() {
-        User user = new User();
+    public dtu.ws.fastmoney.User asUser() {
+        dtu.ws.fastmoney.User user = new User();
         user.setCprNumber(cprNumber);
         user.setFirstName(firstName);
         user.setLastName(lastName);
