@@ -1,0 +1,18 @@
+version: '3'
+services:
+  paymentserver:
+    image: paymentserver
+    container_name: paymentserver
+    ports:
+      - "8080:8080"
+    build:
+      context: ./paymentService
+      dockerfile: ./Dockerfile
+  tokenserver:
+    image: tokenserver
+    container_name: tokenserver
+    ports:
+      - "8181:8181"
+    build:
+      context: ./tokenService
+      dockerfile: ./Dockerfile
