@@ -4,21 +4,30 @@ import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceException_Exception;
 import dtu.ws.fastmoney.BankServiceService;
 import io.cucumber.java.After;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.hamcrest.MatcherAssert;
+import org.junit.Assert;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.hamcrest.core.StringContains.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class AccountSteps {
+
     WebTarget baseUrl;
     User customer;
     User merchant;
@@ -26,7 +35,9 @@ public class AccountSteps {
     List<String> accountIds = new ArrayList<>();
     List<User> registeredUsers = new ArrayList<>();
     PayService dtuPay = new PayService();
-
+    dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
+    boolean successful;
+    UserInfo userInfo = new UserInfo();
 
 
     public AccountSteps(){
@@ -34,47 +45,35 @@ public class AccountSteps {
         baseUrl = client.target("http://localhost:8383/");
     }
 
-    @Given("a new customer with id ”{string}”")
-    public void aNewCustomerWithId(String userId) {
-        TokenInfo.userId = userId;
-        System.out.println("accountSteps given: " +TokenInfo.userId);
+    @Given("a new customer with name {string} {string} and CPR {string}")
+    public void aNewCustomerWithNameAndCPR(String firstName, String lastName, String cpr) throws Exception {
+        System.out.println(cpr);
+        userInfo.setFirstName(firstName);
+        userInfo.setLastName(lastName);
+        userInfo.setCprNumber(cpr);
     }
 
-    @Given("name {string1} {string2} and CPR {string3}")
-    public void name(String firstName, String lastName, String CPR) throws Exception {
-        customer = new Customer(firstName,lastName, CPR ,TokenInfo.userId,false);
-        dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setCprNumber(CPR);
-        try {
-            String accountId = bank.createAccountWithBalance(user ,new BigDecimal(100));
-            accountIds.add(accountId);
-            System.out.println("created bank account for customer " + customer.getCprNumber());
-        } catch (BankServiceException_Exception e) {
-            retireAccounts();
-            e.printStackTrace();
-            throw new Exception();
-        }
+    @And("is type {string} who wants to be registered in DTUPay")
+    public void isType(String userType) {
+//        UserInfo.userType = userType;
+        System.out.println("Usertype must be" + userType);
+        MatcherAssert.assertThat(userType, containsString("Customer"));
     }
 
-    @When("user initiates registration")
-    public void userInitiatesRegistration() {
-        Response response = baseUrl.path("User/" + TokenInfo.userId).request()
-                .get(Response.class);
+    @When("the customer initiates registration")
+    public void theCustomerInitiatesRegistration() throws Exception {
+        Response response = baseUrl.path("Account/User").request()
+                .put(Entity.entity(userInfo, MediaType.APPLICATION_JSON));
+        System.out.println(userInfo.getCprNumber());
+        System.out.println(response.getStatus() +" " +  Response.Status.OK.getStatusCode());
         assertTrue(response.getStatus() == Response.Status.OK.getStatusCode());
     }
 
-    @When("the type is {string}")
-    public void theTypeIs() {
-        dtuPay.register(customer,"customer");
-        registeredUsers.add(customer);
-    }
-
     @Then("registration of customer is successful")
-    public void aNewUserIsCreated() {
-        dtuPay.register(customer,"customer");
-        registeredUsers.add(customer);
+    public void registrationOfCustomerIsSuccessful() {
+        Response response = baseUrl.path("Account/User").request()
+                .put(Entity.entity(userInfo, MediaType.APPLICATION_JSON));
+        assertTrue(response.getStatus() == Response.Status.OK.getStatusCode());
     }
 
     @After
@@ -90,5 +89,4 @@ public class AccountSteps {
         }
         registeredUsers.clear();
     }
-
 }
