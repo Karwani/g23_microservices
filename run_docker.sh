@@ -1,14 +1,43 @@
 #!/bin/bash
 set -e
 
-pushd paymentService
-mvn package 
+# Options:
+#  nothing - runs all existing containers
+#  build - build and run all containers
+#  nameOfSomeServer - build and rerun that server, also runs the others if they are not running
+#  stop - stops all the running containers
 
-popd
+if [ $# -eq 0 ]
+  then
+    docker-compose up -d
+else
+    if [ "$1" = "tokenserver" ]
+      then
+        pushd tokenService
+        mvn package
+        popd
+        docker-compose up -d --force-recreate --build "$1"
+    elif [ "$1" = "paymentserver" ]
+      then
+        pushd paymentService
+        mvn package
+        popd
+        docker-compose up -d --force-recreate --build "$1"
+    elif [ "$1" = "stop" ]
+      then
+        docker-compose down
+    elif [ "$1" = "build" ]
+      then
+        pushd paymentService
+        mvn package
 
-pushd tokenService
-mvn package
+        popd
 
-popd
+        pushd tokenService
+        mvn package
 
-docker-compose up --build -d
+        popd
+
+        docker-compose up --build -d
+    fi
+fi

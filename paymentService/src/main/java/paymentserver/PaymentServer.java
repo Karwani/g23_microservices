@@ -24,7 +24,8 @@ public class PaymentServer {
     BankService bank = new BankServiceService().getBankServicePort();
 
     Client client = ClientBuilder.newClient();
-    WebTarget baseUrl = client.target("http://localhost:8181/");
+    //WebTarget baseUrl = client.target("http://tokenserver:8181/");  // <--- use when running in docker
+    WebTarget baseUrl = client.target("http://localhost:8181/");  // <---- use when testing locally
 
     @POST @Path("/payments")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -37,6 +38,7 @@ public class PaymentServer {
         users.forEach((key,value) -> System.out.println(key+": "+value));
         int amount = payment.getAmount();
         if (!users.containsKey(merchantId)) {
+            System.out.println("merchant " + merchantId + " is unknown to DTU pay. Payment rejected");
             return Response.status(Response.Status.BAD_REQUEST).entity("Merchant is not registered with DTUPay").build();
         }
 
