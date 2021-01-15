@@ -19,12 +19,24 @@ public class PaymentRepository {
     //Method used for validations before a payment is made
     public String validatePaymentInfo(Payment payment)
     {
-        //check if merchant and token are valid
-         if (!users.containsKey(payment.getMerchantId())) {
-                    return "Merchant is not registered with DTUPay";
-                }
+        String customerId;
+         //check if merchant and token are valid
+         if (!users.containsKey(payment.getMerchantId()))
+         {
+             return "Merchant is not registered with DTUPay";
+         }
+         //find user by token
+        customerId = findUserByToken(payment.getTokenId());
+        if(!customerId.isEmpty() && !users.containsKey(customerId))
+            return "Customer is not registered with DTUPay";
+        //check token is used
+        if(!validateToken(payment.getTokenId()))
+            return "Token is already used";
         return "";
-
+    }
+    private boolean validateToken(String tokenId)
+    {
+        return tokenServer.path("Token/validate/"+tokenId).request().get(Boolean.TYPE);
     }
     public Response consumeToken(String tokenId)
     {
@@ -40,6 +52,10 @@ public class PaymentRepository {
     }
     public String getUserCPR(String userId)
     {
+        if(!users.containsKey(userId))
+        {
+            return "";
+        }
         return users.get(userId).getCprNumber();
     }
     public String removeUser(String userId)

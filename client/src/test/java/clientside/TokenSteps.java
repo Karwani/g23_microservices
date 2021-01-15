@@ -82,8 +82,16 @@ public class TokenSteps {
     @After
     public void cleanup()
     {
-        Boolean response = baseUrl.path("Token/"+TokenInfo.userId).request()
+        Boolean bool = baseUrl.path("Token/"+TokenInfo.userId).request()
                 .delete(Boolean.TYPE);
-        assertTrue(response);
+        assertTrue(bool);
+    }
+
+    @Given("the customer has an used token")
+    public void theCustomerHasAnUsedToken()
+    {
+        theCustomerHasAnUnusedToken();
+        Response response = baseUrl.path("Token/ConsumedToken/"+TokenInfo.tokenId).request().post(null);
+        assertTrue(response.getStatus() == Response.Status.OK.getStatusCode());
     }
 }

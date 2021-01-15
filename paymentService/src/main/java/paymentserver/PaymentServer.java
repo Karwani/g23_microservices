@@ -39,14 +39,13 @@ public class PaymentServer {
         String tokenId = payment.getTokenId();
 
         //String customerId = payment.getCustomerId(); // instead of this, need to make call to token service to get customer from the token
-        String customerId = paymentRepository.findUserByToken(tokenId);
         //System.out.println(users.size());
         //users.forEach((key,value) -> System.out.println(key+": "+value));
         int amount = payment.getAmount();
         String error = paymentRepository.validatePaymentInfo(payment);
         if(!error.isEmpty())
-            Response.status(Response.Status.BAD_REQUEST).entity(error).build();
-
+            return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
+        String customerId = paymentRepository.findUserByToken(tokenId);
         try {
             System.out.println("Received merchant id: "+payment.getMerchantId());
             System.out.println("Received customer id: "+payment.getCustomerId());
@@ -86,6 +85,12 @@ public class PaymentServer {
     public Response registerUser(Merchant user) {
         paymentRepository.addUser(user);
         return Response.ok().build();
+    }
+
+    @GET @Path("/users/{userId}")
+    public Boolean checkUser(@PathParam("userId") String userId) {
+        String userCPR = paymentRepository.getUserCPR(userId);
+        return !userCPR.isEmpty();
     }
 
 

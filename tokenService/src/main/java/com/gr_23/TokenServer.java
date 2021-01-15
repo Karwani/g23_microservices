@@ -27,8 +27,16 @@ public class TokenServer {
     }
 
     @GET
+    @Path("/validate/{tokenId}")
+    public Boolean validateToken(@PathParam("tokenId") String tokenId)
+    {
+        return !tokenRepository.findUserByActiveToken(tokenId).isEmpty();
+    }
+
+    @GET
     @Path("/{tokenId}")
-    public String validateToken(@PathParam("tokenId") String tokenId) {
+    public String FindUserbyActiveToken(@PathParam("tokenId") String tokenId)
+    {
         return tokenRepository.findUserByActiveToken(tokenId);
     }
 

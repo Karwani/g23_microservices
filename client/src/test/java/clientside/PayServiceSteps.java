@@ -7,6 +7,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +25,11 @@ public class PayServiceSteps {
 	List<User> registeredUsers = new ArrayList<>();
 	String error = "";
 
-	@Given("the customer {string} {string} with CPR {string} has a bank account with balance {int}")
-	public void theCustomerWithCPRHasABankAccountWithBalance(String firstName, String lastName, String cpr, int balance) throws Exception {
+	@Given("the customer {string} {string} has a bank account with balance {int}")
+	public void theCustomerWithCPRHasABankAccountWithBalance(String firstName, String lastName, int balance) throws Exception {
 		// Change this at some later time :)
 		TokenInfo.userId = "1";
-		cpr = getRandomUntakenCPR();
+		String cpr = getRandomUntakenCPR();
 		customer = new Customer(firstName,lastName, cpr,"1",false);
 		dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
 		user.setFirstName(firstName);
@@ -51,9 +52,9 @@ public class PayServiceSteps {
 		registeredUsers.add(customer);
 	}
 
-	@Given("the merchant {string} {string} with CPR number {string} has a bank account with balance {int}")
-	public void theMerchantWithCPRNumberHasABankAccountWithBalance(String firstName, String lastName, String cpr, int balance) throws Exception {
-		 cpr = getRandomUntakenCPR();
+	@Given("the merchant {string} {string} has a bank account with balance {int}")
+	public void theMerchantWithCPRNumberHasABankAccountWithBalance(String firstName, String lastName, int balance) throws Exception {
+		String cpr = getRandomUntakenCPR();
 		merchant = new Merchant(firstName,lastName, cpr,"2",false,"some-CVR");
 		dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
 		user.setFirstName(firstName);
@@ -166,4 +167,17 @@ public class PayServiceSteps {
 
 	//@When("the merchant initiates a payment for {int} kr using the customer token")
 	//public void theMerchantInitiatesAPaymentForKrUsingTheCustomerToken(int arg0) {}
+
+	@Given("the customer is not registered with DTUPay")
+	public void theCustomerIsNotRegisteredWithDTUPay() {
+		// Write code here that turns the phrase above into concrete actions
+		assertFalse(dtuPay.checkUser(TokenInfo.userId));
+	}
+
+	@Then("there is an error saying {string}")
+	public void thereIsAnErrorSayingTheCustomerIsNotRegisteredWithDTUPay(String string)
+	{
+		assertEquals(string,error);
+	}
+
 }

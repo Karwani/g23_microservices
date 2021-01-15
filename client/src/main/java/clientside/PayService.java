@@ -36,7 +36,7 @@ public class PayService {
         body.addProperty("cprNumber",user.getCprNumber());
         body.addProperty("userId",user.getUserId());
         body.addProperty("admin",user.isAdmin());
-        Response response = baseUrl2.path(path).request()
+        Response response = baseUrl.path(path).request()
                 .post(Entity.entity(gson.toJson(body),MediaType.APPLICATION_JSON));
     }
 
@@ -62,8 +62,8 @@ public class PayService {
         Response response = baseUrl.path("payments").request().
                 post(Entity.entity(gson.toJson(body), MediaType.APPLICATION_JSON));
 
-        System.out.println(response.readEntity(String.class));
-        System.out.println("PAY: response status:" + response.getStatus());
+//        System.out.println(response.readEntity(String.class));
+//        System.out.println("PAY: response status:" + response.getStatus());
 
         if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
             throw new Exception(response.readEntity(String.class));
@@ -72,6 +72,10 @@ public class PayService {
         return response.getStatus() == Response.Status.OK.getStatusCode();
     }
 
+    public boolean checkUser(String userId)
+    {
+        return baseUrl.path("users/"+userId).request().get(Boolean.TYPE);
+    }
 //    public List<Payment> getPayments() {
 //        return baseUrl.path("payments").request()
 //                .get(new GenericType<List<Payment>>(){});
