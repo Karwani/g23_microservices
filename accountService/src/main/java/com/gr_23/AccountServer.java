@@ -18,7 +18,7 @@ import io.cucumber.messages.internal.com.google.gson.Gson;
 import io.cucumber.messages.internal.com.google.gson.JsonObject;
 
 
-@Path("Account/")
+@Path("/Account/")
 public class AccountServer {
 
     static Map<String, User> users = new HashMap<>();
@@ -38,61 +38,43 @@ public class AccountServer {
     @PUT
     @Path("User")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createDTUPayAccount(UserInfo userInfo) throws Exception {
+    public Response createDTUPayAccount(Customer user) throws Exception {
+        System.out.println("hallo");
         UUID uuid = UUID.randomUUID();
-        //String firstName = userInfo
-
-
-        customer = new Customer(userInfo.getFirstName(), userInfo.getLastName(), userInfo.getCprNumber(), uuid.toString(), false);
-        System.out.println(customer.getCprNumber());
-        dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
-        user.setFirstName(userInfo.getFirstName());
-        user.setLastName(userInfo.getLastName());
-        user.setCprNumber(userInfo.getCprNumber());
-        System.out.println(customer.getCprNumber());
-
-
-        try {
-            String accountId = bank.createAccountWithBalance(user, new BigDecimal(1000));
-            accountIds.add(accountId);
-            //register(customer, "customer");
-            registeredUsers.add(customer);
-            System.out.println(customer.getCprNumber());
-            if (!accountIds.contains(accountId)) {
-                return Response.status(Response.Status.BAD_REQUEST)
-                        .entity("the customer did not get registered")
-                        .build();
-            }
-            // add registration
-
-        } catch (BankServiceException_Exception e) {
-            e.printStackTrace();
-            throw new Exception();
-        }
-
+        customer = new Customer(user.getFirstName(), user.getLastName(), user.getCprNumber(), user.getUserId(), false);
+        users.put(customer.getUserId(), customer);
         return Response.ok().build();
     }
+
+    // TO DO: Return userInfo based on Userid
 
     @GET
     @Path("Bank")
     public boolean validateBankAccount(String CPR) {
+       // bank.getAccountByCprNumber(CPR);
         return false;
     }
 
     @GET
     @Path("DTUPay")
     public boolean validateDTUPayAccount(String CPR) {
-        return false;
+
+
+        return users.containsKey(customer.getUserId());
     }
 
     @DELETE
-    @Path("")
-    public void deleteUsers(String CPR) {
+    @Path("User/{userId}")
+    public Response deleteUsers(@PathParam("userId") String userId) {
+        // DTU pay
+        users.remove(userId);
+        return Response.ok().build();
     }
 
     @POST
     @Path("User")
     public void updateUser(User user) {
+        //
     }
 
 }
