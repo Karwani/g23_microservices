@@ -13,12 +13,10 @@ import javax.ws.rs.core.Response;
 public class PayService {
 
     WebTarget baseUrl;
-    WebTarget baseUrl2;
 
     public PayService() {
         Client client = ClientBuilder.newClient();
         baseUrl = client.target("http://localhost:8080/");
-        baseUrl2 = client.target("http://localhost:8383/");
     }
 
     public void register(User user, String userType) {

@@ -79,14 +79,6 @@ public class TokenSteps {
         assertTrue(response.isEmpty());
     }
 
-    @After
-    public void cleanup()
-    {
-        Boolean bool = baseUrl.path("Token/"+TokenInfo.userId).request()
-                .delete(Boolean.TYPE);
-        assertTrue(bool);
-    }
-
     @Given("the customer has an used token")
     public void theCustomerHasAnUsedToken()
     {
@@ -94,4 +86,11 @@ public class TokenSteps {
         Response response = baseUrl.path("Token/ConsumedToken/"+TokenInfo.tokenId).request().post(null);
         assertTrue(response.getStatus() == Response.Status.OK.getStatusCode());
     }
+//    @After
+//    public void cleanup()
+//    {
+//        Boolean response = baseUrl.path("Token/"+TokenInfo.userId).request()
+//                .delete(Boolean.TYPE);
+//        assertTrue(response);
+//    }
 }

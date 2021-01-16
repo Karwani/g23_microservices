@@ -1,5 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bddf033d-5cea-4a76-bfb9-8377c9cc933d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/client.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/clientside/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clientside/AccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/clientside/PayService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clientside/PayService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/clientside/AccountSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/clientside/AccountSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/clientside/account.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/clientside/account.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/clientside/PayService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/clientside/PayService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/clientside/AccountSteps.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/clientside/AccountSteps.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/clientside/account.feature" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/clientside/account.feature" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -7,14 +55,29 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+  <component name="ProjectId" id="1n6cyZ6yq30qSpF94tEcaL4GBLm" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RunManager" selected="JUnit.All in client (3)">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -22,6 +85,7 @@
     <configuration name="Feature: account" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
       <option name="CUCUMBER_CORE_VERSION" value="5" />
       <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/clientside/account.feature" />
+      <option name="GLUE" value="clientside" />
       <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
       <module name="client" />
       <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter" />
@@ -37,10 +101,96 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="All in client (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="client" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in client (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="client" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in client (3)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="client" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in client" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="client" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in client (3)" />
         <item itemvalue="Cucumber Java.Feature: account" />
+        <item itemvalue="JUnit.All in client (2)" />
+        <item itemvalue="JUnit.All in client (1)" />
+        <item itemvalue="JUnit.All in client" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bddf033d-5cea-4a76-bfb9-8377c9cc933d" name="Default Changelist" comment="" />
+      <created>1610714240391</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1610714240391</updated>
+      <workItem from="1610714246221" duration="1813000" />
+      <workItem from="1610745288890" duration="9367000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1877" height="294" key="GridCell.Tab.0.bottom" timestamp="1610795129125">
+      <screen x="3240" y="609" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1620.1040/3240.609.1920.1040@0.0.1620.1040" timestamp="1610718630654" />
+    <state width="1877" height="294" key="GridCell.Tab.0.bottom/0.0.1620.1040/3240.609.1920.1040@3240.609.1920.1040" timestamp="1610795129125" />
+    <state width="1877" height="294" key="GridCell.Tab.0.center" timestamp="1610795129125">
+      <screen x="3240" y="609" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1620.1040/3240.609.1920.1040@0.0.1620.1040" timestamp="1610718630654" />
+    <state width="1877" height="294" key="GridCell.Tab.0.center/0.0.1620.1040/3240.609.1920.1040@3240.609.1920.1040" timestamp="1610795129125" />
+    <state width="1877" height="294" key="GridCell.Tab.0.left" timestamp="1610795129124">
+      <screen x="3240" y="609" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1620.1040/3240.609.1920.1040@0.0.1620.1040" timestamp="1610718630654" />
+    <state width="1877" height="294" key="GridCell.Tab.0.left/0.0.1620.1040/3240.609.1920.1040@3240.609.1920.1040" timestamp="1610795129124" />
+    <state width="1877" height="294" key="GridCell.Tab.0.right" timestamp="1610795129125">
+      <screen x="3240" y="609" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1620.1040/3240.609.1920.1040@0.0.1620.1040" timestamp="1610718630654" />
+    <state width="1877" height="294" key="GridCell.Tab.0.right/0.0.1620.1040/3240.609.1920.1040@3240.609.1920.1040" timestamp="1610795129125" />
   </component>
 </project>
