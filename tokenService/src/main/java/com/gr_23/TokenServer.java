@@ -28,14 +28,16 @@ public class TokenServer {
 
     @GET
     @Path("/validate/{tokenId}")
-    public Boolean validateToken(@PathParam("tokenId") String tokenId)
+    public String validateToken(@PathParam("tokenId") String tokenId)
     {
-        return !tokenRepository.findUserByActiveToken(tokenId).isEmpty();
+        System.out.println("Result of validateToken:" + !tokenRepository.findUserByActiveToken(tokenId).isEmpty());
+        boolean bool = !tokenRepository.findUserByActiveToken(tokenId).isEmpty();
+        return String.valueOf(bool);
     }
 
     @GET
     @Path("/{tokenId}")
-    public String FindUserbyActiveToken(@PathParam("tokenId") String tokenId)
+    public String FindUserByActiveToken(@PathParam("tokenId") String tokenId)
     {
         return tokenRepository.findUserByActiveToken(tokenId);
     }

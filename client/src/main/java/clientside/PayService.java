@@ -64,9 +64,11 @@ public class PayService {
 
 //        System.out.println(response.readEntity(String.class));
 //        System.out.println("PAY: response status:" + response.getStatus());
-
+        System.out.println("token is: "+tokenId);
         if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
-            throw new Exception(response.readEntity(String.class));
+            String e = response.readEntity(String.class);
+            System.out.println(e);
+            throw new Exception(e);
         }
 
         return response.getStatus() == Response.Status.OK.getStatusCode();

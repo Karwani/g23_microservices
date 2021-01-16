@@ -8,6 +8,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ public class PaymentRepository {
     //Method used for validations before a payment is made
     public String validatePaymentInfo(Payment payment)
     {
+        System.out.println("Validating payment: ");
         String customerId;
          //check if merchant and token are valid
          if (!users.containsKey(payment.getMerchantId()))
@@ -36,7 +38,9 @@ public class PaymentRepository {
     }
     private boolean validateToken(String tokenId)
     {
-        return tokenServer.path("Token/validate/"+tokenId).request().get(Boolean.TYPE);
+        System.out.println("Validating Token: ");
+        String response = tokenServer.path("Token/validate/"+tokenId).request().get(String.class);
+        return Boolean.parseBoolean(response);
     }
     public Response consumeToken(String tokenId)
     {
