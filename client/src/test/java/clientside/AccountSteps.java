@@ -10,6 +10,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
+import org.junit.Before;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -31,15 +32,27 @@ public class AccountSteps {
 
     WebTarget baseUrl;
     User customer;
-    User merchant;
     BankService bank = new BankServiceService().getBankServicePort();
     List<String> accountIds = new ArrayList<>();
     List<User> registeredUsers = new ArrayList<>();
-    PayService dtuPay = new PayService();
+    AccountService accountService = new AccountService();
     dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
     boolean successful;
     UserInfo userInfo = new UserInfo();
 
+//    @Before
+//    public void unregisterAccount() throws BankServiceException_Exception {
+//        for (String id : accountIds){
+//            bank.retireAccount(id);
+//            System.out.println("retired account "+ id);
+//        }
+//        accountIds.clear();
+//        System.out.println(registeredUsers.size());
+//        for (User user : registeredUsers) {
+//            accountService.deregister(user);
+//        }
+//        registeredUsers.clear();
+//    }
 
     public AccountSteps(){
         Client client = ClientBuilder.newClient();
@@ -56,12 +69,11 @@ public class AccountSteps {
 
     @Given("the customer has a bank account")
     public void theCustomerHasABankAccount() throws Exception {
-        UUID uuid = UUID.randomUUID();
+       // UUID uuid = UUID.randomUUID();
         //String firstName = userInfo
 
-        customer = new Customer(userInfo.getFirstName(), userInfo.getLastName(), userInfo.getCprNumber(), uuid.toString(), false);
+        customer = new Customer(userInfo.getFirstName(), userInfo.getLastName(), userInfo.getCprNumber(), "1", false);
         System.out.println(customer.getCprNumber());
-        dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
         user.setFirstName(userInfo.getFirstName());
         user.setLastName(userInfo.getLastName());
         user.setCprNumber(userInfo.getCprNumber());
@@ -78,44 +90,47 @@ public class AccountSteps {
         }
     }
 
-    @And("is type {string} who wants to be registered in DTUPay")
-    public void isType(String userType) {
-//        UserInfo.userType = userType;
-        dtuPay.register(customer,"customer");
-        registeredUsers.add(customer);
-        System.out.println("Usertype must be" + userType);
-        MatcherAssert.assertThat(userType, containsString("Customer"));
-    }
 
-    @When("the customer initiates registration")
-    public void theCustomerInitiatesRegistration() throws Exception {
-        Response response = baseUrl.path("Account/User").request()
-                .put(Entity.entity(userInfo, MediaType.APPLICATION_JSON));
-        System.out.println(userInfo.getCprNumber());
-        System.out.println(response.getStatus() +" " +  Response.Status.OK.getStatusCode());
-        assertTrue(response.getStatus() == Response.Status.OK.getStatusCode());
+    @When("the user initiates registration as a customer {string}")
+    public void theUserInitiatesRegistrationAsACustomer(String userType) {
+        System.out.println(userType);
+        try {
+            successful = accountService.register(customer,userType);
+            registeredUsers.add(customer);
+        } catch (Exception e) {
+            successful = false;
+            e.printStackTrace();
+        }
+        //        Response response = baseUrl.path("Account/User").request()
+//                .put(Entity.entity(userInfo, MediaType.APPLICATION_JSON));
+//        System.out.println(userInfo.getCprNumber());
+//        System.out.println(response.getStatus() +" " +  Response.Status.OK.getStatusCode());
+//        assertTrue(response.getStatus() == Response.Status.OK.getStatusCode());
     }
 
     @Then("registration of customer is successful")
     public void registrationOfCustomerIsSuccessful() {
-        Boolean response = baseUrl.path("Account/User").request()
-                .get(Boolean.TYPE);
-        assertTrue(response);
+        assertTrue(successful);
     }
 
     @After
-    public void retireAccounts() throws BankServiceException_Exception {
-        for (String id : accountIds){
-            bank.retireAccount(id);
-            System.out.println("retired account "+ id);
+    public void retireAccounts()  {
+        try{
+            for (String id : accountIds){
+                bank.retireAccount(id);
+                System.out.println("retired account "+ id);
+            }
+            accountIds.clear();
+            System.out.println(registeredUsers.size());
+            for (User user : registeredUsers) {
+                accountService.deregister(user);
+            }
+            registeredUsers.clear();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        accountIds.clear();
-        System.out.println(registeredUsers.size());
-        for (User user : registeredUsers) {
-            dtuPay.deregister(user);
-        }
-        registeredUsers.clear();
-    }
 
+
+    }
 
 }

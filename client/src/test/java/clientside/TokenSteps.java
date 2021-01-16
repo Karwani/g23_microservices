@@ -79,11 +79,11 @@ public class TokenSteps {
         assertTrue(response.isEmpty());
     }
 
-    @After
-    public void cleanup()
-    {
-        Boolean response = baseUrl.path("Token/"+TokenInfo.userId).request()
-                .delete(Boolean.TYPE);
-        assertTrue(response);
-    }
+//    @After
+//    public void cleanup()
+//    {
+//        Boolean response = baseUrl.path("Token/"+TokenInfo.userId).request()
+//                .delete(Boolean.TYPE);
+//        assertTrue(response);
+//    }
 }

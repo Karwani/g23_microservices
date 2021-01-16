@@ -13,12 +13,10 @@ import javax.ws.rs.core.Response;
 public class PayService {
 
     WebTarget baseUrl;
-    WebTarget baseUrl2;
 
     public PayService() {
         Client client = ClientBuilder.newClient();
         baseUrl = client.target("http://localhost:8080/");
-        baseUrl2 = client.target("http://localhost:8383/");
     }
 
     public void register(User user, String userType) {
@@ -36,7 +34,7 @@ public class PayService {
         body.addProperty("cprNumber",user.getCprNumber());
         body.addProperty("userId",user.getUserId());
         body.addProperty("admin",user.isAdmin());
-        Response response = baseUrl2.path(path).request()
+        Response response = baseUrl.path(path).request()
                 .post(Entity.entity(gson.toJson(body),MediaType.APPLICATION_JSON));
     }
 
