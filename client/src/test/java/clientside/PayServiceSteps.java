@@ -28,7 +28,7 @@ public class PayServiceSteps {
 	public void theCustomerWithCPRHasABankAccountWithBalance(String firstName, String lastName, String cpr, int balance) throws Exception {
 		// Change this at some later time :)
 		TokenInfo.userId = "1";
-
+		cpr = getRandomUntakenCPR();
 		customer = new Customer(firstName,lastName, cpr,"1",false);
 		dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
 		user.setFirstName(firstName);
@@ -53,6 +53,7 @@ public class PayServiceSteps {
 
 	@Given("the merchant {string} {string} with CPR number {string} has a bank account with balance {int}")
 	public void theMerchantWithCPRNumberHasABankAccountWithBalance(String firstName, String lastName, String cpr, int balance) throws Exception {
+		 cpr = getRandomUntakenCPR();
 		merchant = new Merchant(firstName,lastName, cpr,"2",false,"some-CVR");
 		dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
 		user.setFirstName(firstName);
@@ -67,6 +68,21 @@ public class PayServiceSteps {
 			e.printStackTrace();
 			throw new Exception();
 		}
+	}
+
+	private String getRandomUntakenCPR() {
+		String cpr;
+		Account account = null;
+		do {
+			cpr = TokenInfo.generateRandomCPR();
+			try {
+				account = bank.getAccountByCprNumber(cpr);
+			}catch (BankServiceException_Exception exception)
+			{
+			return cpr;
+			}
+		}while (account!=null);
+		return cpr;
 	}
 
 	@Given("the merchant is registered with DTUPay")

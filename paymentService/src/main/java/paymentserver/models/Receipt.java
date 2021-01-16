@@ -1,4 +1,4 @@
-package paymentserver;
+package paymentserver.models;
 
 import java.util.GregorianCalendar;
 

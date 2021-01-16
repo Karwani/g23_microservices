@@ -3,6 +3,11 @@ package paymentserver;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceException_Exception;
 import dtu.ws.fastmoney.BankServiceService;
+import paymentserver.business_logic.PaymentRepository;
+import paymentserver.models.Customer;
+import paymentserver.models.Merchant;
+import paymentserver.models.Payment;
+import paymentserver.models.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
@@ -16,38 +21,45 @@ import java.util.Map;
 
 @Path("")
 public class PaymentServer {
-    static Map<String, User> users = new HashMap<>();
+    PaymentRepository paymentRepository;
     BankService bank = new BankServiceService().getBankServicePort();
 
     Client client = ClientBuilder.newClient();
-    WebTarget baseUrl = client.target("http://localhost:8181/");
+    //WebTarget baseUrl = client.target("http://tokenserver:8181/");  // <--- use when running in docker
+    WebTarget baseUrl = client.target("http://localhost:8181/");  // <---- use when testing locally
+    public PaymentServer() {
+        paymentRepository = new PaymentRepository();
+    }
 
     @POST @Path("/payments")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response requestPayment(Payment payment) {
         System.out.println("received payment request");
         String merchantId = payment.getMerchantId();
-        String customerId = payment.getCustomerId();
         String tokenId = payment.getTokenId();
-        System.out.println(users.size());
-        users.forEach((key,value) -> System.out.println(key+": "+value));
+
+        //String customerId = payment.getCustomerId(); // instead of this, need to make call to token service to get customer from the token
+        String customerId = paymentRepository.findUserByToken(tokenId);
+        //System.out.println(users.size());
+        //users.forEach((key,value) -> System.out.println(key+": "+value));
         int amount = payment.getAmount();
-        if (!users.containsKey(merchantId)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Merchant is not registered with DTUPay").build();
-        }
+        String error = paymentRepository.validatePaymentInfo(payment);
+        if(!error.isEmpty())
+            Response.status(Response.Status.BAD_REQUEST).entity(error).build();
 
         try {
-            System.out.println("Received merchant id: "+merchantId);
-            System.out.println("Received customer id: "+customerId);
-            String merchantCpr = users.get(merchantId).getCprNumber();
-            String customerCpr = users.get(customerId).getCprNumber();
+            System.out.println("Received merchant id: "+payment.getMerchantId());
+            System.out.println("Received customer id: "+payment.getCustomerId());
+            String merchantCpr = paymentRepository.getUserCPR(merchantId);
+            String customerCpr = paymentRepository.getUserCPR(customerId);
             System.out.println("Received merchant cpr: "+merchantCpr);
             System.out.println("Received customer cpr: "+customerCpr);
+            //** Bank transfer method - move to transaction service
             String creditor = bank.getAccountByCprNumber(merchantCpr).getId();
             String debtor = bank.getAccountByCprNumber(customerCpr).getId();
             bank.transferMoneyFromTo(debtor,creditor,new BigDecimal(amount),"Testing is not very fun");
-            Response response = baseUrl.path("Token/ConsumedToken/"+tokenId).request().post(null);
-            return response;
+            //**
+            return paymentRepository.consumeToken(tokenId);
         } catch (BankServiceException_Exception e) {
             e.printStackTrace();
             return Response.serverError().entity(e.getStackTrace()).build();
@@ -56,21 +68,23 @@ public class PaymentServer {
 
     @DELETE @Path("/users/{userId}")
     public Response deleteUser(@PathParam("userId") String userId) {
-        users.remove(userId);
-        return Response.ok().build();
+        String error = paymentRepository.removeUser(userId);
+        if(error.isEmpty())
+            return Response.ok().build();
+        return Response.notModified(error).build();
     }
 
     @POST @Path("/customers")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerUser(Customer user) {
-        users.put(user.getUserId(),user);
+        paymentRepository.addUser(user);
         return Response.ok().build();
     }
 
     @POST @Path("/merchants")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerUser(Merchant user) {
-        users.put(user.getUserId(),user);
+        paymentRepository.addUser(user);
         return Response.ok().build();
     }
 

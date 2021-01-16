@@ -1,4 +1,6 @@
-package paymentserver;
+package paymentserver.models;
+
+import paymentserver.models.User;
 
 public class Customer extends User {
 

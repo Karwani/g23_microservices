@@ -75,7 +75,7 @@ public class TokenSteps {
     public void theTokenIsNoLongerValid() {
         String response = baseUrl.path("Token/"+TokenInfo.tokenId).request().get(String.class);
 
-        System.out.println("No longer valied" + response);
+        System.out.println("No longer valid" + response);
         assertTrue(response.isEmpty());
     }
 
