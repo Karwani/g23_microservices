@@ -86,11 +86,11 @@ public class TokenSteps {
         Response response = baseUrl.path("Token/ConsumedToken/"+TokenInfo.tokenId).request().post(null);
         assertTrue(response.getStatus() == Response.Status.OK.getStatusCode());
     }
-//    @After
-//    public void cleanup()
-//    {
-//        Boolean response = baseUrl.path("Token/"+TokenInfo.userId).request()
-//                .delete(Boolean.TYPE);
+    @After
+    public void cleanup()
+    {
+        Boolean response = baseUrl.path("Token/"+TokenInfo.userId).request()
+                .delete(Boolean.TYPE);
 //        assertTrue(response);
-//    }
+    }
 }

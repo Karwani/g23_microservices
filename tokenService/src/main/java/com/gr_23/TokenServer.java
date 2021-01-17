@@ -1,26 +1,25 @@
 package com.gr_23;
 
-import com.gr_23.business_logic.TokenRepository;
+import com.gr_23.business_logic.ITokenManagement;
+import com.gr_23.data_access.ITokenRepository;
 import com.gr_23.models.Token;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.*;
-import java.util.stream.Collectors;
-
+import javax.inject.*;
 @Path("/Token")
 public class TokenServer {
-    private TokenRepository tokenRepository;
 
-    public  TokenServer()
+    private ITokenManagement tokenManagement;
+
+    public  TokenServer(ITokenManagement tokenManagement)
     {
-        tokenRepository = new TokenRepository();
+        this.tokenManagement = tokenManagement;
     }
     @POST
     @Path("/{userId}")
     public Response generateToken(@PathParam("userId") String userId) {
-        if(tokenRepository.canGenerateTokensForUser(userId)) {
-            tokenRepository.generateTokens(userId,5);
+        if(tokenManagement.generateTokensForUser(userId,5)) {
             return Response.ok().build();
         }
         return Response.notModified().build();
@@ -30,8 +29,8 @@ public class TokenServer {
     @Path("/validate/{tokenId}")
     public String validateToken(@PathParam("tokenId") String tokenId)
     {
-        System.out.println("Result of validateToken:" + !tokenRepository.findUserByActiveToken(tokenId).isEmpty());
-        boolean bool = !tokenRepository.findUserByActiveToken(tokenId).isEmpty();
+        System.out.println("Result of validateToken:" + tokenManagement.validateToken(tokenId));
+        boolean bool = tokenManagement.validateToken(tokenId);
         return String.valueOf(bool);
     }
 
@@ -39,41 +38,32 @@ public class TokenServer {
     @Path("/{tokenId}")
     public String FindUserByActiveToken(@PathParam("tokenId") String tokenId)
     {
-        return tokenRepository.findUserByActiveToken(tokenId);
-    }
-
-    private void storeToken(Token token, String userId) {
-
+        return tokenManagement.findUserByActiveToken(tokenId);
     }
 
     @GET
     @Path("/Active/{userId}")
     public String requestActiveToken(@PathParam("userId") String userId) {
         //To DO: check if userid is a customer of DTUpay?
-        generateToken(userId);
-        return tokenRepository.getActiveToken(userId);
+        return tokenManagement.getActiveToken(userId);
     }
 
     @POST
     @Path("ConsumedToken/{tokenId}")
     public boolean consumeToken(@PathParam("tokenId") String tokenId) {
-       String user = tokenRepository.findUserByToken(tokenId);
-       //System.out.println("Consumed user" + user);
-        tokenRepository.removeTokenFromActive(tokenId, user);
-        tokenRepository.addTokenToUsed(tokenId,user);
-        return true;
+        return tokenManagement.consumeToken(tokenId);
     }
 
     @GET
     @Path("/isEligible/{userId}")
     public boolean isEligibleToGenerate(@PathParam("userId") String userId) {
-        return tokenRepository.canGenerateTokensForUser(userId);
+        return tokenManagement.canGenerateTokensForUser(userId);
     }
 
     @DELETE
     @Path("/{userId}")
     public boolean deleteTokens(@PathParam("userId") String userId) {
-        return tokenRepository.deleteTokens(userId);
+        return tokenManagement.deleteTokens(userId);
 
     }
 

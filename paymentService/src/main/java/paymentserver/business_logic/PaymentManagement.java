@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PaymentRepository {
+public class PaymentManagement {
     Client client = ClientBuilder.newClient();
     WebTarget tokenServer = client.target("http://localhost:8181/");
     static Map<String, HashMap<String,Payment>> paymentHashMap = new HashMap<>();

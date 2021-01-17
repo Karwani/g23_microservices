@@ -3,11 +3,10 @@ package paymentserver;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceException_Exception;
 import dtu.ws.fastmoney.BankServiceService;
-import paymentserver.business_logic.PaymentRepository;
+import paymentserver.business_logic.PaymentManagement;
 import paymentserver.models.Customer;
 import paymentserver.models.Merchant;
 import paymentserver.models.Payment;
-import paymentserver.models.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
@@ -16,19 +15,17 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 @Path("")
 public class PaymentServer {
-    PaymentRepository paymentRepository;
+    PaymentManagement paymentManagement;
     BankService bank = new BankServiceService().getBankServicePort();
 
     Client client = ClientBuilder.newClient();
     //WebTarget baseUrl = client.target("http://tokenserver:8181/");  // <--- use when running in docker
     WebTarget baseUrl = client.target("http://localhost:8181/");  // <---- use when testing locally
     public PaymentServer() {
-        paymentRepository = new PaymentRepository();
+        paymentManagement = new PaymentManagement();
     }
 
     @POST @Path("/payments")
@@ -42,15 +39,15 @@ public class PaymentServer {
         //System.out.println(users.size());
         //users.forEach((key,value) -> System.out.println(key+": "+value));
         int amount = payment.getAmount();
-        String error = paymentRepository.validatePaymentInfo(payment);
+        String error = paymentManagement.validatePaymentInfo(payment);
         if(!error.isEmpty())
             return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
-        String customerId = paymentRepository.findUserByToken(tokenId);
+        String customerId = paymentManagement.findUserByToken(tokenId);
         try {
             System.out.println("Received merchant id: "+payment.getMerchantId());
             System.out.println("Received customer id: "+payment.getCustomerId());
-            String merchantCpr = paymentRepository.getUserCPR(merchantId);
-            String customerCpr = paymentRepository.getUserCPR(customerId);
+            String merchantCpr = paymentManagement.getUserCPR(merchantId);
+            String customerCpr = paymentManagement.getUserCPR(customerId);
             System.out.println("Received merchant cpr: "+merchantCpr);
             System.out.println("Received customer cpr: "+customerCpr);
             //** Bank transfer method - move to transaction service
@@ -58,7 +55,7 @@ public class PaymentServer {
             String debtor = bank.getAccountByCprNumber(customerCpr).getId();
             bank.transferMoneyFromTo(debtor,creditor,new BigDecimal(amount),"Testing is not very fun");
             //**
-            return paymentRepository.consumeToken(tokenId);
+            return paymentManagement.consumeToken(tokenId);
         } catch (BankServiceException_Exception e) {
             e.printStackTrace();
             return Response.serverError().entity(e.getStackTrace()).build();
@@ -67,7 +64,7 @@ public class PaymentServer {
 
     @DELETE @Path("/users/{userId}")
     public Response deleteUser(@PathParam("userId") String userId) {
-        String error = paymentRepository.removeUser(userId);
+        String error = paymentManagement.removeUser(userId);
         if(error.isEmpty())
             return Response.ok().build();
         return Response.notModified(error).build();
@@ -76,20 +73,20 @@ public class PaymentServer {
     @POST @Path("/customers")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerUser(Customer user) {
-        paymentRepository.addUser(user);
+        paymentManagement.addUser(user);
         return Response.ok().build();
     }
 
     @POST @Path("/merchants")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerUser(Merchant user) {
-        paymentRepository.addUser(user);
+        paymentManagement.addUser(user);
         return Response.ok().build();
     }
 
     @GET @Path("/users/{userId}")
     public Boolean checkUser(@PathParam("userId") String userId) {
-        String userCPR = paymentRepository.getUserCPR(userId);
+        String userCPR = paymentManagement.getUserCPR(userId);
         return !userCPR.isEmpty();
     }
 
