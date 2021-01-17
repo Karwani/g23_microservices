@@ -21,18 +21,25 @@ import io.cucumber.messages.internal.com.google.gson.JsonObject;
 @Path("/Account/")
 public class AccountServer {
 
-    static Map<String, User> users = new HashMap<>();
+    private Map<String, User> users = new HashMap<>();
     BankService bank = new BankServiceService().getBankServicePort();
     List<User> registeredUsers = new ArrayList<>();
     List<String> accountIds = new ArrayList<>();
     User customer;
     User merhcant;
    // WebTarget baseUrl;
+   private Map<String, User> testUsers = new HashMap<>();
 
 
     public AccountServer(){
 //        Client client = ClientBuilder.newClient();
 //        baseUrl = client.target("http://localhost:8383/");
+      //  Customer one = new Customer("ole", "hansen", "333323-7777", "1", false);
+        Customer two = new Customer("frank", "hansen", "444444-7777", "2", false);
+        Customer three = new Customer("lisa", "hansen", "555555-7777", "3", false);
+       // testUsers.put("1", one);
+        testUsers.put("2", two);
+        testUsers.put("3", three);
     }
 
     @PUT
@@ -46,14 +53,28 @@ public class AccountServer {
         return Response.ok().build();
     }
 
-    // TO DO: Return userInfo based on Userid
-
+    // Remove @pathParam
     @GET
-    @Path("Bank")
-    public boolean validateBankAccount(String CPR) {
-       // bank.getAccountByCprNumber(CPR);
-        return false;
-    }
+    @Path("Bank/{CPR}")
+    public boolean validateBankAccount(@PathParam("CPR")String CPR) throws BankServiceException_Exception {
+       // String cprFromBank = bank.getAccountByCprNumber(CPR).getUser().getCprNumber();
+       // System.out.println("cpr from bank " + cprFromBank);
+
+//        for (Map.Entry<String, User> entry : users.entrySet()){
+//            System.out.println("the value "+ entry.getValue().getCprNumber().contentEquals(cprFromBank));
+//            // below for functional application
+//           // if (entry.getValue().getCprNumber().contentEquals(cprFromBank)){
+//            if (entry.getValue().getCprNumber().equals(cprFromBank)){
+//                System.out.println("users map " +entry.getValue().getCprNumber() + " input string " +CPR);
+//                return true;
+//            }
+            try {
+                bank.getAccountByCprNumber(CPR);
+                return true;
+            } catch (BankServiceException_Exception e) {
+                return false;
+            }
+        }
 
     @GET
     @Path("DTUPay")
@@ -66,15 +87,34 @@ public class AccountServer {
     @DELETE
     @Path("User/{userId}")
     public Response deleteUsers(@PathParam("userId") String userId) {
+        Customer one = new Customer("ole", "hansen", "333323-7777", "1", false);
+        testUsers.put("1", one);
+
+        if (testUsers.containsKey(one.getUserId())) {
+            testUsers.remove(userId);
+            return Response.ok().build();
+        }
         // DTU pay
-        users.remove(userId);
-        return Response.ok().build();
+        System.out.println(one.getUserId());
+        return Response.notModified().build();
     }
 
     @POST
     @Path("User")
     public void updateUser(User user) {
-        //
+        Customer one = new Customer("ole", "hansen", "333323-7777", "1", false);
+        testUsers.put("1", one);
+        System.out.println(one.getFirstName());
+        one.setFirstName(user.getFirstName());
+        one.setLastName(user.getLastName());
+        if (!testUsers.containsKey(one.getUserId())){
+            System.out.println("User with id " + one.getUserId() + " does not exist");
+            System.out.println("User with id " + user.getUserId() + " does not exist");
+
+        }
+        testUsers.put(one.getUserId(), one);
+        System.out.println("after update " + one.getFirstName());
+
     }
 
 }
