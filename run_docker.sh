@@ -23,6 +23,12 @@ else
         mvn package
         popd
         docker-compose up -d --force-recreate --build "$1"
+    elif [ "$1" = "accountserver" ]
+      then
+        pushd accountService
+        mvn package
+        popd
+        docker-compose up -d --force-recreate --build "$1"
     elif [ "$1" = "stop" ]
       then
         docker-compose down
@@ -34,6 +40,11 @@ else
         popd
 
         pushd tokenService
+        mvn package
+
+        popd
+
+        pushd accountService
         mvn package
 
         popd

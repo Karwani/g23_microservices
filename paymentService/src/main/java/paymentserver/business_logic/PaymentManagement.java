@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class PaymentManagement {
     Client client = ClientBuilder.newClient();
-    WebTarget tokenServer = client.target("http://localhost:8181/");
+    WebTarget tokenServer = client.target("http://tokenserver:8181/");
     static Map<String, HashMap<String,Payment>> paymentHashMap = new HashMap<>();
     static Map<String, User> users = new HashMap<>();
     //Method used for validations before a payment is made
