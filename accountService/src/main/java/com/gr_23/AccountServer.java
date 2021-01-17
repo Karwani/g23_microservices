@@ -5,17 +5,9 @@ import dtu.ws.fastmoney.BankServiceException_Exception;
 import dtu.ws.fastmoney.BankServiceService;
 
 import javax.ws.rs.*;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.math.BigDecimal;
 import java.util.*;
-
-import io.cucumber.messages.internal.com.google.gson.Gson;
-import io.cucumber.messages.internal.com.google.gson.JsonObject;
 
 
 @Path("/Account/")
@@ -69,6 +61,7 @@ public class AccountServer {
 //                return true;
 //            }
             try {
+                System.out.println("JENKINS TEST WILL BE REMOVED");
                 bank.getAccountByCprNumber(CPR);
                 return true;
             } catch (BankServiceException_Exception e) {
