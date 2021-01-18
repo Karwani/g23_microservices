@@ -56,9 +56,8 @@ public class PaymentManagement implements EventReceiver {
     {
 
         System.out.println("Sending message.");
-        String result_S;
         try {
-            result_S = makeRequest("validateToken",tokenId);
+            makeRequest("validateToken",tokenId);
             System.out.println("Message sent.");
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,26 +74,48 @@ public class PaymentManagement implements EventReceiver {
         //String response = tokenServer.path("Token/validate/"+tokenId).request().get(String.class);
         return Boolean.parseBoolean(response);
     }
+
     public Response consumeToken(String tokenId)
     {
-
         //TODO modify to work with message queue?
-        //
-        Response response = tokenServer.path("Token/ConsumedToken/"+tokenId).request().post(null);
-        return response;
+
+        System.out.println("Sending message consume token");
+
+        try {
+            makeRequest("consumeToken",tokenId);
+            System.out.println("consumeTokenMessage sent");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        Boolean response = null;
+
+        try {
+
+           response = Boolean.parseBoolean(result.get());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Response response = tokenServer.path("Token/ConsumedToken/"+tokenId).request().post(null);
+
+        // If response is true, return ok
+        // If not, return BAD
+        if(response) { return Response.ok().build(); }
+        else {return Response.status(Response.Status.BAD_REQUEST).build();}
+
     }
 
 
     public String findUserByToken(String tokenId)
     {
-        //TODO modify to work with message queue?
-        // Georg
-        String message;
         System.out.println("findUserByToken message");
 
         try {
             System.out.println("Entered try: Sending FindUserbyToken");
-            message = makeRequest("findUserByToken",tokenId);
+            makeRequest("findUserByToken",tokenId);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,10 +131,9 @@ public class PaymentManagement implements EventReceiver {
             e.printStackTrace();
         }
 
-         //response = tokenServer.path("Token/"+tokenId).request().get(String.class);
-
         return response;
     }
+
     public String getUserCPR(String userId)
     {
         // TODO: use account service + message queue
@@ -157,6 +177,11 @@ public class PaymentManagement implements EventReceiver {
         if(event.getEventType().equals("findUserByToken_done")) {
             System.out.println("PS findUserByToken_done event handled:" + event);
             result.complete(event.getArgument(0, String.class));
+        }
+
+        if(event.getEventType().equals("consumeToken_done")) {
+            System.out.println("PS consumeToken_done event handled:" + event);
+            result.complete(event.getArgument(0,String.class));
         }
     }
 
