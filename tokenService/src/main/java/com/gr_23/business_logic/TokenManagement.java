@@ -6,10 +6,9 @@ import messaging.Event;
 import messaging.EventReceiver;
 import messaging.EventSender;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.core.Response;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 //@ApplicationScoped
@@ -109,6 +108,13 @@ public class TokenManagement implements ITokenManagement, EventReceiver {
 
     // TODO: answer other messages
 
+    public void answerRequest_findUserByToken(String eventType, String tokenId) throws Exception {
+        String userId = findUserByActiveToken(tokenId);
+        Event event = new Event(eventType, new Object[] { userId });
+        sender.sendEvent(event);
+    }
+
+
     @Override
     public void receiveEvent(Event event) throws Exception {
 
@@ -117,8 +123,15 @@ public class TokenManagement implements ITokenManagement, EventReceiver {
             System.out.println("TS event handled: "+event);
             String tokenId = event.getArgument(0, String.class);
             answerRequest_validateToken("validateToken_done",tokenId);
+
         } else {
             System.out.println("TS event ignored: "+event);
+        }
+
+        if(event.getEventType().equals("findUserByToken")) {
+            System.out.println("TS event handled" + event);
+            String tokenId = event.getArgument(0, String.class);
+            answerRequest_findUserByToken("findUserByToken_done", tokenId);
         }
     }
 }

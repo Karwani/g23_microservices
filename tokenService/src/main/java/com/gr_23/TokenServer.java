@@ -1,18 +1,10 @@
 package com.gr_23;
 
 import com.gr_23.business_logic.ITokenManagement;
-import com.gr_23.business_logic.TokenManagement;
 import com.gr_23.business_logic.TokenManagementFactory;
-import com.gr_23.data_access.ITokenRepository;
-import com.gr_23.models.Token;
-import messaging.EventReceiver;
-import messaging.EventSender;
-import messaging.rabbitmq.RabbitMqListener;
-import messaging.rabbitmq.RabbitMqSender;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import javax.inject.*;
 @Path("/Token")
 public class TokenServer {
 
@@ -47,7 +39,7 @@ public class TokenServer {
 
     @GET
     @Path("/{tokenId}")
-    public String FindUserByActiveToken(@PathParam("tokenId") String tokenId)
+    public String findUserByActiveToken(@PathParam("tokenId") String tokenId)
     {
         return tokenManagement.findUserByActiveToken(tokenId);
     }

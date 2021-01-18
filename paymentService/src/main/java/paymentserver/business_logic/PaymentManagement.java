@@ -3,7 +3,6 @@ package paymentserver.business_logic;
 import messaging.Event;
 import messaging.EventReceiver;
 import messaging.EventSender;
-import paymentserver.models.Customer;
 import paymentserver.models.Payment;
 import paymentserver.models.User;
 
@@ -11,7 +10,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -80,11 +78,35 @@ public class PaymentManagement implements EventReceiver {
         Response response = tokenServer.path("Token/ConsumedToken/"+tokenId).request().post(null);
         return response;
     }
+
+
     public String findUserByToken(String tokenId)
     {
         //TODO modify to work with message queue?
         // Georg
-        String response = tokenServer.path("Token/"+tokenId).request().get(String.class);
+        String message;
+        System.out.println("findUserByToken message");
+
+        try {
+            System.out.println("Entered try: Sending FindUserbyToken");
+            message = makeRequest("findUserByToken",tokenId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String response = null;
+
+        try {
+
+            response = result.get();
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+         //response = tokenServer.path("Token/"+tokenId).request().get(String.class);
+
         return response;
     }
     public String getUserCPR(String userId)
@@ -120,6 +142,11 @@ public class PaymentManagement implements EventReceiver {
 
         } else {
             System.out.println("PS event ignored: "+event);
+        }
+
+        if(event.getEventType().equals("findUserByToken_done")) {
+            System.out.println("PS findUserByToken_done event handled:" + event);
+            result.complete(event.getArgument(0, String.class));
         }
     }
 
