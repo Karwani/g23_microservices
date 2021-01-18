@@ -6,6 +6,6 @@ Feature: Generate Token
     Then the user has 5 tokens
 
   Scenario: User is invalid to generate tokens
-    Given that the user with id "1" has two tokens or more
+    Given that the user with id "1234" has two tokens or more
     When the user tries to generate tokens
     Then the user will not receive more tokens

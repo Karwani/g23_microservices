@@ -16,6 +16,11 @@ import java.util.concurrent.CompletableFuture;
 public class TokenManagement implements ITokenManagement, EventReceiver {
     ITokenRepository tokenRepository;
     EventSender sender;
+
+    public ITokenRepository getTokenRepository() {
+        return tokenRepository;
+    }
+
     CompletableFuture<String> result;
     public TokenManagement(ITokenRepository tokenRepository, EventSender sender) {
         this.tokenRepository = tokenRepository;
@@ -57,8 +62,13 @@ public class TokenManagement implements ITokenManagement, EventReceiver {
     @Override
     public boolean canGenerateTokensForUser(String userId) {
 
-        if(tokenRepository.userExistsInActive(userId))
-            return tokenRepository.getActiveTokens(userId).size()<=1;
+        if(tokenRepository.userExistsInActive(userId)) {
+            System.out.println("user exists" + userId );
+            int t = tokenRepository.getActiveTokens(userId).size() ;
+
+            System.out.println("user has " + t + " tokens" );
+            return t<=1;
+        }
         return true;
     }
 
@@ -72,8 +82,9 @@ public class TokenManagement implements ITokenManagement, EventReceiver {
         return true;
     }
     @Override
-    public boolean deleteTokens(String userId) {
-        return tokenRepository.deleteActiveTokens(userId) || tokenRepository.deleteUsedTokens(userId);
+    public void deleteTokens(String userId) {
+        tokenRepository.deleteUsedTokens(userId);
+        tokenRepository.deleteActiveTokens(userId);
     }
 
     @Override

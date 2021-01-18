@@ -13,7 +13,7 @@ public interface ITokenManagement {
 
     boolean consumeToken(String tokenId);
 
-    boolean deleteTokens(String userId);
+    void deleteTokens(String userId);
 
     String getActiveToken(String userId);
 }

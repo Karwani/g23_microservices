@@ -1,7 +1,10 @@
 package TokenService;
 
 
+import com.gr_23.business_logic.ITokenManagement;
 import com.gr_23.business_logic.TokenManagement;
+import com.gr_23.business_logic.TokenManagementFactory;
+import com.gr_23.data_access.ITokenRepository;
 import com.gr_23.data_access.TokenRepository;
 import com.gr_23.models.Token;
 import io.cucumber.java.After;
@@ -16,9 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GenerateTokenSteps {
     String userId;
-    TokenRepository tokenRepository = new TokenRepository();
-    TokenManagement tokenManagement = new TokenManagement(tokenRepository);
-
+    ITokenRepository tokenRepository = new TokenRepository();
+    TokenManagement tokenManagement = new TokenManagement(tokenRepository,null);
     public GenerateTokenSteps() {
     }
 

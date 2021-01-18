@@ -73,8 +73,9 @@ public class TokenServer {
 
     @DELETE
     @Path("/{userId}")
-    public boolean deleteTokens(@PathParam("userId") String userId) {
-        return tokenManagement.deleteTokens(userId);
+    public Response deleteTokens(@PathParam("userId") String userId) {
+         tokenManagement.deleteTokens(userId);
+         return Response.ok().build();
 
     }
 
