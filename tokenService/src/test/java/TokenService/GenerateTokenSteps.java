@@ -1,16 +1,14 @@
 package TokenService;
 
 
-import com.gr_23.business_logic.ITokenManagement;
 import com.gr_23.business_logic.TokenManagement;
-import com.gr_23.business_logic.TokenManagementFactory;
 import com.gr_23.data_access.ITokenRepository;
 import com.gr_23.data_access.TokenRepository;
 import com.gr_23.models.Token;
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GenerateTokenSteps {
     String userId;
+    String tokenId;
     ITokenRepository tokenRepository = new TokenRepository();
     TokenManagement tokenManagement = new TokenManagement(tokenRepository,null);
     public GenerateTokenSteps() {
@@ -68,5 +67,17 @@ public class GenerateTokenSteps {
     @After
     public void cleanTokens(){
         tokenManagement.deleteTokens(userId);
+    }
+
+
+    @Given("The token with id {string} does not exist")
+    public void theTokenWithIdDoesNotExist(String tokenId) {
+        this.tokenId = tokenId;
+        assertFalse(tokenRepository.checkToken(tokenId));
+    }
+
+    @Then("When we lookup that token we do not find anything")
+    public void weDoNotFindAnything() {
+        assertFalse(tokenManagement.validateToken(tokenId));
     }
 }

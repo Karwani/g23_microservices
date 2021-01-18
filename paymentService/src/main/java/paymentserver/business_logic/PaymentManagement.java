@@ -185,6 +185,7 @@ public class PaymentManagement implements EventReceiver {
         sender.sendEvent(event);
         return result.join();
     }
+    
     public void answerRequest(String eventType, Object arg) throws Exception {
         Event event = new Event(eventType,new Object[] { arg });
         sender.sendEvent(event);

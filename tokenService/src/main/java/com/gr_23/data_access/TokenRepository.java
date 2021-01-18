@@ -2,14 +2,12 @@ package com.gr_23.data_access;
 
 import com.gr_23.models.Token;
 
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.inject.Inject;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Singleton;
 
 @Singleton
 public class TokenRepository implements  ITokenRepository {
@@ -26,6 +24,28 @@ public class TokenRepository implements  ITokenRepository {
 
     private Map<String, List<Token>> activeTokens = new HashMap<String, List<Token>>();
     private Map<String, List<Token>> usedTokens = new HashMap<String, List<Token>>();
+
+    @Override
+    public boolean checkToken(String tokenId) {
+        boolean found = false;
+
+        for(Map.Entry<String, List<Token>> pair : activeTokens.entrySet()) {
+            found = pair.getValue().stream().map(token -> token.getTokenId())
+                    .filter(t -> t.equals(tokenId))
+                    .findFirst()
+                    .isPresent();
+        }
+
+        for(Map.Entry<String, List<Token>> pair : activeTokens.entrySet())
+        {
+            found = pair.getValue().stream().map(token -> token.getTokenId())
+                    .filter(t -> t.equals(tokenId))
+                    .findFirst()
+                    .isPresent();
+        }
+
+        return found;
+    }
 
     @Override
     public void addActiveTokens(String userId, List<Token> tokens)
