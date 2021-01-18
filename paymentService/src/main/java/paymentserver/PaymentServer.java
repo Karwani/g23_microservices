@@ -3,21 +3,19 @@ package paymentserver;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceException_Exception;
 import dtu.ws.fastmoney.BankServiceService;
-import messaging.Event;
 import paymentserver.business_logic.PaymentManagement;
 import paymentserver.business_logic.PaymentManagementFactory;
-import paymentserver.models.Customer;
-import paymentserver.models.Merchant;
 import paymentserver.models.Payment;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
-import java.util.concurrent.CompletableFuture;
 
 @Path("")
 public class PaymentServer {
@@ -26,7 +24,7 @@ public class PaymentServer {
 
     Client client = ClientBuilder.newClient();
     WebTarget baseUrl = client.target("http://tokenserver:8181/");  // <--- use when running in docker
-    //WebTarget baseUrl = client.target("http://localhost:8181/");  // <---- use when testing locally
+   // WebTarget accountserver = client.target("http://accountserver:8383/");
     public PaymentServer() {
         paymentManagement = new PaymentManagementFactory().getService();
     }
@@ -65,35 +63,6 @@ public class PaymentServer {
             return Response.serverError().entity(e.getStackTrace()).build();
         }
     }
-
-    @DELETE @Path("/users/{userId}")
-    public Response deleteUser(@PathParam("userId") String userId) {
-        String error = paymentManagement.removeUser(userId);
-        if(error.isEmpty())
-            return Response.ok().build();
-        return Response.notModified(error).build();
-    }
-
-    @POST @Path("/customers")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response registerUser(Customer user) {
-        paymentManagement.addUser(user);
-        return Response.ok().build();
-    }
-
-    @POST @Path("/merchants")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response registerUser(Merchant user) {
-        paymentManagement.addUser(user);
-        return Response.ok().build();
-    }
-
-    @GET @Path("/users/{userId}")
-    public Boolean checkUser(@PathParam("userId") String userId) {
-        String userCPR = paymentManagement.getUserCPR(userId);
-        return !userCPR.isEmpty();
-    }
-
 
 
 }

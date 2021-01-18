@@ -66,13 +66,13 @@ public class AccountServer {
     public Response deleteUsers(@PathParam("userId") String userId) {
         //customer.setUserId(userId);
         System.out.println("Delete function is called");
-        if (DTUpayUsers.containsKey(customer.getUserId())) {
+        if (DTUpayUsers.containsKey(userId)) {
             DTUpayUsers.remove(userId);
-            System.out.println("customer user id" + customer.getUserId());
+            System.out.println("customer user id" + userId);
             return Response.ok().build();
         }
         // DTU pay
-        System.out.println("this should be empty " + customer.getUserId());
+        System.out.println("this should be empty " + userId);
         return Response.notModified().build();
     }
 

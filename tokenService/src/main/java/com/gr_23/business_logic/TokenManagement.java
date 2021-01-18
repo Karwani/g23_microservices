@@ -114,6 +114,12 @@ public class TokenManagement implements ITokenManagement, EventReceiver {
         sender.sendEvent(event);
     }
 
+    public void answerRequest_consumeToken(String eventType, String tokenId) throws Exception {
+        Boolean consumed = consumeToken(tokenId);
+        Event event = new Event(eventType, new Object[] { Boolean.toString(consumed) });
+        sender.sendEvent(event);
+    }
+
 
     @Override
     public void receiveEvent(Event event) throws Exception {
@@ -133,5 +139,13 @@ public class TokenManagement implements ITokenManagement, EventReceiver {
             String tokenId = event.getArgument(0, String.class);
             answerRequest_findUserByToken("findUserByToken_done", tokenId);
         }
+
+        if(event.getEventType().equals("consumeToken")) {
+            System.out.println("TS event handled" + event);
+            String tokenId = event.getArgument(0,String.class);
+            answerRequest_consumeToken("consumeToken_done", tokenId);
+        }
+
+
     }
 }
