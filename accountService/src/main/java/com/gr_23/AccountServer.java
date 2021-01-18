@@ -30,7 +30,7 @@ public class AccountServer {
     @Path("User")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createDTUPayAccount(Customer user) throws Exception {
-        customer = new Customer(user.getFirstName(), user.getLastName(), user.getCprNumber(), user.getUserId(), false);
+        User customer = new Customer(user.getFirstName(), user.getLastName(), user.getCprNumber(), user.getUserId(), false);
         DTUpayUsers.put(customer.getUserId(), customer);
         return Response.ok().build();
     }
@@ -44,7 +44,7 @@ public class AccountServer {
 
     @GET
     @Path("Bank/{CPR}")
-    public boolean validateBankAccount(@PathParam("CPR")String CPR) throws BankServiceException_Exception {
+    public boolean validateBankAccount(@PathParam("CPR") String CPR) throws BankServiceException_Exception {
             try {
                 System.out.println("JENKINS TEST WILL BE REMOVED");
                 bank.getAccountByCprNumber(CPR);
@@ -56,7 +56,7 @@ public class AccountServer {
 
     @GET
     @Path("DTUPay/{UserId}")
-    public boolean validateDTUPayAccount(@PathParam("UserId")String userId) {
+    public boolean validateDTUPayAccount(@PathParam("UserId") String userId) {
 
         return DTUpayUsers.containsKey(userId);
     }

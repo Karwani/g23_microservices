@@ -97,6 +97,11 @@
       <artifactId>resteasy-client</artifactId>
       <version>4.5.8.Final</version>
     </dependency>
+    <dependency>
+      <groupId>messaging-demo</groupId>
+      <artifactId>message-utilities</artifactId>
+      <version>1.0.0</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
