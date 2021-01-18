@@ -1,55 +1,69 @@
 package com.gr_23.business_logic;
 
 
-import com.gr_23.Customer;
-import com.gr_23.User;
+import com.gr_23.data_access.IAccountRepository;
+import com.gr_23.models.Customer;
+import com.gr_23.models.User;
+import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceException_Exception;
+import dtu.ws.fastmoney.BankServiceService;
 import messaging.Event;
 import messaging.EventReceiver;
 import messaging.EventSender;
 
-import javax.ws.rs.core.Response;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AccountManagement implements IAccountManagement, EventReceiver {
     EventSender sender;
+    BankService bank = new BankServiceService().getBankServicePort();
+    IAccountRepository accountRepository;
 
-    public AccountManagement(EventSender sender) {
+    public AccountManagement(EventSender sender, IAccountRepository accountRepository) {
         this.sender = sender;
+        this.accountRepository = accountRepository;
     }
 
     @Override
-    public Boolean createDTUPayAccount(Customer user) throws Exception {
-        return null;
+    public Boolean createDTUPayAccount(Customer user)  {
+       return accountRepository.addUser(user);
     }
 
     @Override
     public User fetchUser(String userId) {
-        return null;
+        return accountRepository.fetchUser(userId);
     }
 
     @Override
-    public boolean validateBankAccount(String CPR) throws BankServiceException_Exception {
-        return false;
+    public boolean validateBankAccount(String CPR) {
+        try {
+            bank.getAccountByCprNumber(CPR);
+            return true;
+        } catch (BankServiceException_Exception e) {
+            return false;
+        }
     }
 
     @Override
     public boolean validateDTUPayAccount(String userId) {
-        return false;
+
+        return accountRepository.userExist(userId);
     }
 
     @Override
     public Boolean deleteUsers(String userId) {
-        return null;
+
+        return accountRepository.deleteUsers(userId);
     }
 
     @Override
-    public void updateUser(User user) {
-
+    public Boolean updateUser(User user) {
+        return accountRepository.updateUser(user);
     }
     void answerRequest_fetchUser(String eventType, String userId)
     {
         User user = fetchUser(userId);
-        answerRequest(eventType +"_done",user);
+        answerRequest(eventType +"_done",user.getCprNumber());
     }
     void answerRequest_validateDTUPayAccount(String eventType, String userId)
     {

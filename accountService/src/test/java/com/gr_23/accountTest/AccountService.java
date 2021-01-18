@@ -1,6 +1,6 @@
 package com.gr_23.accountTest;
 
-import com.gr_23.User;
+import com.gr_23.models.User;
 import io.cucumber.messages.internal.com.google.gson.Gson;
 import io.cucumber.messages.internal.com.google.gson.JsonObject;
 

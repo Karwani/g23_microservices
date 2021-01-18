@@ -1,8 +1,7 @@
 package com.gr_23.accountTest;
 
-import com.gr_23.Customer;
-import com.gr_23.User;
-import com.gr_23.UserInfo;
+import com.gr_23.models.Customer;
+import com.gr_23.models.User;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceService;
 import io.cucumber.java.After;
@@ -37,9 +36,6 @@ public class AccountValidationSteps {
         try {
             String accountId = bank.createAccountWithBalance(user ,new BigDecimal(1000));
             accountIds.add(accountId);
-//            accountService.register(customer, "customer");
-//            successful = accountService.validateDTUPayAccount(customer.getCprNumber());
-//            registeredUsers.add(customer);
             System.out.println("created bank account for customer " + user.getCprNumber());
         } catch (Exception e) {
             retireAccounts();

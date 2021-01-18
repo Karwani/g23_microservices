@@ -1,8 +1,6 @@
 package com.gr_23.accountTest;
-import com.gr_23.AccountServer;
-import com.gr_23.Customer;
-import com.gr_23.User;
-import com.gr_23.UserInfo;
+import com.gr_23.models.Customer;
+import com.gr_23.models.User;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceException_Exception;
 import dtu.ws.fastmoney.BankServiceService;
@@ -18,7 +16,6 @@ import java.util.List;
 public class AccountSteps {
 
     boolean successful;
-    UserInfo userInfo;
     Customer customer;
     dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
     BankService bank = new BankServiceService().getBankServicePort();

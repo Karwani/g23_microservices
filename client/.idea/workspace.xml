@@ -23,13 +23,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bddf033d-5cea-4a76-bfb9-8377c9cc933d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../.idea/libraries/Maven__junit_junit_4_12.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../accountService/src/main/java/com/gr_23/AccountServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../accountService/src/main/java/com/gr_23/AccountServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../accountService/src/test/java/com/gr_23/accountTest/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../accountService/src/test/java/com/gr_23/accountTest/AccountService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../accountService/src/test/java/com/gr_23/accountTest/AccountSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/../accountService/src/test/java/com/gr_23/accountTest/AccountSteps.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../accountService/src/test/java/com/gr_23/accountTest/AccountUpdateSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/../accountService/src/test/java/com/gr_23/accountTest/AccountUpdateSteps.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../accountService/src/test/resources/accountTest/AccountUpdateSteps.feature" beforeDir="false" afterPath="$PROJECT_DIR$/../accountService/src/test/resources/accountTest/AccountUpdateSteps.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../accountService/src/test/resources/accountTest/account.feature" beforeDir="false" afterPath="$PROJECT_DIR$/../accountService/src/test/resources/accountTest/account.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../accountService/src/main/java/com/gr_23/business_logic/AccountManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/../accountService/src/main/java/com/gr_23/business_logic/AccountManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../accountService/src/main/java/com/gr_23/business_logic/IAccountManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/../accountService/src/main/java/com/gr_23/business_logic/IAccountManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/client.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/clientside/PayService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/clientside/PayService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,13 +68,15 @@
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RunManager" selected="JUnit.All in client (4)">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -150,6 +153,7 @@
       <workItem from="1610714246221" duration="1813000" />
       <workItem from="1610745288890" duration="9367000" />
       <workItem from="1610866234303" duration="18847000" />
+      <workItem from="1610998418225" duration="5000" />
     </task>
     <servers />
   </component>
