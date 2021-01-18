@@ -14,19 +14,19 @@ else
     if [ "$1" = "tokenserver" ]
       then
         pushd tokenService
-        mvn package
+        mvnw package
         popd
         docker-compose up -d --force-recreate --build "$1"
     elif [ "$1" = "paymentserver" ]
       then
         pushd paymentService
-        mvn package
+        mvnw package
         popd
         docker-compose up -d --force-recreate --build "$1"
     elif [ "$1" = "accountserver" ]
       then
         pushd accountService
-        mvn package
+        mvnw package
         popd
         docker-compose up -d --force-recreate --build "$1"
     elif [ "$1" = "stop" ]
@@ -35,17 +35,17 @@ else
     elif [ "$1" = "build" ]
       then
         pushd paymentService
-        mvn package
+        mvnw package
 
         popd
 
         pushd tokenService
-        mvn package
+        mvnw package
 
         popd
 
         pushd accountService
-        mvn package
+        mvnw package
 
         popd
 

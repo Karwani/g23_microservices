@@ -22,8 +22,8 @@ public class PaymentServer {
     BankService bank = new BankServiceService().getBankServicePort();
 
     Client client = ClientBuilder.newClient();
-    //WebTarget baseUrl = client.target("http://tokenserver:8181/");  // <--- use when running in docker
-    WebTarget baseUrl = client.target("http://localhost:8181/");  // <---- use when testing locally
+    WebTarget baseUrl = client.target("http://tokenserver:8181/");  // <--- use when running in docker
+    //WebTarget baseUrl = client.target("http://localhost:8181/");  // <---- use when testing locally
     public PaymentServer() {
         paymentManagement = new PaymentManagement();
     }

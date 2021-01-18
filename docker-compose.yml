@@ -16,3 +16,11 @@ services:
     build:
       context: ./tokenService
       dockerfile: ./Dockerfile
+  accountserver:
+    image: accountserver
+    container_name: accountserver
+    ports:
+      - "8383:8383"
+    build:
+      context: ./accountService
+      dockerfile: ./Dockerfile
