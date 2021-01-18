@@ -91,6 +91,6 @@ public class TokenSteps {
     {
         Boolean response = baseUrl.path("Token/"+TokenInfo.userId).request()
                 .delete(Boolean.TYPE);
-//        assertTrue(response);
+    //    assertTrue(response);
     }
 }

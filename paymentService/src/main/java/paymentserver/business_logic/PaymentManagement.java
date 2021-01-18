@@ -32,6 +32,7 @@ public class PaymentManagement implements EventReceiver {
     //Method used for validations before a payment is made
     public String validatePaymentInfo(Payment payment)
     {
+
         System.out.println("Validating payment: ");
         String customerId;
          //check if merchant and token are valid
@@ -74,18 +75,22 @@ public class PaymentManagement implements EventReceiver {
     public Response consumeToken(String tokenId)
     {
 
-        //TO DO modify to work with message queue?
+        //TODO modify to work with message queue?
+        //
         Response response = tokenServer.path("Token/ConsumedToken/"+tokenId).request().post(null);
         return response;
     }
     public String findUserByToken(String tokenId)
     {
-        //TO DO modify to work with message queue?
+        //TODO modify to work with message queue?
+        // Georg
         String response = tokenServer.path("Token/"+tokenId).request().get(String.class);
         return response;
     }
     public String getUserCPR(String userId)
     {
+        // TODO: use account service + message queue
+
         if(!users.containsKey(userId))
         {
             return "";
@@ -94,6 +99,7 @@ public class PaymentManagement implements EventReceiver {
     }
     public String removeUser(String userId)
     {
+        // TODO: migrate to account server
         users.remove(userId);
         if(users.containsKey(userId))
             paymentHashMap.remove(userId);
@@ -102,6 +108,7 @@ public class PaymentManagement implements EventReceiver {
     }
     public void addUser(User user)
     {
+        // TODO: migrate to account server
         users.put(user.getUserId(),user);
     }
 

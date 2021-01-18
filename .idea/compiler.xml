@@ -6,20 +6,24 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="client" />
-        <module name="tokenservice" />
-        <module name="accountService" />
-        <module name="transactionService" />
+        <module name="transactionservice" />
         <module name="paymentserver" />
         <module name="message-utilities" />
+        <module name="transactionService" />
+        <module name="accountservice" />
+        <module name="accountService" />
+        <module name="client" />
+        <module name="tokenservice" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="accountService" target="11" />
+      <module name="accountservice" target="11" />
       <module name="client" target="11" />
       <module name="message-utilities" target="11" />
       <module name="paymentserver" target="11" />
       <module name="tokenservice" target="11" />
+      <module name="transactionservice" target="11" />
       <module name="transactionService" target="11" />
     </bytecodeTargetLevel>
   </component>

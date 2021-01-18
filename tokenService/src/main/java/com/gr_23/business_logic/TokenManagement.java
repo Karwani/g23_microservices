@@ -62,6 +62,7 @@ public class TokenManagement implements ITokenManagement, EventReceiver {
     @Override
     public boolean canGenerateTokensForUser(String userId) {
 
+        // TODO: integrate with account server
         if(tokenRepository.userExistsInActive(userId)) {
             System.out.println("user exists" + userId );
             int t = tokenRepository.getActiveTokens(userId).size() ;
@@ -105,6 +106,9 @@ public class TokenManagement implements ITokenManagement, EventReceiver {
         sender.sendEvent(event);
         return tokenId;
     }
+
+    // TODO: answer other messages
+
     @Override
     public void receiveEvent(Event event) throws Exception {
 
