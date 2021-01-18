@@ -26,7 +26,7 @@ public class GenerateTokenSteps {
     public void generateTestTokens(String userId, int n){
         List<Token> testTokens = new ArrayList<Token>();
         for (int i = 1; i <= n; i++) {
-            testTokens.add(new Token("testToken"+n, false));
+            testTokens.add(new Token("token"+n, false));
         }
         tokenRepository.addActiveTokens(userId, testTokens);
     }
@@ -79,5 +79,42 @@ public class GenerateTokenSteps {
     @Then("When we lookup that token we do not find anything")
     public void weDoNotFindAnything() {
         assertFalse(tokenManagement.validateToken(tokenId));
+    }
+
+    @Given("that user with userid {string}")
+    public void thatUserWithUseridWithId(String userId) {
+        this.userId = userId;
+        generateTestTokens(userId,1);
+    }
+
+    @Then("we lookup the token {string} and we find the userid")
+    public void weLookupTheToken(String tokenId) {
+        assertEquals(userId,tokenManagement.findUserByActiveToken(tokenId));
+    }
+
+    @Given("that the token with id {string} is active")
+    public void that_the_token_with_id_is_active(String tokenId) {
+        this.tokenId = tokenId;
+        generateTestTokens(tokenId,1);
+        assertTrue(tokenManagement.validateToken(tokenId));
+    }
+
+    @Then("we consume it and the token is used")
+    public void weConsumeItandTheTokenIsUsed(){
+        assertTrue(tokenManagement.consumeToken(tokenId));
+        assertFalse(tokenManagement.validateToken(tokenId));
+    }
+
+    @Given("the used token with id {string}")
+    public void that_the_token_with_id_is_inactive(String tokenId) {
+        this.tokenId = tokenId;
+        generateTestTokens(tokenId,1);
+        tokenManagement.consumeToken(tokenId);
+        assertFalse(tokenManagement.validateToken(tokenId));
+    }
+
+    @Then("we consume it and the token is not consumed")
+    public void weConsumeItandTheTokenIsNotUsed(){
+        assertFalse(tokenManagement.consumeToken(tokenId));
     }
 }

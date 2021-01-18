@@ -23,20 +23,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4104c040-3a52-4143-ad29-a062302d8821" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/accountService/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accountService/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accountService/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tokenService/src/test/resources/TokenService/tokenLookup.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_12.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/qaplug_profiles.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tokenService/src/test/resources/TokenService/tokenIsConsumed.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tokenService/src/test/resources/TokenService/tokenIsNotConsumed.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tokenService/src/test/resources/TokenService/tokenLookupExisting.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/paymentService/src/main/java/paymentserver/business_logic/PaymentManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/paymentService/src/main/java/paymentserver/business_logic/PaymentManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/business_logic/ITokenManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/business_logic/ITokenManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/test/java/clientside/TokenSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/test/java/clientside/TokenSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/test/resources/clientside/tokens.feature" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/test/resources/clientside/tokens.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/target/classes/clientside/PayService.class" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/classes/clientside/PayService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/target/test-classes/clientside/tokens.feature" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/test-classes/clientside/tokens.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/TokenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/TokenServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/business_logic/TokenManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/business_logic/TokenManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/data_access/ITokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/data_access/ITokenRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/data_access/TokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/data_access/TokenRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tokenService/src/test/java/TokenService/GenerateTokenSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/tokenService/src/test/java/TokenService/GenerateTokenSteps.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,6 +53,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="InvalidFacetManager">
     <ignored-facets>
@@ -69,18 +78,20 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/accountService" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tokenService/src/test/resources/TokenService" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="project.propCompiler" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Minki.000\Desktop\Denmark\2021 Jan\02267 Software Development of Web Services\Code\g23_microservices2\tokenService\src\test\resources\TokenService" />
       <recent name="C:\Users\Bruger\OneDrive\Skrivebord\SD_of_Webservices\g23_microservices\accountService" />
       <recent name="$PROJECT_DIR$/messaging-utilities" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in tokenservice">
+  <component name="RunManager" selected="JUnit.All in tokenservice (1)">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -92,15 +103,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in accountservice" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="accountservice" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-        <option name="BSP.BeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="All in client (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="client" />
       <option name="PACKAGE_NAME" value="" />
@@ -110,8 +112,8 @@
         <option name="BSP.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in client (3)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="client" />
+    <configuration name="All in g23_microservices (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="g23_microservices" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
       <method v="2">
@@ -119,8 +121,17 @@
         <option name="BSP.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in client" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="client" />
+    <configuration name="All in g23_microservices" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="g23_microservices" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BSP.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in tokenservice (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tokenservice" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
       <method v="2">
@@ -202,14 +213,15 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.All in tokenservice" />
-        <item itemvalue="JUnit.All in client" />
-        <item itemvalue="JUnit.All in accountservice" />
+        <item itemvalue="JUnit.All in tokenservice (1)" />
         <item itemvalue="JUnit.All in client (1)" />
-        <item itemvalue="JUnit.All in client (3)" />
+        <item itemvalue="JUnit.All in g23_microservices (1)" />
+        <item itemvalue="JUnit.All in g23_microservices" />
+        <item itemvalue="JUnit.All in tokenservice" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
