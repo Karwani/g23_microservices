@@ -18,10 +18,6 @@ import java.util.concurrent.ExecutionException;
 public class PaymentManagement implements EventReceiver {
     CompletableFuture<String> result;
     EventSender sender;
-    Client client = ClientBuilder.newClient();
-    WebTarget tokenServer = client.target("http://tokenserver:8181/");
-    WebTarget accountserver = client.target("http://accountserver:8383/");
-    static Map<String, HashMap<String,Payment>> paymentHashMap = new HashMap<>();
 
     public PaymentManagement(EventSender b) {
         sender = b;
@@ -29,40 +25,45 @@ public class PaymentManagement implements EventReceiver {
 
 
     private boolean checkDTUPayAccount(String userId) {
-        return accountserver.path("Account/DTUPay/" + userId).request().get(Boolean.TYPE);
+        try {
+            makeRequest("validateDTUPayAccount", userId);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        String valid = "";
+        try {
+            valid = result.get();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return Boolean.parseBoolean(valid);
     }
 
     //Method used for validations before a payment is made
+    //check if merchant and token are valid
+
     public String validatePaymentInfo(Payment payment)
     {
-
-        System.out.println("Validating payment: ");
         String customerId;
-         //check if merchant and token are valid
          if (!checkDTUPayAccount(payment.getMerchantId()))
          {
              return "Merchant is not registered with DTUPay";
          }
-         //find user by token
         customerId = findUserByToken(payment.getTokenId());
         if(!customerId.isEmpty() && !checkDTUPayAccount(customerId))
             return "Customer is not registered with DTUPay";
-        //check token is used
         if(!validateToken(payment.getTokenId()))
             return "Token is already used";
         return "";
     }
     private boolean validateToken(String tokenId)
     {
-
-        System.out.println("Sending message.");
         try {
             makeRequest("validateToken",tokenId);
-            System.out.println("Message sent.");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Validating Token: ");
         String response = null;
         try {
             response = result.get();
@@ -71,7 +72,6 @@ public class PaymentManagement implements EventReceiver {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        //String response = tokenServer.path("Token/validate/"+tokenId).request().get(String.class);
         return Boolean.parseBoolean(response);
     }
 
@@ -99,13 +99,8 @@ public class PaymentManagement implements EventReceiver {
             e.printStackTrace();
         }
 
-        // Response response = tokenServer.path("Token/ConsumedToken/"+tokenId).request().post(null);
-
-        // If response is true, return ok
-        // If not, return BAD
         if(response) { return Response.ok().build(); }
         else {return Response.status(Response.Status.BAD_REQUEST).build();}
-
     }
 
 
@@ -136,33 +131,24 @@ public class PaymentManagement implements EventReceiver {
 
     public String getUserCPR(String userId)
     {
-        // TODO: use account service + message queue
-        User user = accountserver.path("Account/User/"+userId).request().get(User.class);
-        if (user != null) {
-            return user.getCprNumber();
+        try {
+            makeRequest("fetchUser", userId);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        String userCPR = "";
+        try {
+            userCPR = result.get();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if (userCPR != null) {
+
+            return userCPR;
         }
         else return "";
-//
-//        if(!users.containsKey(userId))
-//        {
-//            return "";
-//        }
-//        return users.get(userId).getCprNumber();
     }
-//    public String removeUser(String userId)
-//    {
-//        // TODO: migrate to account server
-//        users.remove(userId);
-//        if(users.containsKey(userId))
-//            paymentHashMap.remove(userId);
-//        else return "No payments";
-//        return "";
-//    }
-//    public void addUser(User user)
-//    {
-//        // TODO: migrate to account server
-//        users.put(user.getUserId(),user);
-//    }
 
     @Override
     public void receiveEvent(Event event) throws Exception {
@@ -181,6 +167,14 @@ public class PaymentManagement implements EventReceiver {
 
         if(event.getEventType().equals("consumeToken_done")) {
             System.out.println("PS consumeToken_done event handled:" + event);
+            result.complete(event.getArgument(0,String.class));
+        }
+        if(event.getEventType().equals("validateDTUPayAccount_done")) {
+            System.out.println("AS validateDTUPayAccount_done event handled:" + event);
+            result.complete(event.getArgument(0,String.class));
+        }
+        if(event.getEventType().equals("fetchUser_done")) {
+            System.out.println("AS fetch user event handled:" + event);
             result.complete(event.getArgument(0,String.class));
         }
     }

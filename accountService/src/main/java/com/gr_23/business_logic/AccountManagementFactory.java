@@ -1,5 +1,7 @@
 package com.gr_23.business_logic;
 
+import com.gr_23.data_access.AccountRepository;
+import com.gr_23.data_access.IAccountRepository;
 import messaging.EventReceiver;
 import messaging.EventSender;
 import messaging.rabbitmq.RabbitMqListener;
@@ -13,9 +15,10 @@ public class AccountManagementFactory {
         if (service != null) {
             return service;
         }
+        IAccountRepository accountRepository = new AccountRepository();
 
-        EventSender b = new RabbitMqSender();
-        service = new AccountManagement(b);
+        EventSender sender = new RabbitMqSender();
+        service = new AccountManagement(sender, accountRepository);
         RabbitMqListener r = new RabbitMqListener((EventReceiver) service);
         try {
             r.listen();

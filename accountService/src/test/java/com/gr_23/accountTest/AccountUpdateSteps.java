@@ -1,8 +1,7 @@
 package com.gr_23.accountTest;
 
-import com.gr_23.Customer;
-import com.gr_23.User;
-import com.gr_23.UserInfo;
+import com.gr_23.models.Customer;
+import com.gr_23.models.User;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceService;
 import io.cucumber.java.After;
@@ -10,9 +9,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class AccountUpdateSteps {
 
     boolean successful;
-    UserInfo userInfo;
     Customer customer;
     dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
     BankService bank = new BankServiceService().getBankServicePort();

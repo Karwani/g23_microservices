@@ -1,26 +1,22 @@
 package com.gr_23.business_logic;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import com.gr_23.User;
-import com.gr_23.Customer;
-import dtu.ws.fastmoney.BankServiceException_Exception;
+import com.gr_23.models.Customer;
+import com.gr_23.models.User;
 
 public interface IAccountManagement {
 
 
-    Boolean createDTUPayAccount(Customer user) throws Exception;
+    Boolean createDTUPayAccount(Customer user);
 
 
     User fetchUser( String userId);
 
-    boolean validateBankAccount(String CPR) throws BankServiceException_Exception;
+    boolean validateBankAccount(String CPR);
 
 
     boolean validateDTUPayAccount( String userId);
 
     Boolean deleteUsers(String userId);
 
-    void updateUser(User user);
+    Boolean updateUser(User user);
 }
