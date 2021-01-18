@@ -23,16 +23,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bddf033d-5cea-4a76-bfb9-8377c9cc933d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../accountService/src/test/java/com/gr_23/accountTest/AccountRemoveSteps.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../accountService/src/main/java/com/gr_23/AccountServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../accountService/src/main/java/com/gr_23/AccountServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../accountService/src/test/java/com/gr_23/accountTest/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../accountService/src/test/java/com/gr_23/accountTest/AccountService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../accountService/src/test/java/com/gr_23/accountTest/AccountSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/../accountService/src/test/java/com/gr_23/accountTest/AccountSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../accountService/src/test/java/com/gr_23/accountTest/AccountUpdateSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/../accountService/src/test/java/com/gr_23/accountTest/AccountUpdateSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../accountService/src/test/resources/accountTest/AccountUpdateSteps.feature" beforeDir="false" afterPath="$PROJECT_DIR$/../accountService/src/test/resources/accountTest/AccountUpdateSteps.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../accountService/src/test/resources/accountTest/account.feature" beforeDir="false" afterPath="$PROJECT_DIR$/../accountService/src/test/resources/accountTest/account.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/clientside/account.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/clientside/account.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/clientside/PayService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/clientside/PayService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/clientside/PayServiceSteps.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/clientside/PayServiceSteps.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/clientside/TokenSteps.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/clientside/TokenSteps.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,7 +149,7 @@
       <updated>1610714240391</updated>
       <workItem from="1610714246221" duration="1813000" />
       <workItem from="1610745288890" duration="9367000" />
-      <workItem from="1610866234303" duration="16373000" />
+      <workItem from="1610866234303" duration="18847000" />
     </task>
     <servers />
   </component>

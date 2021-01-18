@@ -37,7 +37,7 @@ public class AccountRemoveSteps {
         try {
             String accountId = bank.createAccountWithBalance(user ,new BigDecimal(1000));
             accountIds.add(accountId);
-            accountService.register(customer, "customer");
+            accountService.register(customer);
             registeredUsers.add(customer);
 //            successful = accountService.validateDTUPayAccount(customer.getCprNumber());
 //            registeredUsers.add(customer);
