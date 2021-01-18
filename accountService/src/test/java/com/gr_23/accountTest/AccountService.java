@@ -20,14 +20,10 @@ public class AccountService {
     }
 
     //calls the update function in accountServer
-    public boolean register(User user, String userType) throws Exception {
-        String path = "";
-        if (userType.equals("customer")){
-            path = "User"; // should be changed to "User"
-        }
-        if (userType.equals("merchant")){
-            path = "merchants";
-        }
+    public boolean register(User user) throws Exception {
+        String path = "User";
+
+
         Gson gson = new Gson();
         JsonObject body = new JsonObject();
         body.addProperty("firstName",user.getFirstName());
@@ -68,6 +64,13 @@ public class AccountService {
         return response;
     }
 
+
+    public User fetchUser(String userId) {
+        User userResponse = baseUrl.path("Account/User/" + userId).request()
+                .get(User.class);
+        return userResponse;
+    }
+
     public void updateUser(User user) {
         Gson gson = new Gson();
         JsonObject body = new JsonObject();
@@ -79,6 +82,8 @@ public class AccountService {
         Response response = baseUrl.path("Account/User").request()
                 .post(Entity.entity(gson.toJson(body), MediaType.APPLICATION_JSON));
     }
+
+
 
     public void deleteuser(User user) {
         Gson gson = new Gson();

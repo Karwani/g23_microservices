@@ -23,14 +23,7 @@ public class AccountServer {
    dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
 
 
-
     public AccountServer(){
-      //  Customer one = new Customer("ole", "hansen", "333323-7777", "1", false);
-        Customer two = new Customer("frank", "hansen", "444444-7777", "2", false);
-        Customer three = new Customer("lisa", "hansen", "555555-7777", "3", false);
-       // testUsers.put("1", one);
-        testUsers.put("2", two);
-        testUsers.put("3", three);
     }
 
     @PUT
@@ -42,7 +35,13 @@ public class AccountServer {
         return Response.ok().build();
     }
 
-    // Remove @pathParam
+    @GET
+    @Path("User/{userId}")
+    public User fetchUser(@PathParam("userId") String userId){
+
+        return DTUpayUsers.get(userId);
+    }
+
     @GET
     @Path("Bank/{CPR}")
     public boolean validateBankAccount(@PathParam("CPR")String CPR) throws BankServiceException_Exception {
@@ -86,10 +85,8 @@ public class AccountServer {
         if (!DTUpayUsers.containsKey(customer.getUserId())){
             System.out.println("User with id " + customer.getUserId() + " does not exist");
             System.out.println("User with id " + user.getUserId() + " does not exist");
-
         }
         DTUpayUsers.put(customer.getUserId(), customer);
         System.out.println("after update " + customer.getFirstName());
     }
-
 }

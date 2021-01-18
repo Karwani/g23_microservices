@@ -10,6 +10,9 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +42,8 @@ public class AccountUpdateSteps {
         try {
             String accountId = bank.createAccountWithBalance(user ,new BigDecimal(1000));
             accountIds.add(accountId);
-            accountService.register(customer, "customer");
+            accountService.register(customer);
             registeredUsers.add(customer);
-            accountService.updateUser(customer);
-            successful = true;
             System.out.println("created bank account for customer " + user.getCprNumber());
         } catch (Exception e) {
             retireAccounts();
@@ -52,8 +53,21 @@ public class AccountUpdateSteps {
         }
     }
 
+    @When("the user changes name {string} {string}")
+    public void theUserChangesName(String firstname, String lastname) {
+        customer = new Customer(firstname, lastname, "333323-7777", "1", false);
+        accountService.updateUser(customer);
+    }
+
     @Then("we successful update the customer")
     public void weSuccessfulUpdateNameOnTheCustomer() {
+        try{
+            accountService.fetchUser(customer.getUserId());
+            successful = true;
+        } catch (Exception e){
+            successful = false;
+
+        }
         assertTrue(successful);
     }
 
@@ -74,5 +88,6 @@ public class AccountUpdateSteps {
             e.printStackTrace();
         }
     }
+
 
 }

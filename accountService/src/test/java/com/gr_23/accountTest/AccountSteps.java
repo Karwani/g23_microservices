@@ -26,9 +26,8 @@ public class AccountSteps {
     List<User> registeredUsers = new ArrayList<>();
     AccountService accountService = new AccountService();
 
-
-    @Given("a new customer with name {string} {string} and CPR {string} has a bank account")
-    public void aNewCustomerWithNameAndCPRHasABankAccount(String firstName, String lastName, String CPR) throws Exception {
+    @Given("a new user with name {string} {string} and CPR {string} has a bank account")
+    public void aNewUserWithNameAndCPRHasABankAccount(String firstName, String lastName, String CPR) throws Exception {
         System.out.println("called first");
         customer = new Customer(firstName, lastName, CPR, "1", false);
         user.setFirstName(customer.getFirstName());
@@ -48,10 +47,10 @@ public class AccountSteps {
         }
     }
 
-    @When("the user initiates registration as a customer {string}")
-    public void theUserInitiatesRegistrationAsACustomer(String userType) throws Exception {
+    @When("the user initiates registration as a user")
+    public void theUserInitiatesRegistrationAsAUser() {
         try {
-            successful = accountService.register(customer,userType);
+            successful = accountService.register(customer);
             registeredUsers.add(customer);
         } catch (Exception e) {
             successful = false;
@@ -59,8 +58,8 @@ public class AccountSteps {
         }
     }
 
-    @Then("registration of customer is successful")
-    public void registrationOfCustomerIsSuccessful() {
+    @Then("registration of user is successful")
+    public void registrationOfUserIsSuccessful() {
         assertTrue(successful);
     }
 
