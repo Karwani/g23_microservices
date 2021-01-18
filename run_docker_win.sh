@@ -34,6 +34,11 @@ else
         docker-compose down
     elif [ "$1" = "build" ]
       then
+        pushd messaging-utilities
+        mvnw clean install
+
+        popd
+
         pushd paymentService
         mvnw package
 
