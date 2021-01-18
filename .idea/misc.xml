@@ -1,25 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="FindBugsConfigurable">
-    <option name="make" value="true" />
-    <option name="effort" value="default" />
-    <option name="priority" value="Medium" />
-    <option name="excludeFilter" value="" />
-  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/client/pom.xml" />
-        <option value="$PROJECT_DIR$/tokenService/pom.xml" />
         <option value="$PROJECT_DIR$/accountService/pom.xml" />
-        <option value="$PROJECT_DIR$/paymentService/pom.xml" />
-        <option value="$PROJECT_DIR$/transactionService/pom.xml" />
         <option value="$PROJECT_DIR$/messaging-utilities/pom.xml" />
+        <option value="$PROJECT_DIR$/paymentService/pom.xml" />
+        <option value="$PROJECT_DIR$/tokenService/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="11" project-jdk-type="JavaSDK" />
-  <component name="SuppressionsComponent">
-    <option name="suppComments" value="[]" />
-  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="azul-11" project-jdk-type="JavaSDK" />
 </project>

@@ -20,11 +20,16 @@ public class PaymentManagement implements EventReceiver {
     EventSender sender;
     Client client = ClientBuilder.newClient();
     WebTarget tokenServer = client.target("http://tokenserver:8181/");
+    WebTarget accountserver = client.target("http://accountserver:8383/");
     static Map<String, HashMap<String,Payment>> paymentHashMap = new HashMap<>();
-    static Map<String, User> users = new HashMap<>();
 
     public PaymentManagement(EventSender b) {
         sender = b;
+    }
+
+
+    private boolean checkDTUPayAccount(String userId) {
+        return accountserver.path("Account/DTUPay/" + userId).request().get(Boolean.TYPE);
     }
 
     //Method used for validations before a payment is made
@@ -34,13 +39,13 @@ public class PaymentManagement implements EventReceiver {
         System.out.println("Validating payment: ");
         String customerId;
          //check if merchant and token are valid
-         if (!users.containsKey(payment.getMerchantId()))
+         if (!checkDTUPayAccount(payment.getMerchantId()))
          {
              return "Merchant is not registered with DTUPay";
          }
          //find user by token
         customerId = findUserByToken(payment.getTokenId());
-        if(!customerId.isEmpty() && !users.containsKey(customerId))
+        if(!customerId.isEmpty() && !checkDTUPayAccount(customerId))
             return "Customer is not registered with DTUPay";
         //check token is used
         if(!validateToken(payment.getTokenId()))
@@ -112,27 +117,32 @@ public class PaymentManagement implements EventReceiver {
     public String getUserCPR(String userId)
     {
         // TODO: use account service + message queue
-
-        if(!users.containsKey(userId))
-        {
-            return "";
+        User user = accountserver.path("Account/User/"+userId).request().get(User.class);
+        if (user != null) {
+            return user.getCprNumber();
         }
-        return users.get(userId).getCprNumber();
+        else return "";
+//
+//        if(!users.containsKey(userId))
+//        {
+//            return "";
+//        }
+//        return users.get(userId).getCprNumber();
     }
-    public String removeUser(String userId)
-    {
-        // TODO: migrate to account server
-        users.remove(userId);
-        if(users.containsKey(userId))
-            paymentHashMap.remove(userId);
-        else return "No payments";
-        return "";
-    }
-    public void addUser(User user)
-    {
-        // TODO: migrate to account server
-        users.put(user.getUserId(),user);
-    }
+//    public String removeUser(String userId)
+//    {
+//        // TODO: migrate to account server
+//        users.remove(userId);
+//        if(users.containsKey(userId))
+//            paymentHashMap.remove(userId);
+//        else return "No payments";
+//        return "";
+//    }
+//    public void addUser(User user)
+//    {
+//        // TODO: migrate to account server
+//        users.put(user.getUserId(),user);
+//    }
 
     @Override
     public void receiveEvent(Event event) throws Exception {

@@ -1,13 +1,15 @@
 package clientside;
 
 
-import dtu.ws.fastmoney.*;
+import dtu.ws.fastmoney.Account;
+import dtu.ws.fastmoney.BankService;
+import dtu.ws.fastmoney.BankServiceException_Exception;
+import dtu.ws.fastmoney.BankServiceService;
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ public class PayServiceSteps {
 
 	BankService bank = new BankServiceService().getBankServicePort();
 	PayService dtuPay = new PayService();
+	AccountService accountService = new AccountService();
 	User customer;
 	User merchant;
 	boolean successful;
@@ -47,8 +50,8 @@ public class PayServiceSteps {
 	}
 
 	@Given("the customer is registered with DTUPay")
-	public void theCustomerIsRegisteredWithDTUPay() {
-		dtuPay.register(customer,"customer");
+	public void theCustomerIsRegisteredWithDTUPay() throws Exception {
+		accountService.register(customer);
 		registeredUsers.add(customer);
 	}
 
@@ -87,14 +90,14 @@ public class PayServiceSteps {
 	}
 
 	@Given("the merchant is registered with DTUPay")
-	public void theMerchantIsRegisteredWithDTUPay() {
-		dtuPay.register(merchant, "merchant");
+	public void theMerchantIsRegisteredWithDTUPay() throws Exception {
+		accountService.register(merchant);
 		registeredUsers.add(merchant);
 	}
 
 	@Given("the merchant is not registered with DTUPay")
 	public void theMerchantIsNotRegisteredWithDTUPay() {
-		dtuPay.deregister(merchant);
+		accountService.deregister(merchant);
 	}
 
 	@When("the merchant initiates a payment for {int} kr using the customer token")
@@ -160,7 +163,7 @@ public class PayServiceSteps {
 		accountIds.clear();
 		System.out.println(registeredUsers.size());
 		for (User user : registeredUsers) {
-			dtuPay.deregister(user);
+			accountService.deregister(user);
 		}
 		registeredUsers.clear();
 	}
@@ -171,7 +174,7 @@ public class PayServiceSteps {
 	@Given("the customer is not registered with DTUPay")
 	public void theCustomerIsNotRegisteredWithDTUPay() {
 		// Write code here that turns the phrase above into concrete actions
-		assertFalse(dtuPay.checkUser(TokenInfo.userId));
+		assertFalse(accountService.validateDTUPayAccount(TokenInfo.userId));
 	}
 
 	@Then("there is an error saying {string}")

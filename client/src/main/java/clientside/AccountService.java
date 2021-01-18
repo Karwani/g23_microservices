@@ -19,14 +19,8 @@ public class AccountService {
     }
 
     //calls the update function in accountServer
-    public boolean register(User user, String userType) throws Exception {
-        String path = "";
-        if (userType.equals("customer")){
-            path = "User"; // should be changed to "User"
-        }
-        if (userType.equals("merchant")){
-            path = "merchants";
-        }
+    public boolean register(User user) throws Exception {
+
         Gson gson = new Gson();
         JsonObject body = new JsonObject();
         body.addProperty("firstName",user.getFirstName());
@@ -35,7 +29,7 @@ public class AccountService {
         body.addProperty("userId",user.getUserId());
         System.out.println(user.getUserId());
         body.addProperty("admin",user.isAdmin());
-        Response response = baseUrl.path("Account/" + path).request()
+        Response response = baseUrl.path("Account/User" ).request()
                 .put(Entity.entity(gson.toJson(body), MediaType.APPLICATION_JSON));
 
         System.out.println(response.getStatus());
@@ -56,7 +50,18 @@ public class AccountService {
         body.addProperty("cprNumber",user.getCprNumber());
         body.addProperty("userId",user.getUserId());
         body.addProperty("admin",user.isAdmin());
-        Response response = baseUrl.path("Accounts/user/"+user.getUserId()).request()
+        Response response = baseUrl.path("Account/User/"+user.getUserId()).request()
                 .delete();
     }
+
+
+    public boolean validateDTUPayAccount(String userId) {
+        Boolean response = baseUrl.path("Account/DTUPay/" + userId).request()
+                .get(Boolean.TYPE);
+        if (response != true){
+            System.out.println("Response was wrong " + response);
+        }
+        return response;
+    }
+
 }
