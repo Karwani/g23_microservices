@@ -31,6 +31,7 @@ public class TokenManagement implements ITokenManagement, EventReceiver {
     {
         return !tokenRepository.getUserIdByActiveToken(tokenId).isEmpty();
     }
+
     @Override
     public boolean generateTokensForUser(String userId, int n)
     {

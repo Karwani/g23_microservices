@@ -8,8 +8,9 @@
         <option value="$PROJECT_DIR$/messaging-utilities/pom.xml" />
         <option value="$PROJECT_DIR$/paymentService/pom.xml" />
         <option value="$PROJECT_DIR$/tokenService/pom.xml" />
+        <option value="$PROJECT_DIR$/transactionService/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="azul-11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="15" project-jdk-type="JavaSDK" />
 </project>
