@@ -13,19 +13,18 @@ import java.util.*;
 @Path("/Account/")
 public class AccountServer {
 
-    private Map<String, User> users = new HashMap<>();
+    private Map<String, User> DTUpayUsers = new HashMap<>();
     BankService bank = new BankServiceService().getBankServicePort();
     List<User> registeredUsers = new ArrayList<>();
     List<String> accountIds = new ArrayList<>();
     User customer;
     User merhcant;
-   // WebTarget baseUrl;
    private Map<String, User> testUsers = new HashMap<>();
+   dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
+
 
 
     public AccountServer(){
-//        Client client = ClientBuilder.newClient();
-//        baseUrl = client.target("http://localhost:8383/");
       //  Customer one = new Customer("ole", "hansen", "333323-7777", "1", false);
         Customer two = new Customer("frank", "hansen", "444444-7777", "2", false);
         Customer three = new Customer("lisa", "hansen", "555555-7777", "3", false);
@@ -38,10 +37,8 @@ public class AccountServer {
     @Path("User")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createDTUPayAccount(Customer user) throws Exception {
-        System.out.println("hallo");
-        UUID uuid = UUID.randomUUID();
         customer = new Customer(user.getFirstName(), user.getLastName(), user.getCprNumber(), user.getUserId(), false);
-        users.put(customer.getUserId(), customer);
+        DTUpayUsers.put(customer.getUserId(), customer);
         return Response.ok().build();
     }
 
@@ -49,17 +46,6 @@ public class AccountServer {
     @GET
     @Path("Bank/{CPR}")
     public boolean validateBankAccount(@PathParam("CPR")String CPR) throws BankServiceException_Exception {
-       // String cprFromBank = bank.getAccountByCprNumber(CPR).getUser().getCprNumber();
-       // System.out.println("cpr from bank " + cprFromBank);
-
-//        for (Map.Entry<String, User> entry : users.entrySet()){
-//            System.out.println("the value "+ entry.getValue().getCprNumber().contentEquals(cprFromBank));
-//            // below for functional application
-//           // if (entry.getValue().getCprNumber().contentEquals(cprFromBank)){
-//            if (entry.getValue().getCprNumber().equals(cprFromBank)){
-//                System.out.println("users map " +entry.getValue().getCprNumber() + " input string " +CPR);
-//                return true;
-//            }
             try {
                 System.out.println("JENKINS TEST WILL BE REMOVED");
                 bank.getAccountByCprNumber(CPR);
@@ -70,44 +56,40 @@ public class AccountServer {
         }
 
     @GET
-    @Path("DTUPay")
-    public boolean validateDTUPayAccount(String CPR) {
+    @Path("DTUPay/{UserId}")
+    public boolean validateDTUPayAccount(@PathParam("UserId")String userId) {
 
-
-        return users.containsKey(customer.getUserId());
+        return DTUpayUsers.containsKey(userId);
     }
 
     @DELETE
     @Path("User/{userId}")
     public Response deleteUsers(@PathParam("userId") String userId) {
-        Customer one = new Customer("ole", "hansen", "333323-7777", "1", false);
-        testUsers.put("1", one);
-
-        if (testUsers.containsKey(one.getUserId())) {
-            testUsers.remove(userId);
+        //customer.setUserId(userId);
+        System.out.println("Delete function is called");
+        if (DTUpayUsers.containsKey(customer.getUserId())) {
+            DTUpayUsers.remove(userId);
+            System.out.println("customer user id" + customer.getUserId());
             return Response.ok().build();
         }
         // DTU pay
-        System.out.println(one.getUserId());
+        System.out.println("this should be empty " + customer.getUserId());
         return Response.notModified().build();
     }
 
     @POST
-    @Path("User")
+    @Path("User/")
     public void updateUser(User user) {
-        Customer one = new Customer("ole", "hansen", "333323-7777", "1", false);
-        testUsers.put("1", one);
-        System.out.println(one.getFirstName());
-        one.setFirstName(user.getFirstName());
-        one.setLastName(user.getLastName());
-        if (!testUsers.containsKey(one.getUserId())){
-            System.out.println("User with id " + one.getUserId() + " does not exist");
+        System.out.println("before update " + customer.getFirstName());
+        customer.setFirstName(user.getFirstName());
+        customer.setLastName(user.getLastName());
+        if (!DTUpayUsers.containsKey(customer.getUserId())){
+            System.out.println("User with id " + customer.getUserId() + " does not exist");
             System.out.println("User with id " + user.getUserId() + " does not exist");
 
         }
-        testUsers.put(one.getUserId(), one);
-        System.out.println("after update " + one.getFirstName());
-
+        DTUpayUsers.put(customer.getUserId(), customer);
+        System.out.println("after update " + customer.getFirstName());
     }
 
 }

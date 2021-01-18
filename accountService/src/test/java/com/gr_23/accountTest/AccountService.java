@@ -39,7 +39,7 @@ public class AccountService {
         Response response = baseUrl.path("Account/" + path).request()
                 .put(Entity.entity(gson.toJson(body), MediaType.APPLICATION_JSON));
 
-        System.out.println(response.getStatus());
+        System.out.println("from register function" + response.getStatus());
         if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
             String read = response.readEntity(String.class);
             System.out.println(read);
@@ -57,6 +57,40 @@ public class AccountService {
             System.out.println("Response was wrong " + response);
         }
         return response;
+    }
+
+    public boolean validateDTUPayAccount(String userId) {
+        Boolean response = baseUrl.path("Account/DTUPay/" + userId).request()
+                .get(Boolean.TYPE);
+        if (response != true){
+            System.out.println("Response was wrong " + response);
+        }
+        return response;
+    }
+
+    public void updateUser(User user) {
+        Gson gson = new Gson();
+        JsonObject body = new JsonObject();
+        body.addProperty("firstName",user.getFirstName());
+        body.addProperty("lastName",user.getLastName());
+        body.addProperty("cprNumber",user.getCprNumber());
+        body.addProperty("userId",user.getUserId());
+        body.addProperty("admin",user.isAdmin());
+        Response response = baseUrl.path("Account/User").request()
+                .post(Entity.entity(gson.toJson(body), MediaType.APPLICATION_JSON));
+    }
+
+    public void deleteuser(User user) {
+        Gson gson = new Gson();
+        JsonObject body = new JsonObject();
+        body.addProperty("firstName",user.getFirstName());
+        body.addProperty("lastName",user.getLastName());
+        body.addProperty("cprNumber",user.getCprNumber());
+        body.addProperty("userId",user.getUserId());
+        body.addProperty("admin",user.isAdmin());
+        Response response = baseUrl.path("Account/User/" + user.getUserId()).request()
+                .delete();
+        System.out.println("Response from delete function " + response);
     }
 
 

@@ -1,24 +1,23 @@
 package com.gr_23.accountTest;
-import com.gr_23.AccountServer;
+
 import com.gr_23.Customer;
 import com.gr_23.User;
 import com.gr_23.UserInfo;
 import dtu.ws.fastmoney.BankService;
-import dtu.ws.fastmoney.BankServiceException_Exception;
 import dtu.ws.fastmoney.BankServiceService;
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
 import static org.junit.jupiter.api.Assertions.*;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.math.BigDecimal;
 
-public class AccountSteps {
+public class AccountValidationSteps {
 
     boolean successful;
-    UserInfo userInfo;
     Customer customer;
     dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
     BankService bank = new BankServiceService().getBankServicePort();
@@ -26,11 +25,9 @@ public class AccountSteps {
     List<User> registeredUsers = new ArrayList<>();
     AccountService accountService = new AccountService();
 
-
-    @Given("a new customer with name {string} {string} and CPR {string} has a bank account")
-    public void aNewCustomerWithNameAndCPRHasABankAccount(String firstName, String lastName, String CPR) throws Exception {
-        System.out.println("called first");
-        customer = new Customer(firstName, lastName, CPR, "1", false);
+    @Given("that customer with user id {string} has and account in DUTpay")
+    public void thatCustomerWithUserIdHasAndAccountInDUTpay(String userId) throws Exception {
+        customer = new Customer("Ole", "hansen", "333323-7777", userId, false);
         user.setFirstName(customer.getFirstName());
         user.setLastName(customer.getLastName());
         user.setCprNumber(customer.getCprNumber());
@@ -40,45 +37,9 @@ public class AccountSteps {
         try {
             String accountId = bank.createAccountWithBalance(user ,new BigDecimal(1000));
             accountIds.add(accountId);
-            System.out.println("created bank account for customer " + user.getCprNumber());
-        } catch (BankServiceException_Exception e) {
-            retireAccounts();
-            e.printStackTrace();
-            throw new Exception();
-        }
-    }
-
-    @When("the user initiates registration as a customer {string}")
-    public void theUserInitiatesRegistrationAsACustomer(String userType) throws Exception {
-        try {
-            successful = accountService.register(customer,userType);
-            registeredUsers.add(customer);
-        } catch (Exception e) {
-            successful = false;
-            e.printStackTrace();
-        }
-    }
-
-    @Then("registration of customer is successful")
-    public void registrationOfCustomerIsSuccessful() {
-        assertTrue(successful);
-    }
-
-
-    @Given("that customer with CPR {string} has and account in the bank")
-    public void thatCustomerWithCPRHasAndAccountInTheBank(String cpr) throws Exception {
-        customer = new Customer("Ole", "hansen", cpr, "1", false);
-        user.setFirstName(customer.getFirstName());
-        user.setLastName(customer.getLastName());
-        user.setCprNumber(customer.getCprNumber());
-        System.out.println("user cpr " + user.getCprNumber());
-        System.out.println("customer cpr"+ customer.getCprNumber());
-
-        try {
-            String accountId = bank.createAccountWithBalance(user ,new BigDecimal(1000));
-            accountIds.add(accountId);
-            successful = accountService.validateAccount(customer.getCprNumber());
-            registeredUsers.add(customer);
+//            accountService.register(customer, "customer");
+//            successful = accountService.validateDTUPayAccount(customer.getCprNumber());
+//            registeredUsers.add(customer);
             System.out.println("created bank account for customer " + user.getCprNumber());
         } catch (Exception e) {
             retireAccounts();
@@ -88,10 +49,25 @@ public class AccountSteps {
         }
     }
 
-    @Then("we can validate the bank account")
-    public void weCanValidateTheBankAccount() throws Exception {
+
+    @When("we lookup the user with CPR")
+    public void weLookupTheUserWithCPR() throws Exception {
+        try {
+            successful = accountService.validateDTUPayAccount(customer.getUserId());
+            registeredUsers.add(customer);
+        } catch (Exception e) {
+            successful = false;
+            e.printStackTrace();
+            throw new Exception();
+        }
+
+    }
+
+    @Then("we have validated that the user exist")
+    public void weHaveValidatedThatTheUserExist() {
         assertTrue(successful);
     }
+
 
     @After
     public void retireAccounts()  {
@@ -110,4 +86,5 @@ public class AccountSteps {
             e.printStackTrace();
         }
     }
+
 }
