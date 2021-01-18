@@ -1,5 +1,8 @@
 version: '3'
 services:
+  rabbitMq:
+    image: rabbitmq
+    container_name: rabbitMq_container
   paymentserver:
     image: paymentserver
     container_name: paymentserver

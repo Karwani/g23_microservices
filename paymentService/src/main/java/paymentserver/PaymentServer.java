@@ -3,7 +3,9 @@ package paymentserver;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceException_Exception;
 import dtu.ws.fastmoney.BankServiceService;
+import messaging.Event;
 import paymentserver.business_logic.PaymentManagement;
+import paymentserver.business_logic.PaymentManagementFactory;
 import paymentserver.models.Customer;
 import paymentserver.models.Merchant;
 import paymentserver.models.Payment;
@@ -15,6 +17,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
+import java.util.concurrent.CompletableFuture;
 
 @Path("")
 public class PaymentServer {
@@ -25,7 +28,7 @@ public class PaymentServer {
     WebTarget baseUrl = client.target("http://tokenserver:8181/");  // <--- use when running in docker
     //WebTarget baseUrl = client.target("http://localhost:8181/");  // <---- use when testing locally
     public PaymentServer() {
-        paymentManagement = new PaymentManagement();
+        paymentManagement = new PaymentManagementFactory().getService();
     }
 
     @POST @Path("/payments")
@@ -39,6 +42,7 @@ public class PaymentServer {
         //System.out.println(users.size());
         //users.forEach((key,value) -> System.out.println(key+": "+value));
         int amount = payment.getAmount();
+
         String error = paymentManagement.validatePaymentInfo(payment);
         if(!error.isEmpty())
             return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
@@ -89,6 +93,7 @@ public class PaymentServer {
         String userCPR = paymentManagement.getUserCPR(userId);
         return !userCPR.isEmpty();
     }
+
 
 
 }

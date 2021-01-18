@@ -70,6 +70,17 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-rest-client</artifactId>
     </dependency>
+    <dependency>
+      <groupId>messaging-demo</groupId>
+      <artifactId>message-utilities</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>messaging-demo</groupId>
+      <artifactId>message-utilities</artifactId>
+      <version>1.0.0</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

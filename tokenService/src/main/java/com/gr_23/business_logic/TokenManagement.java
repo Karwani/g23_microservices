@@ -2,18 +2,24 @@ package com.gr_23.business_logic;
 
 import com.gr_23.data_access.ITokenRepository;
 import com.gr_23.models.Token;
+import messaging.Event;
+import messaging.EventReceiver;
+import messaging.EventSender;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
-@ApplicationScoped
-public class TokenManagement implements ITokenManagement {
+//@ApplicationScoped
+public class TokenManagement implements ITokenManagement, EventReceiver {
     ITokenRepository tokenRepository;
-
-    public TokenManagement(ITokenRepository tokenRepository) {
+    EventSender sender;
+    CompletableFuture<String> result;
+    public TokenManagement(ITokenRepository tokenRepository, EventSender sender) {
         this.tokenRepository = tokenRepository;
+        this.sender = sender;
     }
 
     @Override
@@ -76,5 +82,28 @@ public class TokenManagement implements ITokenManagement {
         generateTokensForUser(userId,5);
         return tokenRepository.getActiveTokens(userId).stream().findFirst().get().getTokenId();
     }
+    public String sendRequest(String eventType,String customer) throws Exception {
+        Event event = new Event(eventType,new Object[] { customer });
+        result = new CompletableFuture<>();
+        sender.sendEvent(event);
+        return result.join();
+    }
+    public String answerRequest_validateToken(String eventType,String tokenId) throws Exception {
+        boolean valid = validateToken(tokenId);
+        Event event = new Event(eventType,new Object[] { Boolean.toString(valid) });
+        sender.sendEvent(event);
+        return tokenId;
+    }
+    @Override
+    public void receiveEvent(Event event) throws Exception {
 
+        System.out.println("Received event "+event);
+        if (event.getEventType().equals("validateToken")) {
+            System.out.println("TS event handled: "+event);
+            String tokenId = event.getArgument(0, String.class);
+            answerRequest_validateToken("validateToken_done",tokenId);
+        } else {
+            System.out.println("TS event ignored: "+event);
+        }
+    }
 }

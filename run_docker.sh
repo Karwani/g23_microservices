@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+#set -e
 
 # Options:
 #  nothing - runs all existing containers
@@ -34,6 +34,10 @@ else
         docker-compose down
     elif [ "$1" = "build" ]
       then
+        pushd messaging-utilities
+        mvn package
+
+        popd
         pushd paymentService
         mvn package
 

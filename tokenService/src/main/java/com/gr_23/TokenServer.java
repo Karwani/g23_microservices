@@ -1,8 +1,14 @@
 package com.gr_23;
 
 import com.gr_23.business_logic.ITokenManagement;
+import com.gr_23.business_logic.TokenManagement;
+import com.gr_23.business_logic.TokenManagementFactory;
 import com.gr_23.data_access.ITokenRepository;
 import com.gr_23.models.Token;
+import messaging.EventReceiver;
+import messaging.EventSender;
+import messaging.rabbitmq.RabbitMqListener;
+import messaging.rabbitmq.RabbitMqSender;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -12,9 +18,14 @@ public class TokenServer {
 
     private ITokenManagement tokenManagement;
 
-    public  TokenServer(ITokenManagement tokenManagement)
+//    public  TokenServer(ITokenManagement tokenManagement)
+//    {
+//        this.tokenManagement = tokenManagement;
+//
+//    }
+    public TokenServer()
     {
-        this.tokenManagement = tokenManagement;
+        this.tokenManagement = new TokenManagementFactory().getService();
     }
     @POST
     @Path("/{userId}")

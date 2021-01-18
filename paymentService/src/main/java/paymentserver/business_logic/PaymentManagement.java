@@ -1,5 +1,8 @@
 package paymentserver.business_logic;
 
+import messaging.Event;
+import messaging.EventReceiver;
+import messaging.EventSender;
 import paymentserver.models.Customer;
 import paymentserver.models.Payment;
 import paymentserver.models.User;
@@ -11,12 +14,21 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
-public class PaymentManagement {
+public class PaymentManagement implements EventReceiver {
+    CompletableFuture<String> result;
+    EventSender sender;
     Client client = ClientBuilder.newClient();
     WebTarget tokenServer = client.target("http://tokenserver:8181/");
     static Map<String, HashMap<String,Payment>> paymentHashMap = new HashMap<>();
     static Map<String, User> users = new HashMap<>();
+
+    public PaymentManagement(EventSender b) {
+        sender = b;
+    }
+
     //Method used for validations before a payment is made
     public String validatePaymentInfo(Payment payment)
     {
@@ -38,12 +50,30 @@ public class PaymentManagement {
     }
     private boolean validateToken(String tokenId)
     {
+
+        System.out.println("Sending message.");
+        String result_S;
+        try {
+            result_S = makeRequest("validateToken",tokenId);
+            System.out.println("Message sent.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.out.println("Validating Token: ");
-        String response = tokenServer.path("Token/validate/"+tokenId).request().get(String.class);
+        String response = null;
+        try {
+            response = result.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        //String response = tokenServer.path("Token/validate/"+tokenId).request().get(String.class);
         return Boolean.parseBoolean(response);
     }
     public Response consumeToken(String tokenId)
     {
+
         //TO DO modify to work with message queue?
         Response response = tokenServer.path("Token/ConsumedToken/"+tokenId).request().post(null);
         return response;
@@ -74,4 +104,27 @@ public class PaymentManagement {
     {
         users.put(user.getUserId(),user);
     }
+
+    @Override
+    public void receiveEvent(Event event) throws Exception {
+        if (event.getEventType().equals("validateToken_done")) {
+            System.out.println("PS event handled: "+event);
+            result.complete(event.getArgument(0, String.class));
+
+        } else {
+            System.out.println("PS event ignored: "+event);
+        }
+    }
+
+    public String makeRequest(String eventType, Object arg) throws Exception {
+        Event event = new Event(eventType,new Object[] { arg });
+        result = new CompletableFuture<>();
+        sender.sendEvent(event);
+        return result.join();
+    }
+    public void answerRequest(String eventType, Object arg) throws Exception {
+        Event event = new Event(eventType,new Object[] { arg });
+        sender.sendEvent(event);
+    }
+
 }

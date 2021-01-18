@@ -11,11 +11,13 @@
         <module name="accountService" />
         <module name="transactionService" />
         <module name="paymentserver" />
+        <module name="message-utilities" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="accountService" target="11" />
       <module name="client" target="11" />
+      <module name="message-utilities" target="11" />
       <module name="paymentserver" target="11" />
       <module name="tokenservice" target="11" />
       <module name="transactionService" target="11" />
