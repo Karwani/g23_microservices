@@ -51,9 +51,8 @@ public class PaymentManagement implements EventReceiver {
     {
 
         System.out.println("Sending message.");
-        String result_S;
         try {
-            result_S = makeRequest("validateToken",tokenId);
+            makeRequest("validateToken",tokenId);
             System.out.println("Message sent.");
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,14 +81,11 @@ public class PaymentManagement implements EventReceiver {
 
     public String findUserByToken(String tokenId)
     {
-        //TODO modify to work with message queue?
-        // Georg
-        String message;
         System.out.println("findUserByToken message");
 
         try {
             System.out.println("Entered try: Sending FindUserbyToken");
-            message = makeRequest("findUserByToken",tokenId);
+            makeRequest("findUserByToken",tokenId);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,10 +101,9 @@ public class PaymentManagement implements EventReceiver {
             e.printStackTrace();
         }
 
-         //response = tokenServer.path("Token/"+tokenId).request().get(String.class);
-
         return response;
     }
+
     public String getUserCPR(String userId)
     {
         // TODO: use account service + message queue
