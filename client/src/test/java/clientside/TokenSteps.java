@@ -89,8 +89,8 @@ public class TokenSteps {
     @After
     public void cleanup()
     {
-        Boolean response = baseUrl.path("Token/"+TokenInfo.userId).request()
-                .delete(Boolean.TYPE);
-//        assertTrue(response);
+        Response response = baseUrl.path("Token/"+TokenInfo.userId).request()
+                .delete();
+        assertTrue(response.getStatus() == Response.Status.OK.getStatusCode());
     }
 }

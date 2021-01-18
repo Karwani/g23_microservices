@@ -35,7 +35,7 @@ else
     elif [ "$1" = "build" ]
       then
         pushd messaging-utilities
-        mvn package
+        mvn clean install
 
         popd
         pushd paymentService
