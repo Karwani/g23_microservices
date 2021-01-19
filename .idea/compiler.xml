@@ -6,15 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-<<<<<<< HEAD
         <module name="transactionservice" />
-        <module name="client" />
-        <module name="tokenservice" />
-=======
         <module name="paymentserver" />
         <module name="message-utilities" />
-        <module name="accountService" />
->>>>>>> 83890b7cb5ec5a02829f50356c09d9cdbea37852
         <module name="accountservice" />
         <module name="client" />
         <module name="tokenservice" />
