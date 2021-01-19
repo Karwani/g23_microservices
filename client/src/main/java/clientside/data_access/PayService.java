@@ -16,7 +16,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import javax.json.bind.serializer.*;
-public class PayService {
+public class PayService implements IPayService {
 
     WebTarget baseUrl;
     List<Object> list = new ArrayList<Object>();

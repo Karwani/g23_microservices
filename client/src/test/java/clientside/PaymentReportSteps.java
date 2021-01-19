@@ -1,8 +1,10 @@
 package clientside;
 
+import clientside.apis.MerchantAPI;
+import clientside.data_access.PayService;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.After;
+import io.cucumber.java.After;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,13 +13,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PaymentReportSteps {
+    TokenInfo tokenInfo = null;
     PayService dtuPay = new PayService();
     List<Object> report;
-    String userId;
+    public PaymentReportSteps(TokenInfo tokenInfo) {
+        this.tokenInfo = tokenInfo;
+    }
+
     @When("the customer requests a report of his payments")
     public void theCustomerRequestsAReportOfHisPayments() {
-        userId = "1";
-        report = dtuPay.getReport(userId);
+        report = dtuPay.getReport(tokenInfo.userId);
     }
 
     @Then("the server returns a valid list of size {int}")
@@ -26,10 +31,12 @@ public class PaymentReportSteps {
         for (Object p:
              report) {
             HashMap<String,String> payment = (HashMap<String,String>) p;
+            assertTrue(payment!=null);
             assertTrue(!payment.get("description").isEmpty());
             assertTrue(!payment.get("customerId").isEmpty());
+
+            assertEquals(payment.get("customerId"), tokenInfo.userId);
             assertTrue(!payment.get("merchantId").isEmpty());
-            assertTrue(payment!=null);
         }
     }
     @Then("the server returns null")
@@ -42,6 +49,6 @@ public class PaymentReportSteps {
     @After
     public void cleanup()
     {
-        dtuPay.deletePayments(userId);
+        dtuPay.deletePayments(tokenInfo.userId);
     }
 }
