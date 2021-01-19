@@ -68,7 +68,15 @@ public class TokenServer {
     public Response deleteTokens(@PathParam("userId") String userId) {
          tokenManagement.deleteTokens(userId);
          return Response.ok().build();
+    }
 
+    @POST
+    @Path("GenerateByToken/{tokenId}")
+    public Response GenerateByToken(@PathParam("tokenId") String tokenId) {
+        if(tokenManagement.generateTokensForUser(tokenId,1)) {
+            return Response.ok().build();
+        }
+        return Response.notModified().build();
     }
 
 }

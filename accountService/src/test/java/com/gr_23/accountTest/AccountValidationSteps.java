@@ -17,29 +17,25 @@ import java.math.BigDecimal;
 public class AccountValidationSteps {
 
     boolean successful;
-    Customer customer;
-    dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
+    User user;
+    dtu.ws.fastmoney.User DTUuser = new dtu.ws.fastmoney.User();
     BankService bank = new BankServiceService().getBankServicePort();
     List<String> accountIds = new ArrayList<>();
     List<User> registeredUsers = new ArrayList<>();
     AccountService accountService = new AccountService();
 
-    @Given("that customer with user id {string} has and account in DUTpay")
+    @Given("that customer with user id {string} has an account in DUTpay")
     public void thatCustomerWithUserIdHasAndAccountInDUTpay(String userId) throws Exception {
-        customer = new Customer("Ole", "hansen", "333323-7777", userId, false);
-        user.setFirstName(customer.getFirstName());
-        user.setLastName(customer.getLastName());
-        user.setCprNumber(customer.getCprNumber());
-        System.out.println("user cpr " + user.getCprNumber());
-        System.out.println("customer cpr"+ customer.getCprNumber());
+        user = new User("Ole", "hansen", "333323-7777", userId, false);
+        DTUuser.setFirstName(user.getFirstName());
+        DTUuser.setLastName(user.getLastName());
+        DTUuser.setCprNumber(user.getCprNumber());
 
         try {
-            String accountId = bank.createAccountWithBalance(user ,new BigDecimal(1000));
+            String accountId = bank.createAccountWithBalance(DTUuser ,new BigDecimal(1000));
             accountIds.add(accountId);
-            System.out.println("created bank account for customer " + user.getCprNumber());
+            accountService.register(user);
         } catch (Exception e) {
-            retireAccounts();
-            successful = false;
             e.printStackTrace();
             throw new Exception();
         }
@@ -49,9 +45,10 @@ public class AccountValidationSteps {
     @When("we lookup the user with CPR")
     public void weLookupTheUserWithCPR() throws Exception {
         try {
-            successful = accountService.validateDTUPayAccount(customer.getUserId());
-            registeredUsers.add(customer);
+            successful = accountService.validateDTUPayAccount(user.getUserId());
+            registeredUsers.add(user);
         } catch (Exception e) {
+            retireAccounts();
             successful = false;
             e.printStackTrace();
             throw new Exception();
