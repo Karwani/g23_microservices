@@ -7,4 +7,3 @@ Feature:Token
     Then the service has generated tokens for the user (return bool / status code)
     And the user receives an active token
 
-
