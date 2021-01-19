@@ -27,7 +27,6 @@ public class AccountSteps {
     AccountService accountService = new AccountService();
     dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
     boolean successful;
-    UserInfo userInfo = new UserInfo();
 
 
     public AccountSteps(){
@@ -35,7 +34,6 @@ public class AccountSteps {
 
     @Given("a new customer with name {string} {string} and CPR {string}")
     public void aNewCustomerWithNameAndCPR(String firstName, String lastName, String cpr) throws Exception {
-        System.out.println(cpr);
         customer = new Customer(firstName, lastName, cpr, "1",false);
     }
 
