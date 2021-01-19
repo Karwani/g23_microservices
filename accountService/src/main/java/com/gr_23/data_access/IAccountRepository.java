@@ -4,7 +4,7 @@ import com.gr_23.models.Customer;
 import com.gr_23.models.User;
 
 public interface IAccountRepository {
-    Boolean addUser(Customer user);
+    Boolean addUser(User user);
 
     User fetchUser(String userId);
 

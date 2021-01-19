@@ -1,5 +1,9 @@
 package com.gr_23.accountTest;
 
+import com.gr_23.business_logic.AccountManagement;
+import com.gr_23.business_logic.IAccountManagement;
+import com.gr_23.data_access.AccountRepository;
+import com.gr_23.data_access.IAccountRepository;
 import com.gr_23.models.Customer;
 import com.gr_23.models.User;
 import dtu.ws.fastmoney.BankService;
@@ -23,7 +27,8 @@ public class AccountUpdateSteps {
     BankService bank = new BankServiceService().getBankServicePort();
     List<String> accountIds = new ArrayList<>();
     List<User> registeredUsers = new ArrayList<>();
-    AccountService accountService = new AccountService();
+    IAccountRepository accountRepository = new AccountRepository();
+    IAccountManagement accountManagement = new AccountManagement(null, accountRepository);
 
     @Given("that user with user id {string}")
     public void thatUserWithUserId(String userId) throws Exception {
@@ -35,7 +40,7 @@ public class AccountUpdateSteps {
         try {
             String accountId = bank.createAccountWithBalance(DTUuser ,new BigDecimal(1000));
             accountIds.add(accountId);
-            accountService.register(user);
+            accountManagement.createDTUPayAccount(user);
             registeredUsers.add(user);
         } catch (Exception e) {
             retireAccounts();
@@ -48,13 +53,13 @@ public class AccountUpdateSteps {
     @When("the user changes user {string} {string}")
     public void theUserChangesUser(String firstname, String lastname) {
         user = new User(firstname, lastname, "333323-7777", "1", false);
-        accountService.updateUser(user);
+        accountManagement.updateUser(user);
     }
 
     @Then("we successful update the user")
     public void weSuccessfulUpdateNameOnTheUser() {
         try{
-            accountService.fetchUser(user.getUserId());
+            accountManagement.fetchUser(user.getUserId());
             successful = true;
         } catch (Exception e){
             successful = false;
@@ -68,11 +73,10 @@ public class AccountUpdateSteps {
         try{
             for (String id : accountIds){
                 bank.retireAccount(id);
-                System.out.println("retired account "+ id);
             }
             accountIds.clear();
             for (User user : registeredUsers) {
-                accountService.deleteuser(user);
+                accountManagement.deleteUsers(user.getUserId());
             }
             registeredUsers.clear();
         } catch (Exception e) {

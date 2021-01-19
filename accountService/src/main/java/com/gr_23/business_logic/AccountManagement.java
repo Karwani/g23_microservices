@@ -25,7 +25,7 @@ public class AccountManagement implements IAccountManagement, EventReceiver {
     }
 
     @Override
-    public Boolean createDTUPayAccount(Customer user)  {
+    public Boolean createDTUPayAccount(User user)  {
        return accountRepository.addUser(user);
     }
 

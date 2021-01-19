@@ -1,5 +1,9 @@
 package com.gr_23.accountTest;
 
+import com.gr_23.business_logic.AccountManagement;
+import com.gr_23.business_logic.IAccountManagement;
+import com.gr_23.data_access.AccountRepository;
+import com.gr_23.data_access.IAccountRepository;
 import com.gr_23.models.Customer;
 import com.gr_23.models.User;
 import dtu.ws.fastmoney.BankService;
@@ -23,7 +27,8 @@ public class AccountRemoveSteps {
     BankService bank = new BankServiceService().getBankServicePort();
     List<String> accountIds = new ArrayList<>();
     List<User> registeredUsers = new ArrayList<>();
-    AccountService accountService = new AccountService();
+    IAccountRepository accountRepository = new AccountRepository();
+    IAccountManagement accountManagement = new AccountManagement(null, accountRepository);
 
     @Given("a user with user id {string} has a account in the bank")
     public void aUserWithUserIdHasAndAccountInTheBank(String userId) throws Exception {
@@ -35,7 +40,7 @@ public class AccountRemoveSteps {
         try {
             String accountId = bank.createAccountWithBalance(DTUuser ,new BigDecimal(1000));
             accountIds.add(accountId);
-            accountService.register(user);
+            accountManagement.createDTUPayAccount(user);
             registeredUsers.add(user);
         } catch (Exception e) {
             retireAccounts();
@@ -49,7 +54,7 @@ public class AccountRemoveSteps {
     public void weSearchForTheUserWithUserId() {
         try {
             for (User user : registeredUsers) {
-                accountService.deleteuser(user);
+                accountManagement.deleteUsers(user.getUserId());
             }
             registeredUsers.clear();
             successful = true;
@@ -69,11 +74,10 @@ public class AccountRemoveSteps {
         try{
             for (String id : accountIds){
                 bank.retireAccount(id);
-                System.out.println("retired account "+ id);
             }
             accountIds.clear();
             for (User user : registeredUsers) {
-                accountService.deleteuser(user);
+                accountManagement.deleteUsers(user.getUserId());
             }
             registeredUsers.clear();
         } catch (Exception e) {

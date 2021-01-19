@@ -10,7 +10,7 @@ public class AccountRepository implements IAccountRepository {
     private Map<String, User> DTUpayUsers = new HashMap<>();
 
     @Override
-    public Boolean addUser(Customer user) {
+    public Boolean addUser(User user) {
         if (!DTUpayUsers.containsKey(user.getUserId())) {
             DTUpayUsers.put(user.getUserId(), user);
             return true;

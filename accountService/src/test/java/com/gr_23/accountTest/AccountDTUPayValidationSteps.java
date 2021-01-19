@@ -1,5 +1,9 @@
 package com.gr_23.accountTest;
 
+import com.gr_23.business_logic.AccountManagement;
+import com.gr_23.business_logic.IAccountManagement;
+import com.gr_23.data_access.AccountRepository;
+import com.gr_23.data_access.IAccountRepository;
 import com.gr_23.models.User;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceService;
@@ -21,7 +25,8 @@ public class AccountDTUPayValidationSteps {
     BankService bank = new BankServiceService().getBankServicePort();
     List<String> accountIds = new ArrayList<>();
     List<User> registeredUsers = new ArrayList<>();
-    AccountService accountService = new AccountService();
+    IAccountRepository accountRepository = new AccountRepository();
+    IAccountManagement accountManagement = new AccountManagement(null, accountRepository);
 
     @Given("that user with user id {string} has an account in DUTpay")
     public void thatUserWithUserIdHasAndAccountInDUTpay(String userId) throws Exception {
@@ -33,7 +38,7 @@ public class AccountDTUPayValidationSteps {
         try {
             String accountId = bank.createAccountWithBalance(DTUuser ,new BigDecimal(1000));
             accountIds.add(accountId);
-            accountService.register(user);
+            accountManagement.createDTUPayAccount(user);
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception();
@@ -44,7 +49,7 @@ public class AccountDTUPayValidationSteps {
     @When("we lookup the user with CPR")
     public void weLookupTheUserWithCPR() throws Exception {
         try {
-            successful = accountService.validateDTUPayAccount(user.getUserId());
+            successful = accountManagement.validateBankAccount(user.getCprNumber());
             registeredUsers.add(user);
         } catch (Exception e) {
             retireAccounts();
@@ -66,11 +71,10 @@ public class AccountDTUPayValidationSteps {
         try{
             for (String id : accountIds){
                 bank.retireAccount(id);
-                System.out.println("retired account "+ id);
             }
             accountIds.clear();
             for (User user : registeredUsers) {
-                accountService.deleteuser(user);
+                accountManagement.deleteUsers(user.getUserId());
             }
             registeredUsers.clear();
         } catch (Exception e) {

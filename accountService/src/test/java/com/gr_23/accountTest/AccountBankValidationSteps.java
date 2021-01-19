@@ -1,4 +1,8 @@
 package com.gr_23.accountTest;
+import com.gr_23.business_logic.AccountManagement;
+import com.gr_23.business_logic.IAccountManagement;
+import com.gr_23.data_access.AccountRepository;
+import com.gr_23.data_access.IAccountRepository;
 import com.gr_23.models.User;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceService;
@@ -20,7 +24,9 @@ public class AccountBankValidationSteps {
     BankService bank = new BankServiceService().getBankServicePort();
     List<String> accountIds = new ArrayList<>();
     List<User> registeredUsers = new ArrayList<>();
-    AccountService accountService = new AccountService();
+    IAccountRepository accountRepository = new AccountRepository();
+    IAccountManagement accountManagement = new AccountManagement(null, accountRepository);
+
 
     @Given("that user with CPR {string} has and account in the bank")
     public void thatUserWithCPRHasAndAccountInTheBank(String cpr) throws Exception {
@@ -32,10 +38,12 @@ public class AccountBankValidationSteps {
         try {
             String accountId = bank.createAccountWithBalance(DTUuser, new BigDecimal(1000));
             accountIds.add(accountId);
-            accountService.register(user);
-            successful = accountService.validateAccount(user.getCprNumber());
+            accountManagement.createDTUPayAccount(user);
+            successful = accountManagement.validateBankAccount(user.getCprNumber());
             registeredUsers.add(user);
         } catch (Exception e) {
+            String bankId = bank.getAccountByCprNumber(user.getCprNumber()).getId();
+            accountIds.add(bankId);
             retireAccounts();
             successful = false;
             e.printStackTrace();
@@ -55,7 +63,7 @@ public class AccountBankValidationSteps {
             }
             accountIds.clear();
             for (User user : registeredUsers) {
-                accountService.deleteuser(user);
+                accountManagement.deleteUsers(user.getUserId());
             }
             registeredUsers.clear();
         } catch (Exception e) {

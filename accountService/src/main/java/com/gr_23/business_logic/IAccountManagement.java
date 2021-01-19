@@ -6,7 +6,7 @@ import com.gr_23.models.User;
 public interface IAccountManagement {
 
 
-    Boolean createDTUPayAccount(Customer user);
+    Boolean createDTUPayAccount(User user);
 
 
     User fetchUser( String userId);

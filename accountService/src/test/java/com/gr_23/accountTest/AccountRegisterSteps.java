@@ -1,4 +1,8 @@
 package com.gr_23.accountTest;
+import com.gr_23.business_logic.AccountManagement;
+import com.gr_23.business_logic.IAccountManagement;
+import com.gr_23.data_access.AccountRepository;
+import com.gr_23.data_access.IAccountRepository;
 import com.gr_23.models.User;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceException_Exception;
@@ -20,7 +24,8 @@ public class AccountRegisterSteps {
     BankService bank = new BankServiceService().getBankServicePort();
     List<String> accountIds = new ArrayList<>();
     List<User> registeredUsers = new ArrayList<>();
-    AccountService accountService = new AccountService();
+    IAccountRepository accountRepository = new AccountRepository();
+    IAccountManagement accountManagement = new AccountManagement(null, accountRepository);
 
     @Given("a new user with name {string} {string} and CPR {string} has a bank account")
     public void aNewUserWithNameAndCPRHasABankAccount(String firstName, String lastName, String CPR) throws Exception {
@@ -42,7 +47,7 @@ public class AccountRegisterSteps {
     @When("the user initiates registration as a user")
     public void theUserInitiatesRegistrationAsAUser() {
         try {
-            successful = accountService.register(user);
+            successful = accountManagement.createDTUPayAccount(user);
             registeredUsers.add(user);
         } catch (Exception e) {
             successful = false;
@@ -63,7 +68,7 @@ public class AccountRegisterSteps {
             }
             accountIds.clear();
             for (User user : registeredUsers) {
-                accountService.deleteuser(user);
+                accountManagement.deleteUsers(user.getUserId());
             }
             registeredUsers.clear();
         } catch (Exception e) {
