@@ -63,27 +63,12 @@ public class PaymentManagement implements EventReceiver, IPaymentManagement {
     }
 
     private void makeTransactionInBank(int amount, String merchantCpr, String customerCpr) throws BankServiceException_Exception {
-        System.out.println("Making transaction Merchant "+ merchantCpr + " customer "+ customerCpr);
         String creditor = bank.getAccountByCprNumber(merchantCpr).getId();
         String debtor = bank.getAccountByCprNumber(customerCpr).getId();
         bank.transferMoneyFromTo(debtor,creditor,new BigDecimal(amount),"Testing is not very fun");
     }
 
     private boolean checkDTUPayAccount(String userId) {
-//        String key = getKey("validateDTUPayAccount",userId);
-//        results.put(key,new CompletableFuture<>());
-//        try {
-//            makeRequest("validateDTUPayAccount", userId);
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        String valid = "";
-//        try {
-//            CompletableFuture<String> result = results.get(key);
-//            valid = result.get();
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
         String valid = sendMsgAndWaitForAnswer(userId,"validateDTUPayAccount");
         return Boolean.parseBoolean(valid);
     }
@@ -147,8 +132,6 @@ public class PaymentManagement implements EventReceiver, IPaymentManagement {
         String response = null;
         try {
             response = results.get(key).get();
-            System.out.println(eventType + " message");
-            System.out.println(response);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -157,20 +140,6 @@ public class PaymentManagement implements EventReceiver, IPaymentManagement {
 
     public String getUserCPR(String userId)
     {
-//        String key = getKey("fetchUser",userId);
-//        results.put(key,new CompletableFuture<>());
-//        try {
-//            makeRequest("fetchUser", userId);
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        String userCPR = "";
-//        try {
-//            userCPR = results.get(key).get();
-//            System.out.println(userCPR);
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
         String userCPR = sendMsgAndWaitForAnswer(userId,"fetchUser");
         if (userCPR != null) {
 
@@ -186,24 +155,19 @@ public class PaymentManagement implements EventReceiver, IPaymentManagement {
         String key = event.getEventType().replace("done",event.getArgument(1,String.class));
         CompletableFuture<String> result = results.get(key);
         if (event.getEventType().equals("validateToken_done")) {
-            System.out.println("PS event handled: "+event);
             result.complete(event.getArgument(0, String.class));
 
         }
         if(event.getEventType().equals("findUserByToken_done")) {
-            System.out.println("PS findUserByToken_done event handled:" + event);
             result.complete(event.getArgument(0, String.class));
         }
         if(event.getEventType().equals("consumeToken_done")) {
-            System.out.println("PS consumeToken_done event handled:" + event);
             result.complete(event.getArgument(0,String.class));
         }
         if(event.getEventType().equals("validateDTUPayAccount_done")) {
-            System.out.println("AS validateDTUPayAccount_done event handled:" + event);
             result.complete(event.getArgument(0,String.class));
         }
         if(event.getEventType().equals("fetchUser_done")) {
-            System.out.println("AS fetch user event handled:" + event);
             result.complete(event.getArgument(0,String.class));
         }
     }
