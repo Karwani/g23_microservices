@@ -45,7 +45,7 @@ public class PaymentServer {
     @GET
     @Path("/payments/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<Payment> requestPayment(@PathParam("userId") String userId) {
+    public List<Payment> getPaymentList(@PathParam("userId") String userId) {
         return paymentManagement.getPayments(userId);
     }
     @DELETE

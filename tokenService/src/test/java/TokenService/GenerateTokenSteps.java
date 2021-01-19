@@ -24,9 +24,9 @@ public class GenerateTokenSteps {
     }
 
     public void generateTestTokens(String userId, int n){
-        List<Token> testTokens = new ArrayList<Token>();
+        List<String> testTokens = new ArrayList<>();
         for (int i = 1; i <= n; i++) {
-            testTokens.add(new Token("token"+n, false));
+            testTokens.add("token"+n);
         }
         tokenRepository.addActiveTokens(userId, testTokens);
     }

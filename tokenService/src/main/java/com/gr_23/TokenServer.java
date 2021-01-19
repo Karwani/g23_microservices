@@ -10,11 +10,6 @@ public class TokenServer {
 
     private ITokenManagement tokenManagement;
 
-//    public  TokenServer(ITokenManagement tokenManagement)
-//    {
-//        this.tokenManagement = tokenManagement;
-//
-//    }
     public TokenServer()
     {
         this.tokenManagement = new TokenManagementFactory().getService();
@@ -32,7 +27,6 @@ public class TokenServer {
     @Path("/validate/{tokenId}")
     public String validateToken(@PathParam("tokenId") String tokenId)
     {
-        System.out.println("Result of validateToken:" + tokenManagement.validateToken(tokenId));
         boolean bool = tokenManagement.validateToken(tokenId);
         return String.valueOf(bool);
     }

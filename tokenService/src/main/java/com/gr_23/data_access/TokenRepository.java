@@ -11,16 +11,6 @@ import java.util.stream.Collectors;
 
 @Singleton
 public class TokenRepository implements  ITokenRepository {
-//    private static  TokenRepository instance = null;
-//
-//    private TokenRepository(){
-//    }
-//
-//    public static TokenRepository getInstance(){
-//        if(instance==null)
-//            instance = new TokenRepository();
-//        return instance;
-//    }
 
     private Map<String, List<Token>> activeTokens = new HashMap<String, List<Token>>();
     private Map<String, List<Token>> usedTokens = new HashMap<String, List<Token>>();
@@ -48,12 +38,18 @@ public class TokenRepository implements  ITokenRepository {
     }
 
     @Override
-    public void addActiveTokens(String userId, List<Token> tokens)
+    public void addActiveTokens(String userId, List<String> tokens)
     {
+        List<Token> tokenList = new ArrayList<>();
+        for (String tokenId:
+                tokens
+             ) {
+            tokenList.add(new Token(tokenId,false));
+        }
         if (activeTokens.get(userId) == null) {
-            activeTokens.put(userId, tokens);
+            activeTokens.put(userId, tokenList);
         } else {
-            activeTokens.get(userId).addAll(tokens);
+            activeTokens.get(userId).addAll(tokenList);
         }
     }
 
@@ -115,8 +111,8 @@ public class TokenRepository implements  ITokenRepository {
     }
 
     @Override
-    public List<Token> getActiveTokens(String userId) {
-        return activeTokens.get(userId);
+    public List<String> getActiveTokens(String userId) {
+        return activeTokens.get(userId).stream().map(token -> token.getTokenId()).collect(Collectors.toList());
     }
 
     @Override

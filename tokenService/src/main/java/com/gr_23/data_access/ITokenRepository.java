@@ -5,7 +5,7 @@ import com.gr_23.models.Token;
 import java.util.List;
 
 public interface ITokenRepository {
-    void addActiveTokens(String userId, List<Token> tokens);
+    void addActiveTokens(String userId, List<String> tokens);
 
     void removeActiveToken(String userId, String tokenId);
 
@@ -19,7 +19,7 @@ public interface ITokenRepository {
 
     String getUserIdByActiveToken(String tokenId);
 
-    List<Token> getActiveTokens(String userId);
+    List<String> getActiveTokens(String userId);
 
     Boolean userExistsInActive(String userId);
 

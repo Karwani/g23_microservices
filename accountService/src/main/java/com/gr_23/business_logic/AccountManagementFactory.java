@@ -7,6 +7,8 @@ import messaging.EventSender;
 import messaging.rabbitmq.RabbitMqListener;
 import messaging.rabbitmq.RabbitMqSender;
 
+//Code copied and modified from the Demo project: http://bit.ly/02267async mentioned
+// in the Asynchronous communication section of Software Development of Webservices course
 public class AccountManagementFactory {
     static IAccountManagement service = null;
 

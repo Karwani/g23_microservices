@@ -9,18 +9,11 @@ import messaging.EventSender;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
-//@ApplicationScoped
 public class TokenManagement implements ITokenManagement, EventReceiver {
     ITokenRepository tokenRepository;
     EventSender sender;
 
-    public ITokenRepository getTokenRepository() {
-        return tokenRepository;
-    }
-
-    CompletableFuture<String> result;
     public TokenManagement(ITokenRepository tokenRepository, EventSender sender) {
         this.tokenRepository = tokenRepository;
         this.sender = sender;
@@ -42,10 +35,10 @@ public class TokenManagement implements ITokenManagement, EventReceiver {
         return false;
     }
     private void generateTokens(String userId,int n) {
-        List<Token> tokens = new ArrayList<Token>();
+        List<String> tokens = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             String uuid = UUID.randomUUID().toString();
-            tokens.add(new Token(uuid, false));
+            tokens.add(uuid);
         }
         tokenRepository.addActiveTokens(userId,tokens);
     }
@@ -61,13 +54,9 @@ public class TokenManagement implements ITokenManagement, EventReceiver {
 
     @Override
     public boolean canGenerateTokensForUser(String userId) {
-
-        // TODO: integrate with account server
         if(tokenRepository.userExistsInActive(userId)) {
             System.out.println("user exists" + userId );
             int t = tokenRepository.getActiveTokens(userId).size() ;
-
-            System.out.println("user has " + t + " tokens" );
             return t<=1;
         }
         return true;
@@ -97,14 +86,9 @@ public class TokenManagement implements ITokenManagement, EventReceiver {
     public String getActiveToken(String userId)
     {
         generateTokensForUser(userId,5);
-        return tokenRepository.getActiveTokens(userId).stream().findFirst().get().getTokenId();
+        return tokenRepository.getActiveTokens(userId).stream().findFirst().get();
     }
-//    public String sendRequest(String eventType,String customer) throws Exception {
-//        Event event = new Event(eventType,new Object[] { customer });
-//        result = new CompletableFuture<>();
-//        sender.sendEvent(event);
-//        return result.join();
-//    }
+
     public String answerRequest_validateToken(String eventType,String tokenId) throws Exception {
         boolean valid = validateToken(tokenId);
         Event event = new Event(eventType,new Object[] { Boolean.toString(valid), tokenId });
@@ -129,25 +113,17 @@ public class TokenManagement implements ITokenManagement, EventReceiver {
 
     @Override
     public void receiveEvent(Event event) throws Exception {
-
-        System.out.println("Received event "+event);
         if (event.getEventType().equals("validateToken")) {
-            System.out.println("TS event handled: "+event);
             String tokenId = event.getArgument(0, String.class);
             answerRequest_validateToken("validateToken_done",tokenId);
 
-        } else {
-            System.out.println("TS event ignored: "+event);
         }
-
         if(event.getEventType().equals("findUserByToken")) {
-            System.out.println("TS event handled" + event);
             String tokenId = event.getArgument(0, String.class);
             answerRequest_findUserByToken("findUserByToken_done", tokenId);
         }
 
         if(event.getEventType().equals("consumeToken")) {
-            System.out.println("TS event handled" + event);
             String tokenId = event.getArgument(0,String.class);
             answerRequest_consumeToken("consumeToken_done", tokenId);
         }
