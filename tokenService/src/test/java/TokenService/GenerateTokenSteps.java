@@ -93,20 +93,20 @@ public class GenerateTokenSteps {
     }
 
     @Given("that the token with id {string} is active")
-    public void that_the_token_with_id_is_active(String tokenId) {
+    public void thatTheTokenWithIdIsActive(String tokenId) {
         this.tokenId = tokenId;
         generateTestTokens(tokenId,1);
         assertTrue(tokenManagement.validateToken(tokenId));
     }
 
     @Then("we consume it and the token is used")
-    public void weConsumeItandTheTokenIsUsed(){
+    public void weConsumeItAndTheTokenIsUsed(){
         assertTrue(tokenManagement.consumeToken(tokenId));
         assertFalse(tokenManagement.validateToken(tokenId));
     }
 
     @Given("the used token with id {string}")
-    public void that_the_token_with_id_is_inactive(String tokenId) {
+    public void thatTheTokenWithIdIsInactive(String tokenId) {
         this.tokenId = tokenId;
         generateTestTokens(tokenId,1);
         tokenManagement.consumeToken(tokenId);
