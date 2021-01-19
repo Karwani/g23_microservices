@@ -21,7 +21,7 @@ public class AccountService {
 
     //calls the update function in accountServer
     public boolean register(User user) throws Exception {
-        String path = "User";
+//        String path = "User";
 
 
         Gson gson = new Gson();
@@ -32,7 +32,7 @@ public class AccountService {
         body.addProperty("userId",user.getUserId());
         System.out.println(user.getUserId());
         body.addProperty("admin",user.isAdmin());
-        Response response = baseUrl.path("Account/" + path).request()
+        Response response = baseUrl.path("Account/User").request()
                 .put(Entity.entity(gson.toJson(body), MediaType.APPLICATION_JSON));
 
         System.out.println("from register function" + response.getStatus());
@@ -107,7 +107,7 @@ public class AccountService {
         body.addProperty("cprNumber",user.getCprNumber());
         body.addProperty("userId",user.getUserId());
         body.addProperty("admin",user.isAdmin());
-        Response response = baseUrl.path("Accounts/user/"+user.getUserId()).request()
+        Response response = baseUrl.path("Account/User/"+user.getUserId()).request()
                 .delete();
     }
 }
