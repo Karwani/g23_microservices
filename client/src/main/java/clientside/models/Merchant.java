@@ -1,4 +1,4 @@
-package clientside;
+package clientside.models;
 
 public class Merchant extends User {
 

@@ -1,4 +1,4 @@
-package clientside;
+package clientside.data_access;
 
 import io.cucumber.messages.internal.com.google.gson.Gson;
 import io.cucumber.messages.internal.com.google.gson.JsonObject;
@@ -10,7 +10,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-public class PayService {
+public class PayService implements IPayService{
 
     WebTarget baseUrl;
 
@@ -19,6 +19,7 @@ public class PayService {
         baseUrl = client.target("http://localhost:8080/");
     }
 
+    @Override
     public boolean pay(String merchantId, String customerId, String tokenId, int amount) throws Exception {
         Gson gson = new Gson();
         JsonObject body = new JsonObject();
@@ -29,9 +30,6 @@ public class PayService {
         Response response = baseUrl.path("payments").request().
                 post(Entity.entity(gson.toJson(body), MediaType.APPLICATION_JSON));
 
-//        System.out.println(response.readEntity(String.class));
-//        System.out.println("PAY: response status:" + response.getStatus());
-        System.out.println("token is: "+tokenId);
         if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
             String e = response.readEntity(String.class);
             System.out.println(e);
