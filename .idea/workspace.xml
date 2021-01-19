@@ -23,21 +23,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4104c040-3a52-4143-ad29-a062302d8821" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/accountService/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accountService/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accountService/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tokenService/src/test/resources/TokenService/tokenLookup.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accountService/src/test/resources/accountTest/accountDTUPayValidation.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/paymentService/src/main/java/paymentserver/business_logic/PaymentManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/paymentService/src/main/java/paymentserver/business_logic/PaymentManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/business_logic/ITokenManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/business_logic/ITokenManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/business_logic/TokenManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/business_logic/TokenManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/data_access/ITokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/data_access/ITokenRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/data_access/TokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/tokenService/src/main/java/com/gr_23/data_access/TokenRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tokenService/src/test/java/TokenService/GenerateTokenSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/tokenService/src/test/java/TokenService/GenerateTokenSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accountService/src/main/java/com/gr_23/AccountServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/accountService/src/main/java/com/gr_23/AccountServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accountService/src/main/java/com/gr_23/data_access/AccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/accountService/src/main/java/com/gr_23/data_access/AccountRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accountService/src/test/java/com/gr_23/accountTest/AccountRemoveSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/accountService/src/test/java/com/gr_23/accountTest/AccountRemoveSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accountService/src/test/java/com/gr_23/accountTest/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/accountService/src/test/java/com/gr_23/accountTest/AccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accountService/src/test/java/com/gr_23/accountTest/AccountSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/accountService/src/test/java/com/gr_23/accountTest/AccountRegisterSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accountService/src/test/java/com/gr_23/accountTest/AccountUpdateSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/accountService/src/test/java/com/gr_23/accountTest/AccountUpdateSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accountService/src/test/java/com/gr_23/accountTest/AccountValidationSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/accountService/src/test/java/com/gr_23/accountTest/AccountDTUPayValidationSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accountService/src/test/resources/accountTest/AccountRemoveSteps.feature" beforeDir="false" afterPath="$PROJECT_DIR$/accountService/src/test/resources/accountTest/accountRemoveSteps.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accountService/src/test/resources/accountTest/AccountUpdateSteps.feature" beforeDir="false" afterPath="$PROJECT_DIR$/accountService/src/test/resources/accountTest/accountUpdateSteps.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accountService/src/test/resources/accountTest/account.feature" beforeDir="false" afterPath="$PROJECT_DIR$/accountService/src/test/resources/accountTest/accountRegister.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accountService/src/test/resources/accountTest/accountValidation.feature" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/client/client.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/clientside/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/clientside/AccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/test/java/clientside/AccountSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/test/java/clientside/AccountSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/messaging-utilities/message-utilities.iml" beforeDir="false" afterPath="$PROJECT_DIR$/messaging-utilities/message-utilities.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,9 +73,13 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/accountService" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="project.propCompiler" />
   </component>
   <component name="RecentsManager">
@@ -81,62 +88,54 @@
       <recent name="$PROJECT_DIR$/messaging-utilities" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in tokenservice">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.All in client">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in accountservice" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="accountservice" />
+    <configuration name="All in accountService (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="accountService" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All Features in: client" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
-      <option name="CUCUMBER_CORE_VERSION" value="1" />
-      <option name="FILE_PATH" value="$PROJECT_DIR$/client" />
-      <option name="MAIN_CLASS_NAME" value="cucumber.cli.Main" />
-      <module name="g23_microservices" />
-      <option name="PROGRAM_PARAMETERS" value=" --format org.jetbrains.plugins.cucumber.java.run.CucumberJvmSMFormatter --monochrome" />
-      <option name="SUGGESTED_NAME" value="All Features in: client" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="cucumber.cli.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+    <configuration name="All in accountService (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="accountService" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in client (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="All in accountService (3)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="accountService" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in accountService (4)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="accountService" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in client" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="client" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="All in client (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="client" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="All in tokenservice" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="tokenservice" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
       <method v="2">
@@ -201,23 +200,24 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.All in tokenservice" />
         <item itemvalue="JUnit.All in client" />
-        <item itemvalue="JUnit.All in accountservice" />
-        <item itemvalue="JUnit.All in client (1)" />
-        <item itemvalue="JUnit.All in client (3)" />
+        <item itemvalue="JUnit.All in accountService (4)" />
+        <item itemvalue="JUnit.All in accountService (3)" />
+        <item itemvalue="JUnit.All in accountService (2)" />
+        <item itemvalue="JUnit.All in accountService (1)" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4b2529dd-f1cf-460a-b004-01d54c564061" name="Default Changelist" comment="" />
+      <changelist id="4104c040-3a52-4143-ad29-a062302d8821" name="Default Changelist" comment="" />
       <created>1610998443582</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1610998443582</updated>
       <workItem from="1610998444730" duration="3744000" />
+      <workItem from="1611037407548" duration="8493000" />
     </task>
     <servers />
   </component>
@@ -234,5 +234,32 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1877" height="473" key="GridCell.Tab.0.bottom" timestamp="1611045940559">
+      <screen x="3240" y="609" width="1920" height="1040" />
+    </state>
+    <state width="1578" height="244" key="GridCell.Tab.0.bottom/0.0.1620.1040/3240.609.1920.1040@0.0.1620.1040" timestamp="1611045844676" />
+    <state width="1877" height="473" key="GridCell.Tab.0.bottom/0.0.1620.1040/3240.609.1920.1040@3240.609.1920.1040" timestamp="1611045940559" />
+    <state width="1877" height="473" key="GridCell.Tab.0.center" timestamp="1611045940558">
+      <screen x="3240" y="609" width="1920" height="1040" />
+    </state>
+    <state width="1578" height="244" key="GridCell.Tab.0.center/0.0.1620.1040/3240.609.1920.1040@0.0.1620.1040" timestamp="1611045844676" />
+    <state width="1877" height="473" key="GridCell.Tab.0.center/0.0.1620.1040/3240.609.1920.1040@3240.609.1920.1040" timestamp="1611045940558" />
+    <state width="1877" height="473" key="GridCell.Tab.0.left" timestamp="1611045940558">
+      <screen x="3240" y="609" width="1920" height="1040" />
+    </state>
+    <state width="1578" height="244" key="GridCell.Tab.0.left/0.0.1620.1040/3240.609.1920.1040@0.0.1620.1040" timestamp="1611045844676" />
+    <state width="1877" height="473" key="GridCell.Tab.0.left/0.0.1620.1040/3240.609.1920.1040@3240.609.1920.1040" timestamp="1611045940558" />
+    <state width="1877" height="473" key="GridCell.Tab.0.right" timestamp="1611045940558">
+      <screen x="3240" y="609" width="1920" height="1040" />
+    </state>
+    <state width="1578" height="244" key="GridCell.Tab.0.right/0.0.1620.1040/3240.609.1920.1040@0.0.1620.1040" timestamp="1611045844676" />
+    <state width="1877" height="473" key="GridCell.Tab.0.right/0.0.1620.1040/3240.609.1920.1040@3240.609.1920.1040" timestamp="1611045940558" />
+    <state x="554" y="442" key="org.jetbrains.plugins.cucumber.inspections.ui.CreateStepDefinitionFileDialog" timestamp="1611044804099">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state x="554" y="442" key="org.jetbrains.plugins.cucumber.inspections.ui.CreateStepDefinitionFileDialog/0.0.1620.1040/3240.609.1920.1040@0.0.1620.1040" timestamp="1611044804099" />
   </component>
 </project>

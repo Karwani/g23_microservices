@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AccountSteps {
 
-    WebTarget baseUrl;
     User customer;
     BankService bank = new BankServiceService().getBankServicePort();
     List<String> accountIds = new ArrayList<>();
@@ -30,23 +29,8 @@ public class AccountSteps {
     boolean successful;
     UserInfo userInfo = new UserInfo();
 
-//    @Before
-//    public void unregisterAccount() throws BankServiceException_Exception {
-//        for (String id : accountIds){
-//            bank.retireAccount(id);
-//            System.out.println("retired account "+ id);
-//        }
-//        accountIds.clear();
-//        System.out.println(registeredUsers.size());
-//        for (User user : registeredUsers) {
-//            accountService.deregister(user);
-//        }
-//        registeredUsers.clear();
-//    }
 
     public AccountSteps(){
-        Client client = ClientBuilder.newClient();
-        baseUrl = client.target("http://localhost:8383/");
     }
 
     @Given("a new customer with name {string} {string} and CPR {string}")
@@ -59,9 +43,6 @@ public class AccountSteps {
 
     @Given("the customer has a bank account")
     public void theCustomerHasABankAccount() throws Exception {
-       // UUID uuid = UUID.randomUUID();
-        //String firstName = userInfo
-
         customer = new Customer(userInfo.getFirstName(), userInfo.getLastName(), userInfo.getCprNumber(), "1", false);
         System.out.println(customer.getCprNumber());
         user.setFirstName(userInfo.getFirstName());
