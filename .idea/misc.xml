@@ -13,7 +13,6 @@
         <option value="$PROJECT_DIR$/tokenService/pom.xml" />
         <option value="$PROJECT_DIR$/accountService/pom.xml" />
         <option value="$PROJECT_DIR$/paymentService/pom.xml" />
-        <option value="$PROJECT_DIR$/tokenService/pom.xml" />
         <option value="$PROJECT_DIR$/transactionService/pom.xml" />
       </list>
     </option>

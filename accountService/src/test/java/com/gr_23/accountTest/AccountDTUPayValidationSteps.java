@@ -1,6 +1,5 @@
 package com.gr_23.accountTest;
 
-import com.gr_23.models.Customer;
 import com.gr_23.models.User;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceService;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.math.BigDecimal;
 
-public class AccountValidationSteps {
+public class AccountDTUPayValidationSteps {
 
     boolean successful;
     User user;
@@ -24,8 +23,8 @@ public class AccountValidationSteps {
     List<User> registeredUsers = new ArrayList<>();
     AccountService accountService = new AccountService();
 
-    @Given("that customer with user id {string} has an account in DUTpay")
-    public void thatCustomerWithUserIdHasAndAccountInDUTpay(String userId) throws Exception {
+    @Given("that user with user id {string} has an account in DUTpay")
+    public void thatUserWithUserIdHasAndAccountInDUTpay(String userId) throws Exception {
         user = new User("Ole", "hansen", "333323-7777", userId, false);
         DTUuser.setFirstName(user.getFirstName());
         DTUuser.setLastName(user.getLastName());
@@ -56,8 +55,8 @@ public class AccountValidationSteps {
 
     }
 
-    @Then("we have validated that the user exist")
-    public void weHaveValidatedThatTheUserExist() {
+    @Then("we can validate the DTU pay account")
+    public void weCanValidateTheDTUpayaccount() {
         assertTrue(successful);
     }
 
@@ -70,9 +69,8 @@ public class AccountValidationSteps {
                 System.out.println("retired account "+ id);
             }
             accountIds.clear();
-            System.out.println(registeredUsers.size());
             for (User user : registeredUsers) {
-                accountService.deregister(user);
+                accountService.deleteuser(user);
             }
             registeredUsers.clear();
         } catch (Exception e) {

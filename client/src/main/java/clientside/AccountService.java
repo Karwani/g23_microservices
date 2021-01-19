@@ -29,7 +29,7 @@ public class AccountService {
         body.addProperty("userId",user.getUserId());
         System.out.println(user.getUserId());
         body.addProperty("admin",user.isAdmin());
-        Response response = baseUrl.path("Account/User" ).request()
+        Response response = baseUrl.path("Account/User").request()
                 .put(Entity.entity(gson.toJson(body), MediaType.APPLICATION_JSON));
 
         System.out.println(response.getStatus());

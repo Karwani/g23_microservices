@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AccountSteps {
 
-    WebTarget baseUrl;
     User customer;
     BankService bank = new BankServiceService().getBankServicePort();
     List<String> accountIds = new ArrayList<>();
@@ -28,11 +27,10 @@ public class AccountSteps {
     AccountService accountService = new AccountService();
     dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
     boolean successful;
+    UserInfo userInfo = new UserInfo();
 
 
     public AccountSteps(){
-        Client client = ClientBuilder.newClient();
-        baseUrl = client.target("http://localhost:8383/");
     }
 
     @Given("a new customer with name {string} {string} and CPR {string}")

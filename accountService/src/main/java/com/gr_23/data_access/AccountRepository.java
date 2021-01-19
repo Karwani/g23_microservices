@@ -46,10 +46,6 @@ public class AccountRepository implements IAccountRepository {
 
     @Override
     public Boolean userExist(String userId) {
-        System.out.println("hallo");
-        for (User user : DTUpayUsers.values()){
-            System.out.println(user.getUserId());
-        }
         return DTUpayUsers.containsKey(userId);
     }
 }
