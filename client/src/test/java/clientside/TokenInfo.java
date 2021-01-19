@@ -4,9 +4,26 @@ import java.util.Random;
 
 public  class TokenInfo {
 
-    public static String tokenId;
-    public static String userId;
-    public static String generateRandomCPR()
+    public String getTokenId() {
+        return tokenId;
+    }
+
+    public void setTokenId(String tokenId) {
+        this.tokenId = tokenId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String tokenId;
+    public String userId;
+
+    public String generateRandomCPR()
     {
         int p1 = 100000 + new Random().nextInt(900000);
 

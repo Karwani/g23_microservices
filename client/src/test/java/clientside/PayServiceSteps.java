@@ -27,11 +27,16 @@ public class PayServiceSteps {
 	List<String> accountIds = new ArrayList<>();
 	List<User> registeredUsers = new ArrayList<>();
 	String error = "";
+	TokenInfo tokenInfo;
+
+	public PayServiceSteps(TokenInfo tokenInfo) {
+		this.tokenInfo = tokenInfo;
+	}
 
 	@Given("the customer {string} {string} has a bank account with balance {int}")
 	public void theCustomerWithCPRHasABankAccountWithBalance(String firstName, String lastName, int balance) throws Exception {
 		// Change this at some later time :)
-		TokenInfo.userId = "1";
+		tokenInfo.userId = "1";
 		String cpr = getRandomUntakenCPR();
 		customer = new Customer(firstName,lastName, cpr,"1",false);
 		dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
@@ -78,7 +83,7 @@ public class PayServiceSteps {
 		String cpr;
 		Account account = null;
 		do {
-			cpr = TokenInfo.generateRandomCPR();
+			cpr = tokenInfo.generateRandomCPR();
 			try {
 				account = bank.getAccountByCprNumber(cpr);
 			}catch (BankServiceException_Exception exception)
@@ -103,7 +108,7 @@ public class PayServiceSteps {
 	@When("the merchant initiates a payment for {int} kr using the customer token")
 	public void theMerchantInitiatesAPaymentForKrByTheCustomer(int amount) {
 		try {
-			successful = dtuPay.pay(merchant.getUserId(),customer.getUserId(),TokenInfo.tokenId,amount);
+			successful = dtuPay.pay(merchant.getUserId(),customer.getUserId(),tokenInfo.tokenId,amount);
 			System.out.println("SuccesFull in pay = " + successful);
 			if (!successful)
 				System.out.println(error);
@@ -174,7 +179,7 @@ public class PayServiceSteps {
 	@Given("the customer is not registered with DTUPay")
 	public void theCustomerIsNotRegisteredWithDTUPay() {
 		// Write code here that turns the phrase above into concrete actions
-		assertFalse(accountService.validateDTUPayAccount(TokenInfo.userId));
+		assertFalse(accountService.validateDTUPayAccount(tokenInfo.userId));
 	}
 
 	@Then("there is an error saying {string}")

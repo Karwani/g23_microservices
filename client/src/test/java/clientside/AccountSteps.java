@@ -28,21 +28,7 @@ public class AccountSteps {
     AccountService accountService = new AccountService();
     dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
     boolean successful;
-    UserInfo userInfo = new UserInfo();
 
-//    @Before
-//    public void unregisterAccount() throws BankServiceException_Exception {
-//        for (String id : accountIds){
-//            bank.retireAccount(id);
-//            System.out.println("retired account "+ id);
-//        }
-//        accountIds.clear();
-//        System.out.println(registeredUsers.size());
-//        for (User user : registeredUsers) {
-//            accountService.deregister(user);
-//        }
-//        registeredUsers.clear();
-//    }
 
     public AccountSteps(){
         Client client = ClientBuilder.newClient();
@@ -52,22 +38,15 @@ public class AccountSteps {
     @Given("a new customer with name {string} {string} and CPR {string}")
     public void aNewCustomerWithNameAndCPR(String firstName, String lastName, String cpr) throws Exception {
         System.out.println(cpr);
-        userInfo.setFirstName(firstName);
-        userInfo.setLastName(lastName);
-        userInfo.setCprNumber(cpr);
+        customer = new Customer(firstName, lastName, cpr, "1",false);
     }
 
     @Given("the customer has a bank account")
     public void theCustomerHasABankAccount() throws Exception {
        // UUID uuid = UUID.randomUUID();
-        //String firstName = userInfo
-
-        customer = new Customer(userInfo.getFirstName(), userInfo.getLastName(), userInfo.getCprNumber(), "1", false);
-        System.out.println(customer.getCprNumber());
-        user.setFirstName(userInfo.getFirstName());
-        user.setLastName(userInfo.getLastName());
-        user.setCprNumber(userInfo.getCprNumber());
-        System.out.println(customer.getCprNumber());
+        user.setFirstName(customer.getFirstName());
+        user.setLastName(customer.getLastName());
+        user.setCprNumber(customer.getCprNumber());
 
         try {
             String accountId = bank.createAccountWithBalance(user ,new BigDecimal(1000));
