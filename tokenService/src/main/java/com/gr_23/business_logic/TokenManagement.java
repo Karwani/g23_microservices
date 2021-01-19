@@ -99,15 +99,15 @@ public class TokenManagement implements ITokenManagement, EventReceiver {
         generateTokensForUser(userId,5);
         return tokenRepository.getActiveTokens(userId).stream().findFirst().get().getTokenId();
     }
-    public String sendRequest(String eventType,String customer) throws Exception {
-        Event event = new Event(eventType,new Object[] { customer });
-        result = new CompletableFuture<>();
-        sender.sendEvent(event);
-        return result.join();
-    }
+//    public String sendRequest(String eventType,String customer) throws Exception {
+//        Event event = new Event(eventType,new Object[] { customer });
+//        result = new CompletableFuture<>();
+//        sender.sendEvent(event);
+//        return result.join();
+//    }
     public String answerRequest_validateToken(String eventType,String tokenId) throws Exception {
         boolean valid = validateToken(tokenId);
-        Event event = new Event(eventType,new Object[] { Boolean.toString(valid) });
+        Event event = new Event(eventType,new Object[] { Boolean.toString(valid), tokenId });
         sender.sendEvent(event);
         return tokenId;
     }
@@ -116,13 +116,13 @@ public class TokenManagement implements ITokenManagement, EventReceiver {
 
     public void answerRequest_findUserByToken(String eventType, String tokenId) throws Exception {
         String userId = findUserByActiveToken(tokenId);
-        Event event = new Event(eventType, new Object[] { userId });
+        Event event = new Event(eventType, new Object[] { userId, tokenId });
         sender.sendEvent(event);
     }
 
     public void answerRequest_consumeToken(String eventType, String tokenId) throws Exception {
         Boolean consumed = consumeToken(tokenId);
-        Event event = new Event(eventType, new Object[] { Boolean.toString(consumed) });
+        Event event = new Event(eventType, new Object[] { Boolean.toString(consumed), tokenId });
         sender.sendEvent(event);
     }
 

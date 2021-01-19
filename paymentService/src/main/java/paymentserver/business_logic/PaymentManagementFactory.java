@@ -4,11 +4,12 @@ import messaging.EventReceiver;
 import messaging.EventSender;
 import messaging.rabbitmq.RabbitMqListener;
 import messaging.rabbitmq.RabbitMqSender;
+import paymentserver.data_access.PaymentRepository;
 
 public class PaymentManagementFactory {
-    static PaymentManagement service = null;
+    static IPaymentManagement service = null;
 
-    public PaymentManagement getService() {
+    public IPaymentManagement getService() {
         // The singleton pattern.
         // Ensure that there is at most
         // one instance of a PaymentService
@@ -25,7 +26,7 @@ public class PaymentManagementFactory {
         // At the end, we can use the PaymentService in tests
         // without sending actual messages to RabbitMq.
         EventSender b = new RabbitMqSender();
-        service = new PaymentManagement(b);
+        service = new PaymentManagement(b,new PaymentRepository());
         RabbitMqListener r = new RabbitMqListener((EventReceiver) service);
         try {
             r.listen();
