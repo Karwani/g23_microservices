@@ -63,12 +63,12 @@ public class AccountManagement implements IAccountManagement, EventReceiver {
     void answerRequest_fetchUser(String eventType, String userId)
     {
         User user = fetchUser(userId);
-        answerRequest(eventType +"_done",user.getCprNumber());
+        answerRequest(eventType +"_done",user.getCprNumber(),userId);
     }
     void answerRequest_validateDTUPayAccount(String eventType, String userId)
     {
         boolean valid = validateDTUPayAccount(userId);
-        answerRequest(eventType +"_done",valid);
+        answerRequest(eventType +"_done",valid,userId);
     }
     @Override
     public void receiveEvent(Event event) {
@@ -83,8 +83,8 @@ public class AccountManagement implements IAccountManagement, EventReceiver {
             answerRequest_fetchUser(event.getEventType(), userId);
         }
     }
-    public void answerRequest(String eventType, Object arg){
-        Event event = new Event(eventType,new Object[] { arg });
+    public void answerRequest(String eventType, Object arg, Object arg2){
+        Event event = new Event(eventType,new Object[] { arg, arg2 });
         try {
             sender.sendEvent(event);
         }catch (Exception e) {

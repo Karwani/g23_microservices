@@ -164,6 +164,7 @@ public class PayServiceSteps {
 		System.out.println(registeredUsers.size());
 		for (User user : registeredUsers) {
 			accountService.deregister(user);
+			dtuPay.deletePayments(user.getUserId());
 		}
 		registeredUsers.clear();
 	}
