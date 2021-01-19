@@ -77,10 +77,15 @@ public class TokenManagement implements ITokenManagement, EventReceiver {
     public  boolean consumeToken(String tokenId)
     {
         String user = tokenRepository.getUserIdByActiveToken(tokenId);
-        //System.out.println("Consumed user" + user);
-        tokenRepository.removeActiveToken(user, tokenId);
-        tokenRepository.addUsedToken(user,tokenId);
-        return true;
+
+        if(user.isEmpty()) {
+            return false;
+        }
+        else {
+            tokenRepository.removeActiveToken(user, tokenId);
+            tokenRepository.addUsedToken(user, tokenId);
+            return true;
+        }
     }
     @Override
     public void deleteTokens(String userId) {

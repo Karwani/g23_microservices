@@ -93,4 +93,5 @@ public class TokenSteps {
                 .delete();
         assertTrue(response.getStatus() == Response.Status.OK.getStatusCode());
     }
+
 }

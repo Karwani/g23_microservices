@@ -11,8 +11,8 @@
         <module name="accountService" />
         <module name="client" />
         <module name="accountservice" />
-        <module name="paymentserver" />
         <module name="message-utilities" />
+        <module name="paymentserver" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
