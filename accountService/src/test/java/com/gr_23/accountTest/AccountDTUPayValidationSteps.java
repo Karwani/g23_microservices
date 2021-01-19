@@ -1,6 +1,5 @@
 package com.gr_23.accountTest;
 
-import com.gr_23.models.Customer;
 import com.gr_23.models.User;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceService;
@@ -9,13 +8,12 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import java.math.BigDecimal;
+import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-public class AccountUpdateSteps {
+public class AccountDTUPayValidationSteps {
 
     boolean successful;
     User user;
@@ -25,8 +23,8 @@ public class AccountUpdateSteps {
     List<User> registeredUsers = new ArrayList<>();
     AccountService accountService = new AccountService();
 
-    @Given("that user with user id {string}")
-    public void thatUserWithUserId(String userId) throws Exception {
+    @Given("that user with user id {string} has an account in DUTpay")
+    public void thatUserWithUserIdHasAndAccountInDUTpay(String userId) throws Exception {
         user = new User("Ole", "hansen", "333323-7777", userId, false);
         DTUuser.setFirstName(user.getFirstName());
         DTUuser.setLastName(user.getLastName());
@@ -36,6 +34,17 @@ public class AccountUpdateSteps {
             String accountId = bank.createAccountWithBalance(DTUuser ,new BigDecimal(1000));
             accountIds.add(accountId);
             accountService.register(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception();
+        }
+    }
+
+
+    @When("we lookup the user with CPR")
+    public void weLookupTheUserWithCPR() throws Exception {
+        try {
+            successful = accountService.validateDTUPayAccount(user.getUserId());
             registeredUsers.add(user);
         } catch (Exception e) {
             retireAccounts();
@@ -43,25 +52,14 @@ public class AccountUpdateSteps {
             e.printStackTrace();
             throw new Exception();
         }
+
     }
 
-    @When("the user changes user {string} {string}")
-    public void theUserChangesUser(String firstname, String lastname) {
-        user = new User(firstname, lastname, "333323-7777", "1", false);
-        accountService.updateUser(user);
-    }
-
-    @Then("we successful update the user")
-    public void weSuccessfulUpdateNameOnTheUser() {
-        try{
-            accountService.fetchUser(user.getUserId());
-            successful = true;
-        } catch (Exception e){
-            successful = false;
-
-        }
+    @Then("we can validate the DTU pay account")
+    public void weCanValidateTheDTUpayaccount() {
         assertTrue(successful);
     }
+
 
     @After
     public void retireAccounts()  {
@@ -79,4 +77,5 @@ public class AccountUpdateSteps {
             e.printStackTrace();
         }
     }
+
 }

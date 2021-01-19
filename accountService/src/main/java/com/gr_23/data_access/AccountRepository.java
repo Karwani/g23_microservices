@@ -46,7 +46,6 @@ public class AccountRepository implements IAccountRepository {
 
     @Override
     public Boolean userExist(String userId) {
-
         return DTUpayUsers.containsKey(userId);
     }
 }

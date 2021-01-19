@@ -1,6 +1,4 @@
 package com.gr_23.accountTest;
-
-import com.gr_23.models.Customer;
 import com.gr_23.models.User;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceService;
@@ -13,10 +11,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class AccountUpdateSteps {
-
+public class AccountBankValidationSteps {
     boolean successful;
     User user;
     dtu.ws.fastmoney.User DTUuser = new dtu.ws.fastmoney.User();
@@ -25,17 +22,18 @@ public class AccountUpdateSteps {
     List<User> registeredUsers = new ArrayList<>();
     AccountService accountService = new AccountService();
 
-    @Given("that user with user id {string}")
-    public void thatUserWithUserId(String userId) throws Exception {
-        user = new User("Ole", "hansen", "333323-7777", userId, false);
+    @Given("that user with CPR {string} has and account in the bank")
+    public void thatUserWithCPRHasAndAccountInTheBank(String cpr) throws Exception {
+        user = new User("Ole", "hansen", cpr, "1", false);
         DTUuser.setFirstName(user.getFirstName());
         DTUuser.setLastName(user.getLastName());
         DTUuser.setCprNumber(user.getCprNumber());
 
         try {
-            String accountId = bank.createAccountWithBalance(DTUuser ,new BigDecimal(1000));
+            String accountId = bank.createAccountWithBalance(DTUuser, new BigDecimal(1000));
             accountIds.add(accountId);
             accountService.register(user);
+            successful = accountService.validateAccount(user.getCprNumber());
             registeredUsers.add(user);
         } catch (Exception e) {
             retireAccounts();
@@ -45,30 +43,15 @@ public class AccountUpdateSteps {
         }
     }
 
-    @When("the user changes user {string} {string}")
-    public void theUserChangesUser(String firstname, String lastname) {
-        user = new User(firstname, lastname, "333323-7777", "1", false);
-        accountService.updateUser(user);
-    }
-
-    @Then("we successful update the user")
-    public void weSuccessfulUpdateNameOnTheUser() {
-        try{
-            accountService.fetchUser(user.getUserId());
-            successful = true;
-        } catch (Exception e){
-            successful = false;
-
-        }
+    @Then("we can validate the bank account")
+    public void weCanValidateTheBankAccount() throws Exception {
         assertTrue(successful);
     }
-
     @After
     public void retireAccounts()  {
         try{
             for (String id : accountIds){
                 bank.retireAccount(id);
-                System.out.println("retired account "+ id);
             }
             accountIds.clear();
             for (User user : registeredUsers) {

@@ -17,7 +17,7 @@ public class AccountServer {
 
 
     public AccountServer(){
-        accountManagement = new AccountManagementFactory().getService();
+        this.accountManagement = new AccountManagementFactory().getService();
     }
 
     @PUT
@@ -45,7 +45,6 @@ public class AccountServer {
     @GET
     @Path("DTUPay/{UserId}")
     public boolean validateDTUPayAccount(@PathParam("UserId") String userId) {
-
         return accountManagement.validateDTUPayAccount(userId);
     }
 

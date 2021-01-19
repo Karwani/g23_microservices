@@ -15,67 +15,62 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TokenSteps {
     WebTarget baseUrl;
-     // String customerId;
+    TokenInfo tokenInfo;
 
-    public TokenSteps() {
+    public TokenSteps(TokenInfo tokenInfo) {
+        this.tokenInfo = tokenInfo;
         Client client = ClientBuilder.newClient();
         baseUrl = client.target("http://localhost:8181/");
     }
     @Given("Customer with userid {string}")
     public void customerWithId(String id) {
-        TokenInfo.userId = id;
-        System.out.println("TokenSteps tokeninfo: " +TokenInfo.userId);
-        // Write code here that turns the phrase above into concrete actions
-        //throw new io.cucumber.java.PendingException();
+        tokenInfo.userId = id;
     }
     @Given("the customer does not have enough active tokens")
     public void theCustomerDoesNotHaveEnoughActiveTokens() {
-        Boolean response = baseUrl.path("Token/isEligible/"+TokenInfo.userId).request()
+        Boolean response = baseUrl.path("Token/isEligible/"+tokenInfo.userId).request()
                 .get(Boolean.TYPE);
         assertTrue(response);
     }
 
     @When("customer asks for tokens")
     public void customerAsksForTokens() {
-        Response response = baseUrl.path("Token/"+TokenInfo.userId).request()
+        Response response = baseUrl.path("Token/"+tokenInfo.userId).request()
                 .post( null);
-        System.out.println(response.getStatus());
         assertTrue(response.getStatus() == Response.Status.OK.getStatusCode());
     }
 
     @Then("the service has generated tokens for the user \\(return bool \\/ status code)")
     public void theServiceHasGeneratedTokensForTheUserReturnBoolStatusCode() {
-        Boolean response = baseUrl.path("Token/isEligible/"+TokenInfo.userId).request()
+        Boolean response = baseUrl.path("Token/isEligible/"+tokenInfo.userId).request()
                 .get(Boolean.TYPE);
         assertFalse(response);
     }
 
     @Then("the user receives an active token")
     public void theUserReceivesAnActiveToken() {
-        String token = baseUrl.path("Token/Active/"+TokenInfo.userId).request()
+        String token = baseUrl.path("Token/Active/"+tokenInfo.userId).request()
                 .get(String.class);
-        System.out.println(token);
         assertFalse(token.isEmpty());
     }
 
 
     @And("the customer has an unused token")
     public void theCustomerHasAnUnusedToken() {
-        TokenInfo.tokenId = baseUrl.path("Token/Active/"+TokenInfo.userId).request().get(String.class);
-        assertFalse(TokenInfo.tokenId.isEmpty());
+        tokenInfo.tokenId = baseUrl.path("Token/Active/"+tokenInfo.userId).request().get(String.class);
+        assertFalse(tokenInfo.tokenId.isEmpty());
     }
 
     @And("the token is valid")
     public void theTokenIsValid() {
-        String response = baseUrl.path("Token/"+TokenInfo.tokenId).request().get(String.class);
+        String response = baseUrl.path("Token/"+tokenInfo.tokenId).request().get(String.class);
         assertFalse(response.isEmpty());
     }
 
     @And("the token is no longer valid")
     public void theTokenIsNoLongerValid() {
-        String response = baseUrl.path("Token/"+TokenInfo.tokenId).request().get(String.class);
+        String response = baseUrl.path("Token/"+tokenInfo.tokenId).request().get(String.class);
 
-        System.out.println("No longer valid" + response);
         assertTrue(response.isEmpty());
     }
 
@@ -83,13 +78,13 @@ public class TokenSteps {
     public void theCustomerHasAnUsedToken()
     {
         theCustomerHasAnUnusedToken();
-        Response response = baseUrl.path("Token/ConsumedToken/"+TokenInfo.tokenId).request().post(null);
+        Response response = baseUrl.path("Token/ConsumedToken/"+tokenInfo.tokenId).request().post(null);
         assertTrue(response.getStatus() == Response.Status.OK.getStatusCode());
     }
     @After
     public void cleanup()
     {
-        Response response = baseUrl.path("Token/"+TokenInfo.userId).request()
+        Response response = baseUrl.path("Token/"+tokenInfo.userId).request()
                 .delete();
         assertTrue(response.getStatus() == Response.Status.OK.getStatusCode());
     }

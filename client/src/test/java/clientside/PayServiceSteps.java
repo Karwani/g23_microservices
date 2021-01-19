@@ -1,6 +1,13 @@
 package clientside;
 
 
+import clientside.apis.CustomerAPI;
+import clientside.apis.MerchantAPI;
+import clientside.data_access.AccountService;
+import clientside.data_access.PayService;
+import clientside.models.Customer;
+import clientside.models.Merchant;
+import clientside.models.User;
 import dtu.ws.fastmoney.Account;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceException_Exception;
@@ -21,17 +28,24 @@ public class PayServiceSteps {
 	BankService bank = new BankServiceService().getBankServicePort();
 	PayService dtuPay = new PayService();
 	AccountService accountService = new AccountService();
+	MerchantAPI merchantAPI;
 	User customer;
 	User merchant;
 	boolean successful;
 	List<String> accountIds = new ArrayList<>();
 	List<User> registeredUsers = new ArrayList<>();
 	String error = "";
+	TokenInfo tokenInfo;
+
+	public PayServiceSteps(TokenInfo tokenInfo) {
+		this.tokenInfo = tokenInfo;
+		merchantAPI = new MerchantAPI(accountService, dtuPay);
+	}
 
 	@Given("the customer {string} {string} has a bank account with balance {int}")
 	public void theCustomerWithCPRHasABankAccountWithBalance(String firstName, String lastName, int balance) throws Exception {
 		// Change this at some later time :)
-		TokenInfo.userId = "1";
+		tokenInfo.userId = "1";
 		String cpr = getRandomUntakenCPR();
 		customer = new Customer(firstName,lastName, cpr,"1",false);
 		dtu.ws.fastmoney.User user = new dtu.ws.fastmoney.User();
@@ -78,7 +92,7 @@ public class PayServiceSteps {
 		String cpr;
 		Account account = null;
 		do {
-			cpr = TokenInfo.generateRandomCPR();
+			cpr = tokenInfo.generateRandomCPR();
 			try {
 				account = bank.getAccountByCprNumber(cpr);
 			}catch (BankServiceException_Exception exception)
@@ -103,10 +117,7 @@ public class PayServiceSteps {
 	@When("the merchant initiates a payment for {int} kr using the customer token")
 	public void theMerchantInitiatesAPaymentForKrByTheCustomer(int amount) {
 		try {
-			successful = dtuPay.pay(merchant.getUserId(),customer.getUserId(),TokenInfo.tokenId,amount);
-			System.out.println("SuccesFull in pay = " + successful);
-			if (!successful)
-				System.out.println(error);
+			successful = merchantAPI.pay(merchant.getUserId(),customer.getUserId(),tokenInfo.tokenId,amount);
 		} catch (Exception e) {
 			successful = false;
 			error = e.getMessage();
@@ -158,7 +169,6 @@ public class PayServiceSteps {
 	public void retireAccounts() throws BankServiceException_Exception {
 		for (String id : accountIds){
 			bank.retireAccount(id);
-			System.out.println("retired account "+ id);
 		}
 		accountIds.clear();
 		System.out.println(registeredUsers.size());
@@ -169,13 +179,10 @@ public class PayServiceSteps {
 		registeredUsers.clear();
 	}
 
-	//@When("the merchant initiates a payment for {int} kr using the customer token")
-	//public void theMerchantInitiatesAPaymentForKrUsingTheCustomerToken(int arg0) {}
 
 	@Given("the customer is not registered with DTUPay")
 	public void theCustomerIsNotRegisteredWithDTUPay() {
-		// Write code here that turns the phrase above into concrete actions
-		assertFalse(accountService.validateDTUPayAccount(TokenInfo.userId));
+		assertFalse(accountService.validateDTUPayAccount(tokenInfo.userId));
 	}
 
 	@Then("there is an error saying {string}")
